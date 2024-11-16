@@ -402,6 +402,10 @@ export default function Page() {
           </div>
         </Section>
       </div>
+      <div className="fixed min-[1118px]:hidden h-screen w-screen bg-blue5 flex flex-col justify-center items-center px-[15px] z-[9999]">
+        <div className="headline-xl text-white">This page is best viewed on desktop</div>
+        <div className="text-md text-white">check back soon for mobile support</div>
+      </div>
     </>
   );
 }
