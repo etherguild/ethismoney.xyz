@@ -1,0 +1,64 @@
+- question: "What is money?"
+  answer: |
+    Money is classically defined  as  a store-of-value, medium-of-exchange,  and unit-of-account.
+
+    Money is  a social coordination tool—an intersubjective reality used to organize economic  activity. There have been many monies used throughout history including cowry shells, Sumerian ledgers, silver, gold, the British Pound Sterling,  and the U.S. Dollar.
+
+    Money isn't necessarily  a binary—assets can have degree of moneyness. The moneyness of  an  asset increases the more it is used  as money. Generally, the strongest monies  are those with the highest saleability  and liquidity in the largest economies,  and those that can preserve or improve their purchasing power over time.
+
+    ETH is emerging  as  a primary money for the internet economy.
+
+- question: "What is ETH?"
+  answer: |
+    ETH is the native digital currency of the Ethereum network. It's used to pay for transaction fees, secure the network through staking,  and serve  as  a unit of  account within the Ethereum ecosystem. ETH is programmable money that enables peer-to-peer financial transactions without intermediaries.
+
+- question: "What is Ethereum?"
+  answer: |
+    Ethereum is  a decentralized computing platform that enables the creation  and execution of smart contracts  and decentralized  applications (dapps). It's often described  as  a "world computer" that  allows developers to build  and deploy financial services, games,  and other  applications that run exactly  as programmed without downtime, censorship, or third-party interference.
+
+- question: "Why is ETH money?"
+  answer: |
+    ETH functions  as money because it exhibits the key properties of money while  adding unique digital capabilities:
+    - Store of value: Through EIP-1559  and staking, ETH has become deflationary
+    - Medium of exchange: Used for thousands of transactions daily in DeFi  and NFT markets
+    - Unit of  account: Widely used to denominate prices in the crypto economy
+    - Programmable: Can be used in smart contracts for  automated financial operations
+    - Global & permissionless:  accessible to  anyone with  an internet connection
+
+- question: "What is the Ethereum economy?"
+  answer: |
+    The Ethereum economy is  a rapidly growing digital economic system built on Ethereum's blockchain infrastructure. It encompasses:
+    - DeFi (Decentralized Finance) protocols for lending, trading,  and derivatives
+    - NFT marketplaces  and digital collectibles
+    - DAOs (Decentralized  autonomous Organizations)
+    - Web3  applications  and services
+    - Gaming  and metaverse platforms
+    
+    The total value locked in Ethereum's economy regularly exceeds hundreds of billions of dollars.
+
+- question: "How is ETH different than Bitcoin?"
+  answer: |
+    While both  are cryptocurrencies, ETH  and Bitcoin serve different purposes:
+    - Bitcoin focuses primarily on being digital gold  and  a store of value
+    - ETH is programmable money that powers  an entire economic ecosystem
+    - Ethereum enables smart contracts  and complex  applications; Bitcoin's scripting is more limited
+    - ETH has transitioned to Proof of Stake, while Bitcoin uses Proof of Work
+    - ETH has  a flexible supply model focused on minimum viable issuance, while Bitcoin has  a fixed supply
+
+- question: "How is ETH different than gold?"
+  answer: |
+    ETH differs from gold in several key ways:
+    - Digital vs Physical: ETH is purely digital, making it easier to transfer  and divide
+    - Programmability: ETH can be used in smart contracts; gold cannot
+    - Verification: ETH ownership  and  authenticity can be verified instantly  and cheaply
+    - Storage: ETH requires minimal storage costs compared to physical gold
+    - Utility: ETH has utility beyond its monetary properties through powering the Ethereum network
+
+- question: "How is ETH different than T-bills?"
+  answer: |
+    ETH  and Treasury bills have distinct characteristics:
+    - Risk profile: T-bills  are backed by the U.S. government; ETH is market-driven
+    - Yield: T-bills provide fixed interest; ETH can generate yield through staking
+    - Liquidity: ETH trades 24/7 globally; T-bills have more limited trading hours
+    -  accessibility: ETH is  accessible to  anyone with internet; T-bills have more restrictions
+    - Use case: T-bills  are purely financial instruments; ETH powers  an entire digital economy
