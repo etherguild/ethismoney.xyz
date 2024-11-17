@@ -23,36 +23,54 @@ import { Sections } from "@/lib/sections";
 
 
 export default function SidebarContainer() {
-  const { scrollPosition } = useUIContext();
-  // const sizes = useScrollAnimation();
-  const [pageSections, setPageSections] = useState<{ id: string, top: number, height: number }[]>([]);
+
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [activeSectionIndex, setActiveSectionIndex] = useState<number | null>(null);
 
-  useEffect(() => {
-    // get the scrollY and height of the Sections
-    const ps = Sections.map(section => {
-      const sectionElement = document.getElementById(section.sectionId);
-      if (!sectionElement) {
-        return null;
-      }
-      return {
-        id: section.sectionId,
-        top: sectionElement?.offsetTop,
-        height: sectionElement?.offsetHeight,
-      };
-    }).filter(Boolean) as { id: string, top: number, height: number }[];
+  const [scrollY, setScrollY] = useState(0);
+  const [isResizing, setIsResizing] = useState(false);
 
-    setPageSections(ps);
+  useEffect(() => {
+    const handleResize = () => {
+      setIsResizing(true);
+
+      setTimeout(() => {
+        setIsResizing(false);
+      }, 100);
+    };
+
+    // Add event listener
+    window.addEventListener("resize", handleResize);
+
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+
+    // Add event listener
+    window.addEventListener("scroll", handleScroll);
+
+    handleScroll();
+
+    // Remove event listener on cleanup
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   useEffect(() => {
     // reset the active section when the scroll position is at the top
-    if (scrollPosition < 300) {
+    setActiveSection(null);
+    setActiveSectionIndex(null);
+  }, []);
+
+  useEffect(() => {
+    // reset the active section when the scroll position is at the top
+    if (scrollY < 100) {
       setActiveSection(null);
       setActiveSectionIndex(null);
     }
-  }, [scrollPosition]);
+  }, [scrollY]);
 
   useGSAP(() => {
     // increase the size of the section link when it is in view
@@ -61,7 +79,7 @@ export default function SidebarContainer() {
     // Section animations
     Sections.forEach((section) => {
       ScrollTrigger.create({
-        trigger: `#${section.contentId}`,
+        trigger: `#${section.sectionId}`,
         start: "top center",
         end: "bottom center",
         onEnter: () => {
@@ -81,7 +99,7 @@ export default function SidebarContainer() {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
 
-  }, [pageSections]);
+  }, []);
 
   // the active section's nav link should move with the section's topoffset
   useGSAP(() => {
@@ -121,81 +139,6 @@ export default function SidebarContainer() {
     };
 
   }, [activeSection]);
-
-
-
-
-  useGSAP(() => {
-    // Register the ScrollTrigger plugin
-    gsap.registerPlugin(ScrollTrigger);
-
-    // gsap.to(".logo-container", {
-    //   y: -120,
-    //   ease: "power2.out",
-    //   duration: 0.3,
-    //   scrollTrigger: {
-    //     trigger: "body", // Use body as trigger since logo is fixed
-    //     start: "top top", // Animation starts at the top
-    //     end: "300 top", // Animation ends 300px from top
-    //     scrub: true, // Smooth animation that ties to scroll position
-    //     // markers: true, // Show markers in dev mode
-    //     invalidateOnRefresh: true, // Recalculate on page resize
-    //   }
-    // });
-
-    // gsap.to(".logo", {
-    //   scale: 0.25,
-    //   // x: 14 * -1,
-    //   transformOrigin: "center center",
-    //   ease: "power2.inOut",
-    //   duration: 0.3,
-    //   scrollTrigger: {
-    //     trigger: "body", // Use body as trigger since logo is fixed
-    //     start: "top top", // Animation starts at the top
-    //     end: "300 top", // Animation ends 300px from top
-    //     scrub: true, // Smooth animation that ties to scroll position
-    //     // markers: true, // Show markers in dev mode
-    //     invalidateOnRefresh: true, // Recalculate on page resize
-    //   }
-    // });
-    // gsap.to(".logo-title", {
-    //   scale: 0.2307,
-    //   x: -8,
-    //   color: "#B0B7C3",
-    //   transformOrigin: "center left",
-    //   ease: "power2.inOut",
-    //   duration: 0.3,
-    //   scrollTrigger: {
-    //     trigger: "body", // Use body as trigger since logo is fixed
-    //     start: "top top", // Animation starts at the top
-    //     end: "300 top", // Animation ends 300px from top
-    //     scrub: true, // Smooth animation that ties to scroll position
-    //     // markers: true, // Show markers in dev mode
-    //     invalidateOnRefresh: true, // Recalculate on page resize
-    //   }
-    // });
-
-    // move nav-items up when scrolling
-    // gsap.to("#nav-items", {
-    //   y: -210,
-    //   ease: "power2.out",
-    //   duration: 0.3,
-    //   scrollTrigger: {
-    //     trigger: "body", // Use body as trigger since logo is fixed
-    //     start: "top top", // Animation starts at the top
-    //     end: "300 top", // Animation ends 300px from top
-    //     scrub: true, // Smooth animation that ties to scroll position
-    //     // markers: true, // Show markers in dev mode
-    //     invalidateOnRefresh: true, // Recalculate on page resize
-    //   }
-    // });
-
-    // Cleanup function
-    return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-    };
-
-  }, []);
 
 
   const [activeNavAnimationIndex, setActiveNavAnimationIndex] = useState<number>(0);
@@ -245,30 +188,19 @@ export default function SidebarContainer() {
 
   return (
     <div className="hidden desktop:block w-[150px] pr-[3px] z-[100] overflow-visible bg-white/0 text-black">
-      {/* <div className="fixed bottom-0 right-0">
-        <div className="w-[150px] h-[150px] bg-black/10">
-          {activeSection}
-        </div>
-        {pageSections.map((section, index) => (
-          <div key={section.id} className="w-[150px] h-[150px] bg-black/10">
-            {JSON.stringify(section)}
-          </div>
-        ))}
-
-      </div> */}
       <div className=" sticky top-0 left-0 pt-[50px] pl-[80px] min-h-screen max-h-screen hidden md:flex flex-col overflow-visible gap-y-[36px]">
         <div className="select-none flex flex-col gap-y-[30px] w-full items-center">
           {/* spacer for header row */}
           <div className="h-[44px]"></div>
           <div className="flex items-center justify-start gap-x-[30px]">
-            <div className={`group logo-container flex items-center relative ${scrollPosition > 100 && "-translate-y-[74px]"} transition-all duration-300 z-[1000]`}>
+            <div className={`group logo-container flex items-center relative ${scrollY > 100 && "-translate-y-[74px]"} transition-all duration-300 z-[1000]`}>
               <div
                 // href="#first-section"
                 id="first-section-link"
-                className={`relative flex logo ${scrollPosition > 100 && "scales-[25%]"} transition-all duration-300 cursor-default`}
+                className={`relative flex logo ${scrollY > 100 && "scales-[25%]"} transition-all duration-300 cursor-default`}
 
               >
-                <div className={`overflow-visible flex items-center justify-center ${scrollPosition > 100 ? "size-[32px]" : "size-[128px]"} relative cursor-pointer`}
+                <div className={`overflow-visible flex items-center justify-center ${scrollY > 100 ? "size-[32px]" : "size-[128px]"} relative cursor-pointer`}
                   onClick={(e) => {
                     e.preventDefault();
                     // scroll into view top of page, smooth
@@ -277,18 +209,19 @@ export default function SidebarContainer() {
                   }}
                 >
                   <Image src="/eth-is-money-logo.svg"
-                    alt="eth is money logo"
-                    layout="fill"
-                    objectFit="contain"
-                    className={`object-contain block ${scrollPosition > 300 && activeSectionIndex !== null && "group-hover:hidden"}`}
+                    alt="ETH is Money logo"
+                    width={128}
+                    height={128}
+                    priority
+                    className={`object-contain block ${scrollY > 100 && "group-hover:hidden"}`}
                   />
-                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" className={`hidden ${scrollPosition > 300 && activeSectionIndex !== null && "group-hover:block"}`}>
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" className={`hidden ${scrollY > 100 && "group-hover:block"}`}>
                     <path d="M10.2281 11.6552H13.5485C14.8945 11.6552 15.6298 10.1722 14.7681 9.19546L10.2198 4.03961C9.58512 3.32013 8.41532 3.32013 7.78062 4.03961L3.23232 9.19546C2.37064 10.1722 3.10593 11.6552 4.45192 11.6552H7.77249L7.77249 18H10.2198L10.2281 11.6552Z" fill="#F1F9FC" />
                     <path d="M0 0.5C0 0.223858 0.223858 0 0.5 0H17.5C17.7761 0 18 0.223858 18 0.5V1.5C18 1.77614 17.7761 2 17.5 2H0.5C0.223858 2 0 1.77614 0 1.5V0.5Z" fill="#F1F9FC" />
                   </svg>
                 </div>
-                {/* on group hover, show the label when the section is not active and our scrollPosition is > 300 */}
-                <div className={`absolute z-[-1] -left-[5px] -top-[5px] -bottom-[5px] opacity-0 pointer-events-none group-hover:pointer-events-auto ${scrollPosition > 300 && activeSectionIndex !== null && "group-hover:opacity-100"}`}>
+                {/* on group hover, show the label when the section is not active and our scrollY is > 300 */}
+                <div className={`absolute z-[-1] -left-[5px] -top-[5px] -bottom-[5px] opacity-0 pointer-events-none group-hover:pointer-events-auto ${scrollY > 100 && "group-hover:opacity-100"}`}>
                   <div className="flex gap-x-[10px] items-center pl-[5px] pr-[5px] rounded-full w-full h-full bg-[#B7DDE8] whitespace-nowrap">
                     <div
                       className="bg-eth-logo flex items-center justify-center rounded-full transition-all duration-300 cursor-pointer"
@@ -297,12 +230,6 @@ export default function SidebarContainer() {
                         height: `32px`,
                       }} >
                       <div className={`overflow-visible w-[32px] h-[32px] relative`}>
-                        {/* <Image src="/eth-is-money-logo.svg"
-                          alt="eth is money logo"
-                          layout="fill"
-                          objectFit="contain"
-                          className="object-contain"
-                        /> */}
                       </div>
                     </div>
                     <div className="headline-md" style={{ paddingRight: activeSectionIndex === 0 ? 10 : 0 }}>
@@ -325,52 +252,31 @@ export default function SidebarContainer() {
                   </div>
                 </div>
               </div>
-              {/* <div className={`absolute -right-[30px] ${scrollPosition > 300 && "opacity-0 pointer-events-none"}  `}> */}
-              <div className={`absolute -right-[30px] ${scrollPosition > 300 && activeSectionIndex !== null && "group-hover:opacity-0"} transition-opacity duration-100`}>
-                <div className={`logo-title flex gap-x-[30px] items-center group-hover:pointer-events-none ${scrollPosition > 100 ? "translate-x-[20px] scale-[23.07%] text-[#B0B7C3]" : "scale-100 text-blue1"} transition-all duration-300`}>
+              <div className={`absolute -right-[30px] ${scrollY > 100 && "group-hover:opacity-0"} transition-opacity duration-100`}>
+                <div className={`logo-title flex gap-x-[30px] items-center group-hover:pointer-events-none ${scrollY > 100 ? "translate-x-[20px] scale-[23.07%] text-[#B0B7C3]" : "scale-100 text-blue1"} transition-all duration-300`}>
                   <ETHisMoneyTitle />
                 </div>
               </div>
             </div>
           </div>
           <div className="h-[106px]" />
-          {/* {Sections.map((section, index) => (
-            <div key={section.sectionId} className="flex items-center justify-start gap-x-[30px]">
-              <div className="logo-container flex items-center relative">
-                <Link
-                  href={`#${section.sectionId}`}
-                  id={`${section.linkId}`}
-                  className={`relative flex logo`}
-                >
-                  <div className="min-w-[66px] min-h-[66px] bg-eth-logo flex items-center justify-center rounded-full">
-                    <Icon icon={`${section.icon}-monochrome`} className={"w-[36px] h-[36px] text-ice"} />
-                  </div>
-                </Link>
-                <div className="absolute left-[calc(66px+(128px-66px)/2+30px+5px)] overflow-visible">
-                  <div className="relative left-0 whitespace-nowrap highlight-text-xl flex gap-x-[30px] items-center text-blue1">
-                    {section.label}
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))} */}
           {/* Navigation Items */}
-          <div id="cycle-animated-nav-items" className={`relative flex flex-col ${scrollPosition > 100 ? "opacity-100" : "opacity-100"} transition-all duration-300`}>
-            {Sections.slice(activeSectionIndex || 0).map((section, index) => {
-              if (scrollPosition < 300 && index > 2) {
-                return null;
-              }
+          <div id="cycle-animated-nav-items" className={`relative flex flex-col transition-all duration-300`}>
+            {!isResizing && Sections.slice(activeSectionIndex || 0).filter((section, index) => scrollY < 300 && index > 2 ? false : true).map((section, index) => {
+              // if (scrollY < 300 && index > 2) {
+              //   return null;
+              // }
 
-              const buttonSize = activeSection === section.sectionId || (activeNavAnimationIndex == index && scrollPosition < 300) ? 64 : 32;
-              const iconSize = activeSection === section.sectionId || (activeNavAnimationIndex == index && scrollPosition < 300) ? 36 : 18;
+              const buttonSize = activeSection === section.sectionId || (activeNavAnimationIndex == index && scrollY < 300) ? 64 : 32;
+              const iconSize = activeSection === section.sectionId || (activeNavAnimationIndex == index && scrollY < 300) ? 36 : 18;
 
-              const wasActiveNavItem = (activeNavAnimationIndex < index && scrollPosition < 300) || scrollPosition > 300 && index > 0;
+              const wasActiveNavItem = (activeNavAnimationIndex < index && scrollY < 300) || scrollY > 300 && index > 0;
               const butonTop = wasActiveNavItem ? index * 64 + 30 : index * 64;
               const left = -buttonSize / 2;
 
               let translateY = 0;
 
-              if (scrollPosition > 100) {
+              if (scrollY > 100) {
                 translateY -= 96;
                 if (index == 0) {
                   translateY -= 96;
@@ -378,9 +284,8 @@ export default function SidebarContainer() {
               }
 
               return (
-                <>
+                <div key={section.sectionId}>
                   <div
-                    key={index}
                     className={`z-[2] group absolute bg-eth-logo flex items-center justify-center rounded-full transition-all duration-300 cursor-pointer`}
                     style={{
                       transform: `translateY(${translateY}px)`,
@@ -406,8 +311,8 @@ export default function SidebarContainer() {
                         height: `${iconSize}px`,
                       }}
                     />
-                    {/* on group hover, show the label when the section is not active and our scrollPosition is > 300 */}
-                    <div className={`absolute z-[-1] -left-[5px] -top-[5px] -bottom-[5px] opacity-0 pointer-events-none ${scrollPosition > 300 && index !== 0 && "group-hover:opacity-100"}`}>
+                    {/* on group hover, show the label when the section is not active and our scrollY is > 300 */}
+                    <div className={`absolute z-[-1] -left-[5px] -top-[5px] -bottom-[5px] opacity-0 pointer-events-none ${scrollY > 300 && index !== 0 && "group-hover:opacity-100"}`}>
                       <div className="flex gap-x-[10px] items-center pl-[5px] pr-[15px] rounded-full w-full h-full bg-[#B7DDE8] whitespace-nowrap">
                         <div
                           className="bg-eth-logo flex items-center justify-center rounded-full transition-all duration-300 cursor-pointer"
@@ -432,7 +337,7 @@ export default function SidebarContainer() {
                   </div>
                   <div
                     key={section.sectionId}
-                    className={`absolute flex items-center justify-start transition-all duration-300 ${scrollPosition < 300 ? "opacity-100 cursor-pointer" : "opacity-0 pointer-events-none"} `}
+                    className={`absolute flex items-center justify-start transition-all duration-300 ${scrollY < 300 ? "opacity-100 cursor-pointer" : "opacity-0 pointer-events-none"} `}
                     style={{
                       top: `${butonTop}px`,
                       left: `67px`,
@@ -448,99 +353,15 @@ export default function SidebarContainer() {
                       }
                     }}
                   >
-                    <div className={`relative left-0 whitespace-nowrap flex gap-x-[30px] items-center text-blue1 ${(activeNavAnimationIndex == index && scrollPosition < 300) ? "highlight-text-xl" : "text-xl"} transition-all duration-300`}>
+                    <div className={`relative left-0 whitespace-nowrap flex gap-x-[30px] items-center text-blue1 ${(activeNavAnimationIndex == index && scrollY < 300) ? "highlight-text-xl" : "text-xl"} transition-all duration-300`}>
                       {section.label}
                     </div>
                   </div >
-                </>
+                </div>
               )
             })}
           </div>
-          {/* <div id="standard-nav-items" className={`relative flex flex-col ${scrollPosition > 100 ? "opacity-100" : "opacity-0 translate-y-0"} transition-all duration-300`}>
-            {Sections.slice(activeSectionIndex || 0).map((section, index) => {
-              if (scrollPosition < 300 && index > 2) {
-                return null;
-              }
-
-              const buttonSize = activeSection === section.sectionId || (activeNavAnimationIndex == index && scrollPosition < 300) ? 64 : 32;
-              const iconSize = activeSection === section.sectionId || (activeNavAnimationIndex == index && scrollPosition < 300) ? 36 : 18;
-
-              const wasActiveNavItem = (activeNavAnimationIndex < index && scrollPosition < 300) || scrollPosition > 300 && index > 0;
-              const butonTop = wasActiveNavItem ? index * 64 + 30 : index * 64;
-              const left = -buttonSize / 2;
-
-              return (
-                <>
-                  <div
-                    key={index}
-                    className="absolute bg-eth-logo flex items-center justify-center rounded-full transition-all duration-300"
-                    style={{
-                      transform: `translateY(-320px)`,
-                      top: `${butonTop}px`,
-                      left: `${left}px`,
-                      width: `${buttonSize}px`,
-                      height: `${buttonSize}px`,
-                    }}
-                  >
-                    <Icon
-                      icon={`${section.icon}-monochrome`}
-                      className="text-ice transition-all duration-300"
-                      style={{
-                        width: `${iconSize}px`,
-                        height: `${iconSize}px`,
-                      }}
-                    />
-                  </div>
-                  <div
-                    key={section.sectionId}
-                    className="absolute flex items-center justify-start transition-all duration-300"
-                    style={{
-                      top: `${butonTop}px`,
-                      left: `67px`,
-                      // width: `${buttonSize}px`,
-                      height: `${buttonSize}px`,
-                    }}
-                  >
-                    <div className={`relative left-0 whitespace-nowrap flex gap-x-[30px] items-center text-blue1 ${(activeNavAnimationIndex == index && scrollPosition < 300) ? "highlight-text-xl" : "text-xl"} ${scrollPosition > 300 && "opacity-0 pointer-events-none"} transition-all duration-300`}>
-                      {section.label}
-                    </div>
-                  </div >
-                </>
-                // <div
-                //   key={section.sectionId}
-                //   className={`relative flex items-center justify-start gap-x-[30px] nav-item transition-all duration-300 ease-out ${activeSection === section.sectionId || (activeNavAnimationIndex == index && scrollPosition < 300) ? 'scale-100' : 'scale-50'}`}
-                //   onClick={() => {
-                //     const element = document.getElementById(section.sectionId);
-                //     if (element) {
-                //       element.scrollIntoView();
-                //     }
-
-                //   }}
-                // >
-                //   <Link
-                //     id={`${section.linkId}`}
-                //     href={`#${section.sectionId}`}
-                //     className="flex "
-                //   >
-                //     <div className="w-[64px] h-[64px] bg-eth-logo flex items-center justify-center rounded-full">
-                //       <Icon icon={`${section.icon}-monochrome`} className={"w-[36px] h-[36px] text-ice"} />
-                //     </div>
-                //   </Link>
-                //   <div id={section.labelId} className={`absolute ${activeSection === section.sectionId || (activeNavAnimationIndex == index && scrollPosition < 100) ? 'left-[100px] highlight-text-xl' : 'left-[170px]'} ${scrollPosition > 300 && "opacity-0 pointer-events-none"}  overflow-visible`}>
-                //     <div className="relative left-0 whitespace-nowrap flex gap-x-[30px] items-center text-blue1">
-                //       {section.label}
-                //     </div>
-                //   </div>
-                // </div>
-              )
-            })}
-          </div> */}
         </div >
-        {/* <Sidebar /> */}
-        < ContainerSidebar >
-          <></>
-          {/* <SidebarHead icon="gtp:eth-fundamentals" /> */}
-        </ContainerSidebar >
       </div >
     </div >
   );
@@ -568,44 +389,24 @@ const ETHisMoneyTitle = ({ children }: { children?: React.ReactNode }) => {
     // Register the TextPlugin
     gsap.registerPlugin(TextPlugin);
 
-    const cursorTimeline = gsap.timeline({ paused: false, repeat: -1, repeatDelay: 0 });
-
-    // cursor animation that changes the border color of the typewriter
-    cursorTimeline.to(".typewriter-cursor", {
-      opacity: 0,
-      ease: "power2.inOut",
-      duration: 0.99,
-    },
-      // {
-      //   opacity: 1,
-      //   repeat: -1,
-      // }
-    );
-
     const typeBracketsTimeline = gsap.timeline({ paused: true });
     // show the left bracket, then the right bracket
 
     typeBracketsTimeline.add(
       typeBracketsTimeline.to("#left-bracket", {
-        // duration: 0.2,
         text: {
           value: " [  ",
           preserveSpaces: true,
         },
-        // opacity: 1,
-        // ease: "sine.in",
       })
     );
 
     typeBracketsTimeline.add(
       typeBracketsTimeline.to("#right-bracket", {
-        // duration: 0.2,
         text: {
           value: "  ] ",
           preserveSpaces: true,
         },
-        // opacity: 1,
-        // ease: "sine.in",
       })
     );
 
@@ -748,12 +549,12 @@ const sizeClassMap = {
 };
 
 /**
-  * GTPIcon
+  * SidebarButton
   * @param icon - the name of the icon
   * @param size - the size of the icon (sm, md, lg)
   * @returns the icon with the specified size (with a container div that has the same size)
   * @example
-  * <GTPIcon icon="gtp:donate" size="lg" />
+  * <SidebarButton icon="gtp:donate" size="lg" />
         */
 export const SidebarButton = ({ icon, className, ...props }: SidebarButtonProps) => {
   return (

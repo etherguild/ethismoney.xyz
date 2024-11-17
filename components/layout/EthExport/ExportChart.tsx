@@ -1,31 +1,16 @@
 "use client"
 import { useEthExport } from '@/components/layout/EthExport/ExportContext';
-import HighchartsReact from "highcharts-react-official";
 import {
   HighchartsProvider,
   HighchartsChart,
   Chart,
   XAxis,
   YAxis,
-  Title,
-  Subtitle,
-  Legend,
-  LineSeries,
-  SplineSeries,
-  AreaSplineSeries,
   Tooltip,
-  AreaRangeSeries,
-  PlotBand,
-  PlotLine,
-  withHighcharts,
   AreaSeries,
-  ColumnSeries,
 } from "react-jsx-highcharts";
 import Highcharts from "highcharts/highstock";
-import HighchartsAnnotations from "highcharts/modules/annotations";
-import { Icon } from "@iconify/react";
 import { useLocalStorage } from 'usehooks-ts';
-import { useMemo } from 'react';
 const COLORS = {
   GRID: "rgb(161, 196, 209)",
   PLOT_LINE: "rgb(161, 196, 209)",
@@ -38,8 +23,6 @@ const COLORS = {
 
 
 export default function ExportChart() {
-
-  HighchartsAnnotations(Highcharts);
 
   const { data, selectedEntity, setSelectedEntity } = useEthExport();
 
@@ -67,6 +50,9 @@ export default function ExportChart() {
         {data && (
           <HighchartsProvider Highcharts={Highcharts}>
             <HighchartsChart
+              accessibility={{
+                enabled: false
+              }}
               containerProps={{
                 style: {
                   height: "100%",
@@ -222,7 +208,7 @@ export default function ExportChart() {
                   }));
 
                   return `
-                    <div class="min-w-[260px] bg-[#b7dde8]/60 rounded-[15px] p-2 pl-0">
+                    <div class="min-w-[260px] bg-[#b7dde8]/80 rounded-[15px] p-2 pl-0">
                       <div class="flex items-center gap-3 mb-2 pl-2">
                         <div class="flex items-center">
                           <div class="w-[9px] h-[9px] bg-blue1 rounded-full"></div>

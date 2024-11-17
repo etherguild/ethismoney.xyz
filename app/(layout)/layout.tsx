@@ -1,8 +1,7 @@
 import "../globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import { Providers } from "../providers";
-import CookieConsent from "@/components/layout/CookieConsent";
-import { Raleway, Inter, Roboto_Mono, Fira_Sans, Manrope } from "next/font/google";
+import { Inter, Roboto_Mono, Fira_Sans, Manrope } from "next/font/google";
 import Header from "@/components/Header";
 
 import { Metadata } from "next";
@@ -20,89 +19,71 @@ const jsonLd: Graph = {
   "@graph": [
     {
       "@type": "Organization",
-      "@id": "https://www.growthepie.xyz/#organization",
-      name: "growthepie",
-      url: "https://www.growthepie.xyz",
-      logo: "https://www.growthepie.xyz/logo_full.png",
+      "@id": "https://www.ethismoney.xyz/#organization",
+      name: "ethismoney",
+      url: "https://www.ethismoney.xyz",
+      logo: "https://www.ethismoney.xyz/eth-is-money-logo.png",
       sameAs: [
-        "https://twitter.com/growthepie_eth",
-        "https://mirror.xyz/blog.growthepie.eth",
-        "https://github.com/growthepie",
+        "https://x.com/ethismoneyHQ",
+        "https://github.com/ethismoney-xyz",
       ],
     },
     {
       "@type": "WebSite",
-      "@id": "https://www.growthepie.xyz/#website",
-      url: "https://www.growthepie.xyz",
-      name: "growthepie",
+      "@id": "https://www.ethismoney.xyz/#website",
+      url: "https://www.ethismoney.xyz",
+      name: "ethismoney",
       description:
         "At growthepie, our mission is to provide comprehensive and accurate analytics of layer 2 solutions for the Ethereum ecosystem, acting as a trusted data aggregator from reliable sources such as L2Beat and DefiLlama, while also developing our own metrics.",
       publisher: {
         "@type": "Organization",
-        name: "growthepie",
+        name: "ethismoney",
         logo: {
           "@type": "ImageObject",
-          url: "https://www.growthepie.xyz/logo_full.png",
+          url: "https://www.ethismoney.xyz/eth-is-money-logo.png",
         },
       },
     },
   ],
 };
 
-// const jsonLdWebSite: WithContext<WebSite> = {
-//   "@context": "https://schema.org",
-//   "@type": "WebSite",
-//   url: "https://www.growthepie.xyz",
-//   name: "growthepie",
-//   description:
-//     "At growthepie, our mission is to provide comprehensive and accurate analytics of layer 2 solutions for the Ethereum ecosystem, acting as a trusted data aggregator from reliable sources such as L2Beat and DefiLlama, while also developing our own metrics.",
-//   publisher: {
-//     "@type": "Organization",
-//     name: "growthepie",
-//     logo: {
-//       "@type": "ImageObject",
-//       url: "https://www.growthepie.xyz/logo_full.png",
-//     },
-//   },
-// };
-
 // const jsonLd = [jsonLdOrg, jsonLdWebSite];
 export const viewport = {
   width: "device-width",
   initialScale: "1.0",
-  themeColor: "dark",
+  themeColor: "light",
 };
 
 export const metadata: Metadata = {
   metadataBase: new URL(`https://eth-is-money.vercel.app/`),
-  title: "Eth is Money",
-  description: "Eth is Money",
-  openGraph: {
-    title: "",
-    description: "",
-    url: "",
+  title: "ETH is Money",
+  description: "ETH is money is an tribe of believers who hold, stake, and propagate ETH as money.",
+  // openGraph: {
+  //   title: "",
+  //   description: "",
+  //   url: "",
 
-    images: [
-      {
-        url: "",
-        width: 1200,
-        height: 627,
-        alt: "",
-      },
-    ],
-    locale: "en_US",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "",
-    description: "",
-    site: "",
-    siteId: "",
-    creator: "",
-    creatorId: "",
-    images: [""],
-  },
+  //   images: [
+  //     {
+  //       url: "",
+  //       width: 1200,
+  //       height: 627,
+  //       alt: "",
+  //     },
+  //   ],
+  //   locale: "en_US",
+  //   type: "website",
+  // },
+  // twitter: {
+  //   card: "summary_large_image",
+  //   title: "",
+  //   description: "",
+  //   site: "",
+  //   siteId: "",
+  //   creator: "",
+  //   creatorId: "",
+  //   images: [""],
+  // },
   robots: {
     index: true,
     follow: true,
@@ -178,6 +159,7 @@ export default function RootLayout({
         // overflowX: "clip",
       }}
     >
+
       <Head />
       <body className="relative flex items-center w-full max-w-[100vw] !overflow-x-hidden"
         style={{
@@ -204,18 +186,12 @@ export default function RootLayout({
               <div id="content-panel" className="w-full flex flex-col desktop:pl-[30px] relative min-h-full text-blue1 pb-[165px]"
                 style={{ scrollSnapType: "y mandatory", }}
               >
-                {/* <div className="w-full relative min-h-full"> */}
                 <Header />
-                {/* <main className="flex-1 w-full mx-auto z-10 pb-[165px] min-h-[calc(100vh-218px-56px)] md:min-h-[calc(100vh-207px-80px)] text-blue1"> */}
                 {children}
-                {/* </main> */}
-                {/* <BottomBanner /> */}
-                {/* </div> */}
               </div>
             </div>
           </div>
           <DeveloperTools />
-          {/*<CookieConsent />*/}
         </Providers>
         <Analytics />
       </body>

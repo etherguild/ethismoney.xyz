@@ -1,34 +1,20 @@
 "use client"
-import HighchartsReact from "highcharts-react-official";
 import {
   HighchartsProvider,
   HighchartsChart,
   Chart,
   XAxis,
   YAxis,
-  Title,
-  Subtitle,
-  Legend,
   LineSeries,
-  SplineSeries,
-  AreaSplineSeries,
   Tooltip,
-  AreaRangeSeries,
-  PlotBand,
-  PlotLine,
-  withHighcharts,
-  AreaSeries,
-  ColumnSeries,
   Series,
 
 } from "react-jsx-highcharts";
 import Highcharts from "highcharts/highstock";
-import HighchartsAnnotations from "highcharts/modules/annotations";
 import { Icon } from "@iconify/react";
 import { useEthSupply } from "../EthSupply/EthSupplyContext";
 import { useEffect, useMemo, useState } from "react";
 import LandingContainerChild from "@/components/LandingContainerChild";
-import { title } from "process";
 import { Event } from "@/types/api/EthSupplyResponse";
 const COLORS = {
   GRID: "rgb(161, 196, 209)",
@@ -41,14 +27,12 @@ const COLORS = {
 
 
 export default function IssuanceRateChart() {
-  HighchartsAnnotations(Highcharts);
   const { data, hoveredEventIndex, activeEventIndex, setChartTitle } = useEthSupply();
 
   const eventFlags = useMemo(() => {
     if (!data) return [] as Highcharts.SeriesOptions[];
 
     return data.data.events.filter((event) => event.show_in_chart).map((event: Event, index: number) => {
-      console.log("event", new Date(event.date), event.short_title);
       return {
         x: new Date(event.date).getTime(),
         title: event.short_title,
@@ -65,56 +49,6 @@ export default function IssuanceRateChart() {
     }
   }, [data]);
 
-
-  const annotations = useMemo(() => {
-    if (!data) return [] as Highcharts.AnnotationsOptions;
-
-    const annotationLabels: Highcharts.AnnotationsLabelsOptions[] = data.data.events.map((event: any, index: number) => {
-      return {
-        point: {
-          xAxis: 0,
-          yAxis: 0,
-          x: new Date(event.date).getTime(),
-          // y: data.data.chart.eth_issuance_rate.daily.data.find((d: any) => d[0] === new Date(event.date).getTime())?.[1] ?? 0,
-          y: 0,
-        },
-        text: event.short_title,
-        backgroundColor: "rgba(215, 223, 222, 0.5)",
-        shape: "rect",
-        style: {
-          color: "#1b3555",
-          fontSize: "12px",
-          fontWeight: "700",
-        },
-        padding: 8,
-        align: "center",
-        verticalAlign: "middle",
-        x: 0,
-        y: 100,
-        useHTML: true,
-      }
-    });
-
-    const annotations: Highcharts.AnnotationsOptions = {
-      // labelOptions: {
-      //   backgroundColor: COLORS.ANNOTATION_BG,
-      //   verticalAlign: "top",
-
-      //   style: {
-      //     color: COLORS.LABEL,
-      //     fontSize: "10px",
-      //     fontWeight: "700",
-      //   },
-      // },
-      labels: annotationLabels,
-    };
-
-    console.log("annotations", annotations);
-
-    return annotations;
-
-  }, [data])
-
   return (
     <LandingContainerChild
       head={<div className="flex w-full text-blue2 gap-x-[5px]">ETH Issuance Rate<span className={data && xAxisBounds.min !== data.data.chart.eth_issuance_rate.daily.data[0][0] ? 'inline-block' : 'hidden'}>{" "}- Post-Merge</span></div>}
@@ -124,6 +58,9 @@ export default function IssuanceRateChart() {
       <div className="w-full relative h-full">
         <HighchartsProvider Highcharts={Highcharts}>
           <HighchartsChart
+            accessibility={{
+              enabled: false
+            }}
             containerProps={{
               style: {
                 height: "100%",
@@ -193,7 +130,6 @@ export default function IssuanceRateChart() {
 
             }
             }
-            annotations={[annotations]}
           >
             <Chart
               backgroundColor={"transparent"}
@@ -246,7 +182,7 @@ export default function IssuanceRateChart() {
                   const title = split[0];
                   const description = split[1];
                   return `
-                  <div class="min-w-[233px] max-w-[600px] bg-[#b7dde8]/60 rounded-[15px] p-2 pl-0">
+                  <div class="min-w-[233px] max-w-[600px] bg-[#b7dde8]/80 rounded-[15px] p-2 pl-0">
                     <div class="flex items-center gap-3 mb-2 pl-2">
                       <div class="flex items-center">
                         <div class="w-[9px] h-[9px] bg-blue1 rounded-full"></div>
@@ -284,7 +220,7 @@ export default function IssuanceRateChart() {
                 }));
 
                 return `
-                <div class="min-w-[233px] bg-[#b7dde8]/60 rounded-[15px] p-2 pl-0">
+                <div class="min-w-[233px] bg-[#b7dde8]/80 rounded-[15px] p-2 pl-0">
                   <div class="flex items-center gap-3 mb-2 pl-2">
                     <div class="flex items-center">
                       <div class="w-[9px] h-[9px] bg-blue1 rounded-full"></div>

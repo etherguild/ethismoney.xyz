@@ -1,6 +1,6 @@
 "use client";
 import { Chain, Get_AllChainsByKeys, Get_AllChainsNavigationItems, Get_SupportedChainKeys } from "@/lib/chains";
-import { GloHolderURL, MasterURL } from "@/lib/urls";
+import { MasterURL } from "@/lib/urls";
 import { DataAvailabilityLayerData, DataAvailabilityLayers, MasterResponse, Metrics, MetricInfo, UnitSchema, Chains } from "@/types/api/MasterResponse";
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { ImportChainIcons } from "@/lib/chainIcons";
@@ -69,7 +69,6 @@ export const MasterProvider = ({ children }: { children: React.ReactNode }) => {
   const [DefaultChainSelection, setDefaultChainSelection] = useState<string[]>([]);
   const [EnabledChainsByKeys, setEnabledChainsByKeys] = useState<{ [key: string]: Chain }>({});
   const [ChainsNavigationItems, setChainsNavigationItems] = useState<any>({});
-  const { data: glo_dollar_data } = useSWR(GloHolderURL);
 
   useEffect(() => {
     if (data) {
@@ -157,8 +156,6 @@ export const MasterProvider = ({ children }: { children: React.ReactNode }) => {
         SupportedChainKeys: Get_SupportedChainKeys(data),
         ChainsNavigationItems,
         formatMetric,
-        // getUnitKeys,
-        // getMetricInfo,
         metrics: data?.metrics || {},
         da_metrics: data?.da_metrics || {},
         chains: data?.chains || {},
