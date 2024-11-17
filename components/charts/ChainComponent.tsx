@@ -65,7 +65,7 @@ export default function ChainComponent({
 }) {
   // Keep track of the mounted state
   const isMounted = useIsMounted();
-  const { isSidebarOpen, isSafariBrowser } = useUIContext();
+  const { isSafariBrowser } = useUIContext();
   const { AllChainsByKeys } = useMaster();
   const { width, height } = useWindowSize();
   const { theme } = useTheme();
@@ -1226,7 +1226,7 @@ export default function ChainComponent({
     return () => {
       resituateChart.cancel();
     };
-  }, [width, height, isSidebarOpen, resituateChart]);
+  }, [width, height, resituateChart]);
 
   const SourcesDisplay = useMemo(() => {
     return data.metrics[category].source &&

@@ -24,7 +24,7 @@ type SidebarProps = {
 };
 
 export default function Sidebar({ isMobile = false }: SidebarProps) {
-  const { isSidebarOpen, isMobileSidebarOpen, toggleMobileSidebar } =
+  const { isMobileSidebarOpen, toggleMobileSidebar } =
     useUIContext();
 
   const { ChainsNavigationItems } = useMaster();
@@ -332,7 +332,7 @@ export default function Sidebar({ isMobile = false }: SidebarProps) {
   return (
     <div
       ref={ref}
-      className={`flex-1 flex flex-col justify-items-start select-none overflow-y-hidden overflow-x-hidden -ml-[20px] will-change-[width] ${isSidebarOpen ? "w-[260px]" : "w-[92px]"} transition-all duration-300`}
+      className={`flex-1 flex flex-col justify-items-start select-none overflow-y-hidden overflow-x-hidden -ml-[20px] will-change-[width] ${true ? "w-[260px]" : "w-[92px]"} transition-all duration-300`}
     // animate={{
     //   width: isSidebarOpen ? "229px" : "72px",
     // }}
@@ -347,7 +347,7 @@ export default function Sidebar({ isMobile = false }: SidebarProps) {
             <SidebarMenuGroup
               key={item.name + "_item"}
               item={item}
-              sidebarOpen={isSidebarOpen}
+              sidebarOpen={true}
             />
           ))}
         </div>

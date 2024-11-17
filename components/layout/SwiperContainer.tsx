@@ -20,7 +20,6 @@ export default function SwiperContainer({ ariaId }: { ariaId?: string }) {
     isLoading: landingLoading,
     isValidating: landingValidating,
   } = useSWR<any>(LandingURL);
-  const { isSidebarOpen } = useUIContext();
 
   // const [isDragging, setIsDragging] = React.useState(false);
 
@@ -42,13 +41,13 @@ export default function SwiperContainer({ ariaId }: { ariaId?: string }) {
               perPage: 1,
             },
             900: {
-              perPage: isSidebarOpen ? 1 : 2,
+              perPage: 2,
             },
             1100: {
               perPage: 2,
             },
             1250: {
-              perPage: isSidebarOpen ? 2 : 3,
+              perPage: 3,
             },
             1450: {
               perPage: 3,
@@ -63,12 +62,12 @@ export default function SwiperContainer({ ariaId }: { ariaId?: string }) {
         }}
         aria-labelledby={ariaId}
         hasTrack={false}
-        // onDrag={(e) => {
-        //   setIsDragging(true);
-        // }}
-        // onDragged={(e) => {
-        //   setIsDragging(false);
-        // }}
+      // onDrag={(e) => {
+      //   setIsDragging(true);
+      // }}
+      // onDragged={(e) => {
+      //   setIsDragging(false);
+      // }}
       >
         <SplideTrack>
           {/* <SplideSlide>
@@ -205,9 +204,9 @@ export default function SwiperContainer({ ariaId }: { ariaId?: string }) {
               <SplideSlide key={metric_id}>
                 <div
                   className="group w-full chain relative"
-                  // style={{
-                  //   pointerEvents: isDragging ? "none" : "all",
-                  // }}
+                // style={{
+                //   pointerEvents: isDragging ? "none" : "all",
+                // }}
                 >
                   {/* <Suspense
               fallback={

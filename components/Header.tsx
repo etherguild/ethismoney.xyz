@@ -6,7 +6,6 @@ import EthUsdSwitch from "./EthUsdSwitch";
 
 import Banner from "@/components/Banner";
 import Link from "next/link";
-import Notification from "@/components/Notification";
 import HeaderLinks from "./HeaderLinks";
 import { track } from "@vercel/analytics";
 import StylizedButton from "./StylizedButton";
