@@ -1,31 +1,22 @@
 "use client";
 import { useEffect, useState, ReactNode, useMemo, useRef } from "react";
-import { Icon } from "@iconify/react";
 import Link from "next/link";
-import useSWR, { preload } from "swr";
+import useSWR from "swr";
 import { usePathname } from "next/navigation";
 import { Tooltip, TooltipTrigger, TooltipContent } from "./Tooltip";
 import {
   MasterURL,
-  BlockspaceURLs,
-  ChainsBaseURL,
-  MetricsURLs,
 } from "@/lib/urls";
-import { NavigationItem, navigationItems } from "@/lib/navigation";
-import { IS_PREVIEW } from "@/lib/helpers";
+import { NavigationItem } from "@/lib/navigation";
 import { navigationCategories } from "@/lib/navigation";
-import rpgf from "@/icons/svg/rpgf.svg";
-import Image from "next/image";
 import { MasterResponse } from "@/types/api/MasterResponse";
 import {
-  Get_AllChainsByKeys,
   Get_AllChainsNavigationItems,
   Get_SupportedChainKeys,
 } from "@/lib/chains";
 import { GTPIcon, GTPIconSize } from "./GTPIcon";
 import { GTPIconName } from "@/icons/gtp-icon-names";
 import { useMaster } from "@/contexts/MasterContext";
-import { useUIContext } from "@/contexts/UIContext";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 

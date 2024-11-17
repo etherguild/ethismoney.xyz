@@ -473,7 +473,6 @@ const ETHisMoneyTitle = ({ children }: { children?: React.ReactNode }) => {
 
     // Cleanup function
     return () => {
-      cursorTimeline.kill();
       typeWriterTimeline.kill();
     };
   }, [isStartTitleAnimation]);

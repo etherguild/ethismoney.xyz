@@ -1,5 +1,5 @@
 import { MasterResponse } from "@/types/api/MasterResponse";
-import { IS_DEVELOPMENT, IS_PREVIEW } from "./helpers";
+import { IS_DEVELOPMENT } from "./helpers";
 
 export type Chain = {
   label: string;
@@ -60,7 +60,7 @@ export const Get_AllChainsByKeys = (master: MasterResponse) => {
 // used by the MasterProvider
 const getChainTypeFromMasterChainType = (
   chainKey: string,
-  masterChainType: string,
+  masterChainType: string
 ) => {
   if (chainKey === "all_l2s") {
     return "all-l2s";
@@ -76,10 +76,10 @@ const getChainTypeFromMasterChainType = (
 // used by the MasterProvider and other components
 export const Get_SupportedChainKeys = (
   data?: MasterResponse,
-  additionalKeys?: string[],
+  additionalKeys?: string[]
 ) => {
   if (!data) return [];
-  if (IS_DEVELOPMENT || IS_PREVIEW) {
+  if (IS_DEVELOPMENT) {
     let keys = Object.keys(data.chains)
       .filter((key) => ["DEV", "PROD"].includes(data.chains[key].deployment))
       .map((key) => key);
@@ -106,7 +106,7 @@ export const Get_SupportedChainKeys = (
 export const Get_DefaultChainSelectionKeys = (master: MasterResponse) => {
   const supportedChainKeys = Get_SupportedChainKeys(master);
   return master.default_chain_selection.filter((key) =>
-    supportedChainKeys.includes(key),
+    supportedChainKeys.includes(key)
   );
 };
 
@@ -114,7 +114,7 @@ export const Get_DefaultChainSelectionKeys = (master: MasterResponse) => {
 export const Get_AllChainsByKeysFromSessionStorage = () => {
   // get AllChainsByKeys from session storage
   const data: { [key: string]: Chain } = JSON.parse(
-    sessionStorage.getItem("AllChainsByKeys") as string,
+    sessionStorage.getItem("AllChainsByKeys") as string
   );
 
   return data;
@@ -125,7 +125,7 @@ export const Get_AllChainsNavigationItems = (master: MasterResponse) => {
   const chains = master.chains;
   // filter out all_l2s and multiple chains
   const chainKeys = Get_SupportedChainKeys(master).filter(
-    (key) => !["all_l2s", "multiple"].includes(key),
+    (key) => !["all_l2s", "multiple"].includes(key)
   );
 
   return {
@@ -198,21 +198,21 @@ export const GetRankingColor = (percentage, weighted = false) => {
     parseInt(lowerBound.color.substring(1, 3), 16) +
       percentDiff *
         (parseInt(upperBound.color.substring(1, 3), 16) -
-          parseInt(lowerBound.color.substring(1, 3), 16)),
+          parseInt(lowerBound.color.substring(1, 3), 16))
   );
 
   const g = Math.floor(
     parseInt(lowerBound.color.substring(3, 5), 16) +
       percentDiff *
         (parseInt(upperBound.color.substring(3, 5), 16) -
-          parseInt(lowerBound.color.substring(3, 5), 16)),
+          parseInt(lowerBound.color.substring(3, 5), 16))
   );
 
   const b = Math.floor(
     parseInt(lowerBound.color.substring(5, 7), 16) +
       percentDiff *
         (parseInt(upperBound.color.substring(5, 7), 16) -
-          parseInt(lowerBound.color.substring(5, 7), 16)),
+          parseInt(lowerBound.color.substring(5, 7), 16))
   );
 
   return `#${r.toString(16).padStart(2, "0")}${g
@@ -223,7 +223,7 @@ export const GetRankingColor = (percentage, weighted = false) => {
 export const GetRankingScale = (
   value: number,
   valueRange: [number, number],
-  scaleRange: [number, number],
+  scaleRange: [number, number]
 ): number => {
   const scale =
     scaleRange[0] +
