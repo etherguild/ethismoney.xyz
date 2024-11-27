@@ -11,6 +11,7 @@ import {
 } from "react-jsx-highcharts";
 import Highcharts from "highcharts/highstock";
 import { useLocalStorage } from 'usehooks-ts';
+import { useEffect, useState } from 'react';
 const COLORS = {
   GRID: "rgb(161, 196, 209)",
   PLOT_LINE: "rgb(161, 196, 209)",
@@ -29,6 +30,35 @@ export default function ExportChart() {
   const [showUsd, setShowUsd] = useLocalStorage("showUsd", false);
 
   const dataKey = data ? data.data.chart[selectedEntity].daily.types.indexOf(showUsd ? "usd" : "eth") : 1;
+
+  const [isResizing, setIsResizing] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsResizing(true);
+
+      setTimeout(() => {
+        setIsResizing(false);
+      }, 100);
+    };
+
+    // Add event listener
+    window.addEventListener("resize", handleResize);
+
+    // Remove event listener on cleanup
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+
+  if (isResizing) {
+    return (
+      <div className="flex justify-center items-center h-screen w-screen">
+        {/* <div className="text-2xl">Resizing...</div> */}
+      </div>
+    )
+  }
 
 
   return (

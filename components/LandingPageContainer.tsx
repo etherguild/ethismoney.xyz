@@ -1,3 +1,4 @@
+import { useUIContext } from "@/contexts/UIContext";
 import React, { useEffect, useRef, useState } from "react";
 
 interface SectionProps {
@@ -19,17 +20,18 @@ export default function Section({
     height,
     className,
 }: SectionProps): JSX.Element {
-
-    const sectionRef = useRef<HTMLElement>(null);
+    const { isMobile } = useUIContext();
+    const sectionRef = useRef<HTMLDivElement>(null);
 
     return (
-        <section
+        <div
             ref={sectionRef}
             id={`${name}-section`}
-            className="min-h-[800px]"
+            // className="min-h-[800px] max-w-[100vw]"
+            // className="max-w-[100vw]"
             style={{ scrollSnapAlign: "start" }}
         >
-            <div id={`${name}-content`} className={`w-full flex flex-col gap-y-[30px] pt-[126px] pb-[50px] desktop:pl-[0px] desktop:pr-[50px] ${className || ""}`} style={{ height: height || undefined }}>
+            <div id={`${name}-content`} className={`w-full flex flex-col gap-y-[30px] pt-[126px] pb-[50px] desktop:pl-[0px] desktop:pr-[50px] ${className || ""}`} style={{ height: !isMobile && height ? height : undefined }}>
                 {(head || subhead || desc) && (
                     <div className="flex flex-col px-[15px] desktop:px-0">
                         {/* Head */}
@@ -57,6 +59,6 @@ export default function Section({
                     {children}
                 </div>
             </div>
-        </section >
+        </div >
     )
 }

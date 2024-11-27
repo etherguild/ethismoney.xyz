@@ -49,6 +49,35 @@ export default function IssuanceRateChart() {
     }
   }, [data]);
 
+  const [isResizing, setIsResizing] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsResizing(true);
+
+      setTimeout(() => {
+        setIsResizing(false);
+      }, 100);
+    };
+
+    // Add event listener
+    window.addEventListener("resize", handleResize);
+
+    // Remove event listener on cleanup
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+
+  if (isResizing) {
+    return (
+      <div className="flex justify-center items-center h-screen w-screen">
+        {/* <div className="text-2xl">Resizing...</div> */}
+      </div>
+    )
+  }
+
   return (
     <LandingContainerChild
       head={<div className="flex w-full text-blue2 gap-x-[5px]">ETH Issuance Rate<span className={data && xAxisBounds.min !== data.data.chart.eth_issuance_rate.daily.data[0][0] ? 'inline-block' : 'hidden'}>{" "}- Post-Merge</span></div>}

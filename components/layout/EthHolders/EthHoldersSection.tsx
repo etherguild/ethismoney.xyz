@@ -18,77 +18,80 @@ export const EthHoldersSection = () => {
       subhead={<HolderSelect />}
       // desc={"ETH is a store of value that is immutable, scarce, censorship resistant and when staked it becomes a digital gold with yield."}
       height={752}
+      className="w-[100dvw] desktop:w-auto"
     >
-      <div>
-        <HorizontalScrollContainer includeMargin={false} className="w-full">
-          <>
-            <GridTableHeader
-              gridDefinitionColumns="grid-cols-[250px_130px_130px_minmax(145px,1000px)]"
-              className="text-[14px] !font-bold z-[2] !py-0 !pl-[10px] !pr-[55px] select-none h-[30px]"
-            >
-              <GridTableHeaderCell
-                metric="name"
-                sort={sort}
-                setSort={setSort}
+      <div className="w-[calc(100%-30px)] mx-auto desktop:w-auto desktop:mx-0">
+        <div className="overflow-auto">
+          <div className='min-w-[800px]'>
+            <>
+              <GridTableHeader
+                gridDefinitionColumns="grid-cols-[250px_130px_130px_minmax(145px,1000px)]"
+                className="text-[14px] !font-bold z-[2] !py-0 !pl-[10px] !pr-[calc(20px+30px)] select-none h-[30px]"
               >
-                Name</GridTableHeaderCell>
-              <GridTableHeaderCell
-                metric="type"
-                sort={sort}
-                setSort={setSort}
-              >Type</GridTableHeaderCell>
-              <GridTableHeaderCell
-                metric="type"
-                sort={sort}
-                setSort={setSort}
-              >Tracking Type</GridTableHeaderCell>
-              {/* <GridTableHeaderCell>Code</GridTableHeaderCell>
+                <GridTableHeaderCell
+                  metric="name"
+                  sort={sort}
+                  setSort={setSort}
+                >
+                  Name</GridTableHeaderCell>
+                <GridTableHeaderCell
+                  metric="type"
+                  sort={sort}
+                  setSort={setSort}
+                >Type</GridTableHeaderCell>
+                <GridTableHeaderCell
+                  metric="type"
+                  sort={sort}
+                  setSort={setSort}
+                >Tracking Type</GridTableHeaderCell>
+                {/* <GridTableHeaderCell>Code</GridTableHeaderCell>
             <GridTableHeaderCell>Source</GridTableHeaderCell> */}
-              <GridTableHeaderCell
-                metric={showUsd ? "eth_equivalent_balance_usd" : "eth_equivalent_balance_eth"}
-                sort={sort}
-                setSort={setSort}
-                justify='end'
-              >ETH holdings</GridTableHeaderCell>
-            </GridTableHeader>
-            <VerticalScrollContainer height={346 - 39}>
-              <div className='flex flex-col gap-y-[5px]'>
-                {sortedFilteredData.map((row, index) => {
+                <GridTableHeaderCell
+                  metric={showUsd ? "eth_equivalent_balance_usd" : "eth_equivalent_balance_eth"}
+                  sort={sort}
+                  setSort={setSort}
+                  justify='end'
+                >ETH holdings</GridTableHeaderCell>
+              </GridTableHeader>
+              <div className='h-[346px] overflow-auto pr-[15px]'>
+                <div className='flex flex-col gap-y-[5px]'>
+                  {sortedFilteredData.map((row, index) => {
 
-                  return (
-                    <GridTableRow
-                      key={index}
-                      gridDefinitionColumns="grid-cols-[250px_130px_130px_minmax(145px,1000px)]"
-                      className={`w-full h-[34px] !pl-[10px] !pr-[20px] hover:bg-white/60 tansition-all duration-300`}
+                    return (
+                      <GridTableRow
+                        key={index}
+                        gridDefinitionColumns="grid-cols-[250px_130px_130px_minmax(145px,1000px)]"
+                        className={`w-full h-[34px] !pl-[10px] !pr-[20px] hover:bg-white/60 tansition-all duration-300`}
 
-                    >
-                      <div className='flex gap-x-[5px] items-center text-sm select-none'>
-                        {row.name}
-                      </div>
-                      <div className='flex items-center select-none'>
-                        {row.type}
-                      </div>
-                      <Link href={"https://github.com/ethismoney-xyz/data/blob/main/eth_holders.yml"} rel="noopener" target="_blank" className='flex items-center select-none underline'>
-                        {row.tracking_type.charAt(0).toUpperCase() + row.tracking_type.slice(1)}
-                      </Link>
-                      {/* <div className='text-sm select-none capitalize'>
+                      >
+                        <div className='flex gap-x-[5px] items-center text-sm select-none'>
+                          {row.name}
+                        </div>
+                        <div className='flex items-center select-none'>
+                          {row.type}
+                        </div>
+                        <Link href={"https://github.com/ethismoney-xyz/data/blob/main/eth_holders.yml"} rel="noopener" target="_blank" className='flex items-center select-none underline'>
+                          {row.tracking_type.charAt(0).toUpperCase() + row.tracking_type.slice(1)}
+                        </Link>
+                        {/* <div className='text-sm select-none capitalize'>
                       {row.code}
                     </div>
                     <div className='text-sm select-none capitalize'>
                       {row.source}
                     </div> */}
-                      <div className='flex justify-end numbers-sm'>
-                        {showUsd ? '$' : 'Ξ'}
-                        {showUsd ? row.usd.toLocaleString('en-GB', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : row.eth.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                      </div>
-                    </GridTableRow>
-                  );
-                })}
+                        <div className='flex justify-end numbers-sm'>
+                          {showUsd ? '$' : 'Ξ'}
+                          {showUsd ? row.usd.toLocaleString('en-GB', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : row.eth.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        </div>
+                      </GridTableRow>
+                    );
+                  })}
+                </div>
               </div>
-            </VerticalScrollContainer>
-          </>
+            </>
 
-        </HorizontalScrollContainer>
+          </div>
+        </div>
         <div className="w-full flex gap-x-[15px] justify-end items-center mt-[30px]">
           <div className="text-xs text-blue2 text-right w-[184px]">Help us have a more complete dataset for offchain data.</div>
 

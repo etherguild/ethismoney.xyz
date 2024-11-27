@@ -10,9 +10,13 @@
 .background-image-container {
   @apply absolute w-full h-full;
   z-index: -10;
-  overflow: visible;
-
-
+  /* overflow: visible; */
+  /* width: 100vw;
+  height: 100vh; */
+  background-image: url("/background-image.png");
+  background-size: 2027px 565px;
+  background-position: 50% 202px;
+  background-repeat: no-repeat;
 }
 
 .background-gradient-group {
@@ -24,20 +28,21 @@
   mix-blend-mode: overlay;
 }
 
-
-
-
 .background-gradient-eth {
   /* @apply bg-gradient-to-b from-blue5 via-ice to-ice; */
-  background: linear-gradient(176.28deg, #B7DDE8 -4.56%, #F1F9FC 11.24%, #F1F9FC 27.05%);
+  background: linear-gradient(
+    176.28deg,
+    #b7dde8 -4.56%,
+    #f1f9fc 11.24%,
+    #f1f9fc 27.05%
+  );
   min-width: 100%;
   min-height: 6317px;
   position: fixed;
   top: 0;
   left: 0;
-  z-index: -9; 
+  z-index: -9;
 }
-
 
 .background-gradient-green {
   background: radial-gradient(

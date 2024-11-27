@@ -12,6 +12,7 @@ import "../background.css";
 import DeveloperTools from "@/components/development/DeveloperTools";
 import SidebarContainer from "@/components/layout/SidebarContainer";
 import { BackgroundImage } from "./BackgroundImage";
+import Image from "next/image";
 
 
 const jsonLd: Graph = {
@@ -153,20 +154,14 @@ export default function RootLayout({
       lang="en"
       className={`${manrope.variable} ${inter.variable} ${robotoMono.variable} ${firaSans.variable}`}
       suppressHydrationWarning
-      style={{
-        fontFeatureSettings: "'pnum' on, 'lnum' on",
-        scrollSnapType: "y mandatory",
-        // overflowX: "clip",
-      }}
+    // style={{
+    //   fontFeatureSettings: "'pnum' on, 'lnum' on",
+    //   scrollSnapType: "y mandatory",
+    // }}
     >
 
       <Head />
-      <body className="relative flex items-center w-full max-w-[100vw] !overflow-x-hidden"
-        style={{
-          scrollSnapType: "y mandatory",
-          // overflowX: "clip",
-        }}
-      >
+      <body className="overflow-x-hidden">
         <script
           dangerouslySetInnerHTML={{
             __html: script,
@@ -177,20 +172,20 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         <Providers>
-          <div className="flex items-center h-fit w-full justify-center">
-            <LayoutGrid />
-            <Backgrounds />
-            {/* </div> */}
-            <div className="flex w-full max-w-[1380px] min-h-screen">
-              <SidebarContainer />
-              <div id="content-panel" className="w-full flex flex-col desktop:pl-[30px] relative min-h-full text-blue1 pb-[165px]"
-                style={{ scrollSnapType: "y mandatory", }}
-              >
-                <Header />
-                {children}
-              </div>
+          {/* <div className="flex items-center h-fit w-full justify-center"> */}
+          <LayoutGrid />
+          <Backgrounds />
+          {/* </div> */}
+          <div className="flex max-w-[1380px] mx-auto">
+            <SidebarContainer />
+            <div id="content-panel" className="w-full flex flex-col desktop:pl-[30px] relative min-h-full text-blue1 pb-[165px]"
+            // style={{ scrollSnapType: "y mandatory", }}
+            >
+              <Header />
+              {children}
             </div>
           </div>
+          {/* </div> */}
           <DeveloperTools />
         </Providers>
         <Analytics />
@@ -225,15 +220,7 @@ const Backgrounds = () => {
         </div>
       </div>
       {/* <div className="relative w-full overflow-hidden"> */}
-      <div className="background-image-container top-[202px]"
-        style={{
-          // we want to make sure the image is always centered even if the screen is narrower than the image
-          left: "50%",
-          transform: "translateX(-50%)",
-          width: "2027px",
-        }}
-      >
-        <BackgroundImage />
+      <div className="background-image-container">
       </div>
     </>
   );

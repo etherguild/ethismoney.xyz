@@ -22,45 +22,45 @@ export default function Page() {
   const [vw, setVw] = useState<number>(0);
   const [vh, setVh] = useState<number>(0);
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsResizing(true);
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     setIsResizing(true);
 
-      setVw(window.innerWidth);
-      setVh(window.innerHeight);
+  //     setVw(window.innerWidth);
+  //     setVh(window.innerHeight);
 
-      if (window.innerWidth < 1118) {
-        document.body.style.overflowY = "hidden";
-      } else {
-        document.body.style.overflowY = "auto";
-      }
+  //     if (window.innerWidth < 1118) {
+  //       document.body.style.overflowY = "hidden";
+  //     } else {
+  //       document.body.style.overflowY = "auto";
+  //     }
 
-      setTimeout(() => {
-        setIsResizing(false);
-      }, 100);
-    };
+  //     setTimeout(() => {
+  //       setIsResizing(false);
+  //     }, 100);
+  //   };
 
-    // Run once on mount
-    setVw(window.innerWidth);
-    setVh(window.innerHeight);
+  //   // Run once on mount
+  //   setVw(window.innerWidth);
+  //   setVh(window.innerHeight);
 
-    // Add event listener
-    window.addEventListener("resize", handleResize);
+  //   // Add event listener
+  //   window.addEventListener("resize", handleResize);
 
-    // Remove event listener on cleanup
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+  //   // Remove event listener on cleanup
+  //   return () => {
+  //     window.removeEventListener("resize", handleResize);
+  //   };
+  // }, []);
 
 
-  if (isResizing) {
-    return (
-      <div className="flex justify-center items-center h-screen w-screen">
-        {/* <div className="text-2xl">Resizing...</div> */}
-      </div>
-    )
-  }
+  // if (isResizing) {
+  //   return (
+  //     <div className="flex justify-center items-center h-screen w-screen">
+  //       {/* <div className="text-2xl">Resizing...</div> */}
+  //     </div>
+  //   )
+  // }
 
 
 
@@ -158,11 +158,17 @@ export default function Page() {
               <ExportChart />
             </LandingContainerChild>
             <LandingContainerChild
-              head={<div className="flex text-blue2 gap-x-[5px]">Biggest ETHconomies</div>}
+              head={<div className="flex text-blue2 gap-x-[5px] px-[15px] desktop:px-0">Biggest ETHconomies</div>}
               height={400}
-              className="basis-[600px]"
+              className="w-full desktop:w-[600px]"
             >
-              <ExportTable />
+              <div className="w-[calc(100%-30px)] mx-auto desktop:w-auto desktop:mx-0">
+                <div className="overflow-x-auto">
+                  <div className='min-w-[600px]'>
+                    <ExportTable />
+                  </div>
+                </div>
+              </div>
             </LandingContainerChild>
           </EthExportProvider>
         </Section>
@@ -173,25 +179,17 @@ export default function Page() {
           height={649}
         >
           <EthSupplyProvider>
-
             <IssuanceRateChart />
-            {/* </LandingContainerChild> */}
-            {/* <LandingContainerChild
-              head={<div className="flex text-blue2 gap-x-[5px]">Events</div>}
-              height={410}
-              className="px-[15px] desktop:px-0 min-w-[600px]  desktop:w-1/2"
-            >
-              <IssuanceTable />
-            </LandingContainerChild> */}
           </EthSupplyProvider>
         </Section>
         <Section
           name="fifth"
           head={Sections[3].label}
           height={671}
+
         >
 
-          <div className="desktop:h-[534px] flex-col justify-start items-start inline-flex w-full -mt-[30px]">
+          <div className="px-[15px] desktop:px-0 desktop:h-[534px] flex-col justify-start items-start inline-flex w-full -mt-[30px]">
             <div className="desktop:w-[757px]">
               <span className="text-blue1 highlight-text-lg">
                 Ether (ETH) is the digital currency of the Ethereum blockchain, a decentralized network where transactions and applications run without central authority. As a form of money, Ether enables peer-to-peer transfers, powers decentralized applications, and serves as a store of value within a growing digital economy.<br />
@@ -202,12 +200,12 @@ export default function Page() {
 
 
             {/* desktop */}
-            <div className="h-[399px] overflow-visible reltaive -mt-[90px]">
+            <div className="hidden desktop:block h-[399px] overflow-visible relative -mt-[90px]">
               <Image src={ExplanationSVG} alt="Explanation" width={1118} height={443} />
             </div>
           </div>
           {/* mobile */}
-          <div className="flex desktop:hidden flex-col w-full">
+          <div className="px-[15px] desktop:px-0 flex desktop:hidden flex-col w-full">
             <div className="h-56 flex-col justify-start items-start inline-flex">
               <div className="w-[281px] h-[124px] text-Lavender text-[100px] font-extrabold font-manrope"
                 style={{
@@ -258,26 +256,8 @@ export default function Page() {
         <Section
           name="sixth"
           head={Sections[4].label}
-
         >
-          {/* <div className="h-[950px] pb-[50px] flex-col justify-start items-start gap-5 inline-flex w-full">
-            <div className="w-[262px] h-72 bg-[#d9d9d9]" />
-            <div className="self-stretch h-[400px] flex-col justify-start items-start gap-[30px] flex">
-              <div className="justify-center items-center gap-[21px] inline-flex  w-full">
-                <div className="px-[25px] py-2.5 bg-blue5 rounded-[999px] justify-center items-center gap-2.5 flex">
-                  <div className="text-blue1 headline-md">Donate to get your NFT now</div>
-                </div>
-                <div className="w-[184px] text-blue2 text-xs">NFT gives you access to our Discord community. Get involved!</div>
-              </div>
-              <div className="w-full h-10 text-blue1 text-lg">Join forces with core contributors like</div>
-              <div className="w-full flex justify-start gap-x-[30px]">
-                <Icon icon="gtp:bankless" className="w-[229px] h-[51px]" />
-                <Image src="/The-Daily-Gwei.svg" alt="Bankless" width={181} height={53} />
-                <Image src="/logo_full_light.png" alt="Bankless" width={226} height={53} />
-              </div>
-            </div>
-          </div> */}
-          <div className="flex flex-col gap-y-[30px] -mt-[15px]">
+          <div className="px-[15px] desktop:px-0 flex flex-col gap-y-[30px] -mt-[15px]">
             <div className="headline-lg">ETH is Money is an tribe of believers who hold, stake, and propagate ETH as money.</div>
             <div>
               <div className="headline-md ">Why?</div>
@@ -296,7 +276,7 @@ export default function Page() {
               <div className="text-xs text-blue2">You will be redirected to Google Form. </div>
             </div>
           </div>
-          <div className="flex flex-col gap-y-[30px] -mt-[15px]">
+          <div className="px-[15px] desktop:px-0 flex flex-col gap-y-[30px] -mt-[15px]">
             <div className="headline-lg">Join forces with core contributors like</div>
             <div className="text-md ">We launched this page with a long-term vision in mind. Come and support us and be an early contributors</div>
             <Icon icon="gtp:bankless" className="w-[229px] h-[51px]" />
@@ -311,17 +291,13 @@ export default function Page() {
           head={Sections[5].label}
           desc={Sections[5].description}
         >
-          <div className="flex flex-col desktop:flex-row gap-[30px] w-full">
+          <div className="px-[15px] desktop:px-0 flex flex-col desktop:flex-row gap-[30px]">
 
-            <div className="flex flex-col gap-y-[5px] desktop:basis-5/5">
+            <div className="flex flex-col gap-y-[5px]">
               <Faq />
             </div>
           </div>
         </Section>
-      </div>
-      <div className="fixed min-[1118px]:hidden h-screen w-screen bg-blue5 flex flex-col justify-center items-center px-[15px] z-[9999]">
-        <div className="headline-xl text-white text-center">This page is best viewed on desktop</div>
-        <div className="text-md text-white text-center">check back soon for mobile support</div>
       </div>
     </>
   );

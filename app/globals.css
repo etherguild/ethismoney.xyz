@@ -2,465 +2,74 @@
 @tailwind components;
 @tailwind utilities;
 
-/* @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;700;900&display=swap"); */
-/* 
-@layer utilities {
-
-  .heading-large {
-    @apply font-raleway font-bold leading-[120%];
-  }
-
-  .heading-large-xxxs {
-    @apply heading-large text-[10px];
-  }
-
-  .heading-large-xxs {
-    @apply heading-large text-[12px];
-  }
-
-  .heading-large-xs {
-    @apply heading-large text-[14px];
-  }
-
-  .heading-large-sm {
-    @apply heading-large text-[16px];
-  }
-
-  .heading-large-md {
-    @apply heading-large text-[20px];
-  }
-
-  .heading-large-lg {
-    @apply heading-large text-[30px];
-  }
-
-  .heading-large-xl {
-    @apply heading-large text-[36px];
-  }
-
-  .heading-large-2xl {
-    @apply heading-large text-[48px];
-  }
-
-  .heading-large-3xl {
-    @apply heading-large text-[60px];
-  }
-
-  .heading-large-4xl {
-    @apply heading-large text-[72px];
-  }
-
-  .heading-large-5xl {
-    @apply heading-large text-[80px];
-  }
-
-  .heading-large-6xl {
-    @apply heading-large text-[92px];
-  }
-
-
-
-
-  .heading-small {
-    @apply font-raleway leading-[120%];
-  }
-
-  .heading-small-xxxs {
-    @apply heading-small text-[9px];
-  }
-
-  .heading-small-xxs {
-    @apply heading-small text-[10px];
-  }
-
-  .heading-small-xs {
-    @apply heading-small text-[12px];
-  }
-
-  .heading-small-sm {
-    @apply heading-small text-[15px];
-  }
-
-  .heading-small-md {
-    @apply heading-small text-[16px];
-  }
-
-  .heading-small-lg {
-    @apply heading-small text-[18px];
-  }
-
-  .heading-small-xl {
-    @apply heading-small text-[20px];
-  }
-
-  .heading-small-2xl {
-    @apply heading-small text-[24px];
-  }
-
-  .heading-small-3xl {
-    @apply heading-small text-[30px];
-  }
-
-  .heading-small-4xl {
-    @apply heading-small text-[36px];
-  }
-
-  .heading-small-5xl {
-    @apply heading-small text-[48px];
-  }
-
-  .heading-small-6xl {
-    @apply heading-small text-[60px];
-  }
-
-  .numbers {
-    @apply font-num font-medium tracking-[5%];
-  }
-
-  .numbers-xxxs {
-    @apply numbers text-[9px];
-  }
-
-  .numbers-xxs {
-    @apply numbers text-[10px];
-  }
-
-  .numbers-xs {
-    @apply numbers text-[12px];
-  }
-
-  .numbers-sm {
-    @apply numbers text-[14px];
-  }
-
-  .numbers-md {
-    @apply numbers text-[16px];
-  }
-
-  .numbers-lg {
-    @apply numbers text-[18px];
-  }
-
-  .numbers-xl {
-    @apply numbers text-[20px];
-  }
-
-  .numbers-2xl {
-    @apply numbers text-[24px];
-  }
-
-  .numbers-3xl {
-    @apply numbers text-[30px];
-  }
-
-  .numbers-4xl {
-    @apply numbers text-[36px];
-  }
-
-  .numbers-5xl {
-    @apply numbers text-[48px];
-  }
-
-  .numbers-6xl {
-    @apply numbers text-[60px];
-  }
-} */
-
+// set the color vars
 :root {
-  /* Your default theme */
-  --background: white;
-  --foreground: black;
+  --beige: #e5d7b2;
+  --blue1: #1b3555;
+  --blue2: #2a6f97;
+  --blue3: #5fa8d3;
+  --blue4: #a8dadc;
+  --blue5: #b7dde8;
+  --burgundy: #9f4039;
+  --eth-logo: #5f8ad3;
+  --gray: #b0b7c3;
+  --gray-blue: #a1c4d1;
+  --green: #7dbf7b;
+  --ice: #f1f9fc;
+  --lavendar: #cabed0;
+  --mint: #c2e1c9;
+  --soft-red: #c35c5a;
 }
 
-[data-theme="dark"] {
-  --background: black;
-  --foreground: white;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  /* outline: 1px solid red; */
 }
 
-.svg-t-rounded-lg rect {
-  clip-path: inset(0% -1% -100% -1% round 0.45rem);
+html {
+  scroll-behavior: smooth;
+  font-feature-settings: "pnum" on, "lnum" on;
 }
 
-.svg-t-rounded-md rect {
-  clip-path: inset(0% -1% -100% -1% round 0.25rem);
+@media (min-width: 1180px) {
+  html {
+    scroll-snap-type: y mandatory;
+  }
 }
 
-.svg-t-rounded-sm rect {
-  clip-path: inset(0% -1% -500% -1% round 0.075rem);
+/* 
+::-webkit-scrollbar {
+  width: 1em;
 }
 
-.highcharts-navigator-outline {
-  stroke: var(--foreground);
+::-webkit-scrollbar-track {
+  background: linear-gradient(
+    176.28deg,
+    #b7dde8 -4.56%,
+    #f1f9fc 11.24%,
+    #f1f9fc 27.05%
+  );
+  background-size: 100% 6317px;
 }
 
-.highcharts-column-series rect {
-  shape-rendering: crispEdges;
-}
-
-.highcharts-selection-marker {
-  fill: rgba(205, 216, 211, 0.2);
-  /* stroke: rgba(205, 216, 211, 1);
-  stroke-width: 1px;
-  stroke-linejoin: round;
-  stroke-dasharray: 2, 2;
-  shape-rendering: crispEdges; */
-}
-
-/* .scroller::-webkit-scrollbar-button:end:increment {
-  width: 50px;
-  display: block;
-  background: transparent;
+::-webkit-scrollbar-thumb {
+  background: #2a6f97;
+  border-radius: 100vw;
 } */
 
-/* .splide__track {
-  overflow: visible !important;
-} */
-.splide__pagination {
-  @apply !bottom-3 md:!-bottom-4;
-}
-.splide__pagination__page {
-  @apply !w-1.5;
-  @apply !h-1.5;
+div::-webkit-scrollbar {
+  width: 15px;
 }
 
-.splide__pagination__page {
-  @apply !bg-forest-400;
+div::-webkit-scrollbar-track {
+  background: #1b3555;
+  border-radius: 100vw;
 }
 
-.dark .splide__pagination__page {
-  @apply !bg-forest-400;
+div::-webkit-scrollbar-thumb {
+  background: #2a6f97;
+  border: 2px solid #1b3555;
+  border-radius: 100vw;
 }
-
-.splide__pagination__page.is-active {
-  @apply !bg-forest-900;
-}
-
-.dark .splide__pagination__page.is-active {
-  @apply !bg-forest-50;
-}
-
-.splide__arrow {
-  @apply !opacity-90;
-  @apply transition-opacity duration-200;
-}
-
-.splide__arrow:hover {
-  @apply !opacity-100;
-}
-
-.splide__arrow:disabled {
-  @apply !opacity-0;
-  @apply !pointer-events-none;
-}
-
-.hard-shine-2 {
-  background-image: linear-gradient(
-    -45deg,
-    rgba(255, 255, 255, 0) 0,
-    rgba(255, 255, 255, 0.3) 40%,
-    rgba(255, 255, 255, 0) 40%
-  );
-  background-size: 600px 100%;
-  animation: shine-2 6.66s infinite ease;
-}
-@keyframes shine-2 {
-  0% {
-    background-position: 0px 0;
-  }
-  5% {
-    background-position: 50px 0;
-  }
-  30% {
-    background-position: 600px 0;
-  }
-  100% {
-    background-position: 600px 0;
-  }
-}
-
-.hard-shine {
-  background-image: linear-gradient(
-    -45deg,
-    rgba(255, 255, 255, 0) 0,
-    rgba(255, 255, 255, 0.3) 40%,
-    rgba(255, 255, 255, 0) 40%
-  );
-  background-size: 1000px 100%;
-  animation: shine 6.66s infinite ease;
-}
-@keyframes shine {
-  0% {
-    background-position: 0px 0;
-  }
-  10% {
-    background-position: 100px 0;
-  }
-  30% {
-    background-position: 1000px 0;
-  }
-  100% {
-    background-position: 1000px 0;
-  }
-}
-
-.fade-edge-div {
-  position: relative;
-  overflow: visible;
-  /* mask fade distance, for use in mask calculations */
-  --mask-height: 30px;
-  /* The content mask is a linear gradient from top to bottom */
-  --mask-image-content: linear-gradient(
-    to right,
-    transparent 12px,
-    black var(--mask-height),
-    black calc(100% - var(--mask-height)),
-    transparent calc(100% - 12px)
-  );
-  /* Apply the mask image and mask size variables */
-  mask-image: var(--mask-image-content);
-  mask-size: var(--mask-size-content);
-  /* Position the content gradient in the top left, and the 
-  scroll gradient in the top right */
-  mask-position: 0 0, 100% 0;
-
-  /* We don't repeat our mask images */
-  mask-repeat: no-repeat, no-repeat;
-}
-
-.fade-edge-div-vertical {
-  position: relative;
-  overflow: visible;
-  /* mask fade distance, for use in mask calculations */
-  --mask-height: 10px;
-  /* The content mask is a linear gradient from top to bottom */
-  --mask-image-content: linear-gradient(
-    to bottom,
-    transparent 5px,
-    black var(--mask-height),
-    black calc(100% - var(--mask-height)),
-    transparent calc(100% - 5px)
-  );
-  /* Apply the mask image and mask size variables */
-  mask-image: var(--mask-image-content);
-  mask-size: var(--mask-size-content);
-  /* Position the content gradient in the top left, and the
-  scroll gradient in the top right */
-  mask-position: 0 0, 100% 0;
-
-  /* We don't repeat our mask images */
-  mask-repeat: no-repeat, no-repeat;
-}
-
-.fade-edge-div-vertical-hidden {
-  position: relative;
-  overflow: visible;
-  /* mask fade distance, for use in mask calculations */
-  --mask-height: 0px;
-  /* The content mask is a linear gradient from top to bottom */
-  --mask-image-content: linear-gradient(
-    to bottom,
-    transparent 5px,
-    black var(--mask-height),
-    black calc(100% - var(--mask-height)),
-    transparent calc(100% - 5px)
-  );
-  /* Apply the mask image and mask size variables */
-  mask-image: var(--mask-image-content);
-  mask-size: var(--mask-size-content);
-  /* Position the content gradient in the top left, and the
-  scroll gradient in the top right */
-  mask-position: 0 0, 100% 0;
-
-  /* We don't repeat our mask images */
-  mask-repeat: no-repeat, no-repeat;
-}
-
-/* @media (max-width: 767px) {
-  .scroller::-webkit-scrollbar-button:end:increment {
-    width: 20px;
-    display: block;
-    background: transparent;
-  }
-} */
-.highcharts-tooltip-container {
-  z-index: 999 !important;
-}
-.highcharts-tooltip {
-  z-index: 999 !important;
-}
-
-@keyframes unlabeled-gradient {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: 50px 50px;
-  }
-}
-
-@keyframes rl-bounce {
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-  80% {
-    transform: translateX(-20px);
-  }
-  60% {
-    transform: translateX(20px);
-  }
-  40% {
-    transform: translateX(-20px);
-  }
-  20% {
-    transform: translateX(20px);
-  }
-}
-
-.horizontal-bounce {
-  animation: rl-bounce 0.6s ease-in-out;
-}
-
-/* div.blog {
-  h2 {
-    @apply text-3xl pb-3 pt-6;
-  }
-  h3 {
-    @apply text-2xl py-3;
-  }
-  h4 {
-    @apply text-xl py-3;
-  }
-  p {
-    @apply text-lg py-3;
-  }
- 
-  img {
-    @apply mx-auto w-full rounded-xl;
-  }
-  ul {
-    @apply list-disc py-3;
-  }
-  ol {
-    @apply list-decimal py-3;
-  }
-
-  blockquote {
-    @apply border-l-4 border-gray-400 pl-4 py-3;
-  }
-  code {
-    @apply bg-gray-200 rounded-lg p-2;
-  }
-  pre {
-    @apply bg-gray-200 rounded-lg p-2;
-  }
-  pre > code {
-    @apply bg-gray-200 rounded-lg p-2;
-  }
-  a {
-    @apply text-blue-500 underline;
-  }
-  hr {
-    @apply my-12;
-  }
-} */

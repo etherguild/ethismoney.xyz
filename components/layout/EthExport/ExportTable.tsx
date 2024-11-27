@@ -45,110 +45,215 @@ export default function ExportTable() {
     return data.data.chart[entity].daily.data[data.data.chart[entity].daily.data.length - 1][dataKey];
   }, [data, dataKey])
 
+  if (!data) return null;
+
   return (
-    <HorizontalScrollContainer includeMargin={isMobile} forcedMinWidth={600}>
-      {data && (
-        <>
-          <GridTableHeader
-            gridDefinitionColumns="grid-cols-[145px_59px_minmax(94px,1000px)_92px]"
-            className="sticky top-0 text-[14px] !font-bold z-[2] !py-0 !pl-[10px] !pr-[55px] select-none h-[30px]"
-          >
-            <GridTableHeaderCell justify='start'>ETHconomies</GridTableHeaderCell>
-            <GridTableHeaderCell justify='center' className='gap-x-[5px]'>
-              UoA<Tooltip allowInteract={true} placement="right"><TooltipTrigger><Icon icon={'feather:info'} /></TooltipTrigger><TooltipContent className="p-[11px] text-xs bg-ice  text-blue1 rounded-xl shadow-lg flex flex-col z-[51]">
-                <div>Chain uses ETH for transaction fees and prices fees in ETH.</div>
 
-              </TooltipContent></Tooltip></GridTableHeaderCell>
-            <GridTableHeaderCell>Type</GridTableHeaderCell>
-            <GridTableHeaderCell justify='end'>ETH exported</GridTableHeaderCell>
-          </GridTableHeader>
-          <VerticalScrollContainer height={346 - 39}>
-            <div className='flex flex-col gap-y-[5px]'>
-              {Object.keys(data.data.entities).filter(entity => entity !== "total").map((entity, index) => {
-                let opacityClass = 'opacity-100';
-                if (selectedEntity !== 'total' && selectedEntity !== entity) {
-                  opacityClass = 'opacity-30';
+    <>
+      <GridTableHeader
+        gridDefinitionColumns="grid-cols-[145px_59px_minmax(94px,1000px)_92px]"
+        className="sticky top-0 text-[14px] !font-bold z-[2] !py-0 pl-[10px] !pr-[calc(20px+30px)] select-none h-[30px]"
+      >
+        <GridTableHeaderCell justify='start'>ETHconomies</GridTableHeaderCell>
+        <GridTableHeaderCell justify='center' className='gap-x-[5px]'>
+          UoA<Tooltip allowInteract={true} placement="right"><TooltipTrigger><Icon icon={'feather:info'} /></TooltipTrigger><TooltipContent className="p-[11px] text-xs bg-ice  text-blue1 rounded-xl shadow-lg flex flex-col z-[51]">
+            <div>Chain uses ETH for transaction fees and prices fees in ETH.</div>
+
+          </TooltipContent></Tooltip></GridTableHeaderCell>
+        <GridTableHeaderCell>Type</GridTableHeaderCell>
+        <GridTableHeaderCell justify='end'>ETH exported</GridTableHeaderCell>
+      </GridTableHeader>
+      <div className='h-[346px] overflow-y-auto pr-[15px]'>
+        <div className='flex flex-col gap-y-[5px]'>
+          {Object.keys(data.data.entities).filter(entity => entity !== "total").map((entity, index) => {
+            let opacityClass = 'opacity-100';
+            if (selectedEntity !== 'total' && selectedEntity !== entity) {
+              opacityClass = 'opacity-30';
+            }
+
+            const icon = selectedEntity === entity ? <ZoomOutIcon /> : <ZoomInIcon />;
+            return (
+              <GridTableRow
+                key={index}
+                gridDefinitionColumns="grid-cols-[145px_59px_minmax(94px,1000px)_92px]"
+                className={`w-full h-[34px] !pl-[10px] !pr-[20px] hover:bg-white/60 tansition-all duration-300 ${opacityClass}`}
+                onClick={() => {
+                  if (selectedEntity === entity) {
+                    setSelectedEntity('total');
+                  } else {
+                    setSelectedEntity(entity);
+                  }
+                }}
+              >
+                <div className='flex gap-x-[5px] items-center text-sm select-none'>
+                  {icon}
+
+                  {data.data.entities[entity].name}
+                </div>
+                <div className='flex justify-center items-center select-none'>
+                  {UnitOfAccount(data.data.entities[entity].uoa)}
+                </div>
+                <div className='text-sm select-none capitalize'>
+                  {data.data.entities[entity].type}
+                </div>
+                <div className='flex justify-end numbers-sm'>
+                  {showUsd ? '$' : 'Ξ'}
+                  {lastValue(entity)?.toLocaleString('en-GB', { minimumFractionDigits: showUsd ? 0 : 2, maximumFractionDigits: showUsd ? 0 : 2 })}
+                </div>
+              </GridTableRow>
+            );
+          })}
+        </div>
+      </div>
+      <div className='pt-[5px] pr-[30px] pl-0'>
+        {Object.keys(data.data.entities).filter(entity => entity === "total").map((entity, index) => {
+          let opacityClass = 'opacity-100';
+          if (selectedEntity !== 'total' && selectedEntity !== entity) {
+            opacityClass = 'opacity-30';
+          }
+
+          const icon = selectedEntity === entity ? <ZoomOutIcon /> : <ZoomInIcon />;
+          return (
+            <GridTableRow
+              key={index}
+              gridDefinitionColumns="grid-cols-[145px_59px_minmax(94px,1000px)_92px]"
+              className={`w-full h-[34px] !pl-[10px] !pr-[20px] hover:bg-white/60 tansition-all duration-300 font-bold ${opacityClass}`}
+              onClick={() => {
+                if (selectedEntity === entity) {
+                  setSelectedEntity('total');
+                } else {
+                  setSelectedEntity(entity);
                 }
+              }}
+            >
+              <div className='flex gap-x-[5px] items-center text-sm select-none'>
+                {/* {icon} */}
+                <div className='size-[15px]' />
 
-                const icon = selectedEntity === entity ? <ZoomOutIcon /> : <ZoomInIcon />;
-                return (
-                  <GridTableRow
-                    key={index}
-                    gridDefinitionColumns="grid-cols-[145px_59px_minmax(94px,1000px)_92px]"
-                    className={`w-full h-[34px] !pl-[10px] !pr-[20px] hover:bg-white/60 tansition-all duration-300 ${opacityClass}`}
-                    onClick={() => {
-                      if (selectedEntity === entity) {
-                        setSelectedEntity('total');
-                      } else {
-                        setSelectedEntity(entity);
-                      }
-                    }}
-                  >
-                    <div className='flex gap-x-[5px] items-center text-sm select-none'>
-                      {icon}
+                {data.data.entities[entity].name}
+              </div>
+              <div className='flex justify-center items-center select-none'>
+                {/* {UnitOfAccount(data.data.entities[entity].uoa)} */}
+              </div>
+              <div className='text-sm select-none capitalize'>
+                {/* {data.data.entities[entity].type} */}
+              </div>
+              <div className='flex justify-end highlight-text-lg'>
+                {showUsd ? '$' : 'Ξ'}
+                {lastValue(entity)?.toLocaleString('en-GB', { minimumFractionDigits: showUsd ? 0 : 2, maximumFractionDigits: showUsd ? 0 : 2 })}
+              </div>
+            </GridTableRow>
+          );
+        })}
+      </div>
+    </>
 
-                      {data.data.entities[entity].name}
-                    </div>
-                    <div className='flex justify-center items-center select-none'>
-                      {UnitOfAccount(data.data.entities[entity].uoa)}
-                    </div>
-                    <div className='text-sm select-none capitalize'>
-                      {data.data.entities[entity].type}
-                    </div>
-                    <div className='flex justify-end numbers-sm'>
-                      {showUsd ? '$' : 'Ξ'}
-                      {lastValue(entity)?.toLocaleString('en-GB', { minimumFractionDigits: showUsd ? 0 : 2, maximumFractionDigits: showUsd ? 0 : 2 })}
-                    </div>
-                  </GridTableRow>
-                );
-              })}
-            </div>
-          </VerticalScrollContainer>
-          <div className='pt-[5px] pr-[30px]'>
-            {Object.keys(data.data.entities).filter(entity => entity === "total").map((entity, index) => {
-              let opacityClass = 'opacity-100';
-              if (selectedEntity !== 'total' && selectedEntity !== entity) {
-                opacityClass = 'opacity-30';
-              }
-
-              const icon = selectedEntity === entity ? <ZoomOutIcon /> : <ZoomInIcon />;
-              return (
-                <GridTableRow
-                  key={index}
-                  gridDefinitionColumns="grid-cols-[145px_59px_minmax(94px,1000px)_92px]"
-                  className={`w-full h-[34px] !pl-[10px] !pr-[20px] hover:bg-white/60 tansition-all duration-300 font-bold ${opacityClass}`}
-                  onClick={() => {
-                    if (selectedEntity === entity) {
-                      setSelectedEntity('total');
-                    } else {
-                      setSelectedEntity(entity);
-                    }
-                  }}
-                >
-                  <div className='flex gap-x-[5px] items-center text-sm select-none'>
-                    {/* {icon} */}
-                    <div className='size-[15px]' />
-
-                    {data.data.entities[entity].name}
-                  </div>
-                  <div className='flex justify-center items-center select-none'>
-                    {/* {UnitOfAccount(data.data.entities[entity].uoa)} */}
-                  </div>
-                  <div className='text-sm select-none capitalize'>
-                    {/* {data.data.entities[entity].type} */}
-                  </div>
-                  <div className='flex justify-end highlight-text-lg'>
-                    {showUsd ? '$' : 'Ξ'}
-                    {lastValue(entity)?.toLocaleString('en-GB', { minimumFractionDigits: showUsd ? 0 : 2, maximumFractionDigits: showUsd ? 0 : 2 })}
-                  </div>
-                </GridTableRow>
-              );
-            })}
-          </div>
-        </>
-      )}
-    </HorizontalScrollContainer>
   )
+
+  // return (
+  //   <HorizontalScrollContainer includeMargin={isMobile} forcedMinWidth={600}>
+  //     {data && (
+  //       <>
+  //         <GridTableHeader
+  //           gridDefinitionColumns="grid-cols-[145px_59px_minmax(94px,1000px)_92px]"
+  //           className="sticky top-0 text-[14px] !font-bold z-[2] !py-0 !pl-[10px] !pr-[55px] select-none h-[30px]"
+  //         >
+  //           <GridTableHeaderCell justify='start'>ETHconomies</GridTableHeaderCell>
+  //           <GridTableHeaderCell justify='center' className='gap-x-[5px]'>
+  //             UoA<Tooltip allowInteract={true} placement="right"><TooltipTrigger><Icon icon={'feather:info'} /></TooltipTrigger><TooltipContent className="p-[11px] text-xs bg-ice  text-blue1 rounded-xl shadow-lg flex flex-col z-[51]">
+  //               <div>Chain uses ETH for transaction fees and prices fees in ETH.</div>
+
+  //             </TooltipContent></Tooltip></GridTableHeaderCell>
+  //           <GridTableHeaderCell>Type</GridTableHeaderCell>
+  //           <GridTableHeaderCell justify='end'>ETH exported</GridTableHeaderCell>
+  //         </GridTableHeader>
+  //         <VerticalScrollContainer height={346 - 39}>
+  //           <div className='flex flex-col gap-y-[5px]'>
+  //             {Object.keys(data.data.entities).filter(entity => entity !== "total").map((entity, index) => {
+  //               let opacityClass = 'opacity-100';
+  //               if (selectedEntity !== 'total' && selectedEntity !== entity) {
+  //                 opacityClass = 'opacity-30';
+  //               }
+
+  //               const icon = selectedEntity === entity ? <ZoomOutIcon /> : <ZoomInIcon />;
+  //               return (
+  //                 <GridTableRow
+  //                   key={index}
+  //                   gridDefinitionColumns="grid-cols-[145px_59px_minmax(94px,1000px)_92px]"
+  //                   className={`w-full h-[34px] !pl-[10px] !pr-[20px] hover:bg-white/60 tansition-all duration-300 ${opacityClass}`}
+  //                   onClick={() => {
+  //                     if (selectedEntity === entity) {
+  //                       setSelectedEntity('total');
+  //                     } else {
+  //                       setSelectedEntity(entity);
+  //                     }
+  //                   }}
+  //                 >
+  //                   <div className='flex gap-x-[5px] items-center text-sm select-none'>
+  //                     {icon}
+
+  //                     {data.data.entities[entity].name}
+  //                   </div>
+  //                   <div className='flex justify-center items-center select-none'>
+  //                     {UnitOfAccount(data.data.entities[entity].uoa)}
+  //                   </div>
+  //                   <div className='text-sm select-none capitalize'>
+  //                     {data.data.entities[entity].type}
+  //                   </div>
+  //                   <div className='flex justify-end numbers-sm'>
+  //                     {showUsd ? '$' : 'Ξ'}
+  //                     {lastValue(entity)?.toLocaleString('en-GB', { minimumFractionDigits: showUsd ? 0 : 2, maximumFractionDigits: showUsd ? 0 : 2 })}
+  //                   </div>
+  //                 </GridTableRow>
+  //               );
+  //             })}
+  //           </div>
+  //         </VerticalScrollContainer>
+  //         <div className='pt-[5px] pr-[30px]'>
+  //           {Object.keys(data.data.entities).filter(entity => entity === "total").map((entity, index) => {
+  //             let opacityClass = 'opacity-100';
+  //             if (selectedEntity !== 'total' && selectedEntity !== entity) {
+  //               opacityClass = 'opacity-30';
+  //             }
+
+  //             const icon = selectedEntity === entity ? <ZoomOutIcon /> : <ZoomInIcon />;
+  //             return (
+  //               <GridTableRow
+  //                 key={index}
+  //                 gridDefinitionColumns="grid-cols-[145px_59px_minmax(94px,1000px)_92px]"
+  //                 className={`w-full h-[34px] !pl-[10px] !pr-[20px] hover:bg-white/60 tansition-all duration-300 font-bold ${opacityClass}`}
+  //                 onClick={() => {
+  //                   if (selectedEntity === entity) {
+  //                     setSelectedEntity('total');
+  //                   } else {
+  //                     setSelectedEntity(entity);
+  //                   }
+  //                 }}
+  //               >
+  //                 <div className='flex gap-x-[5px] items-center text-sm select-none'>
+  //                   {/* {icon} */}
+  //                   <div className='size-[15px]' />
+
+  //                   {data.data.entities[entity].name}
+  //                 </div>
+  //                 <div className='flex justify-center items-center select-none'>
+  //                   {/* {UnitOfAccount(data.data.entities[entity].uoa)} */}
+  //                 </div>
+  //                 <div className='text-sm select-none capitalize'>
+  //                   {/* {data.data.entities[entity].type} */}
+  //                 </div>
+  //                 <div className='flex justify-end highlight-text-lg'>
+  //                   {showUsd ? '$' : 'Ξ'}
+  //                   {lastValue(entity)?.toLocaleString('en-GB', { minimumFractionDigits: showUsd ? 0 : 2, maximumFractionDigits: showUsd ? 0 : 2 })}
+  //                 </div>
+  //               </GridTableRow>
+  //             );
+  //           })}
+  //         </div>
+  //       </>
+  //     )}
+  //   </HorizontalScrollContainer>
+  // )
 }
 
 const ZoomInIcon = () => (
