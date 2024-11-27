@@ -18,7 +18,7 @@ export const EthHoldersSection = () => {
       subhead={<HolderSelect />}
       // desc={"ETH is a store of value that is immutable, scarce, censorship resistant and when staked it becomes a digital gold with yield."}
       height={752}
-      className="w-[100dvw] desktop:w-auto"
+      className="w-full desktop:w-auto"
     >
       <div className="w-[calc(100%-30px)] mx-auto desktop:w-auto desktop:mx-0">
         <div className="overflow-auto">
