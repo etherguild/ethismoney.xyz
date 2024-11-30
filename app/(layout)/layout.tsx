@@ -13,78 +13,45 @@ import DeveloperTools from "@/components/development/DeveloperTools";
 import SidebarContainer from "@/components/layout/SidebarContainer";
 import { BackgroundImage } from "./BackgroundImage";
 import Image from "next/image";
-
-
-const jsonLd: Graph = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Organization",
-      "@id": "https://www.ethismoney.xyz/#organization",
-      name: "ethismoney",
-      url: "https://www.ethismoney.xyz",
-      logo: "https://www.ethismoney.xyz/eth-is-money-logo.png",
-      sameAs: [
-        "https://x.com/ethismoneyHQ",
-        "https://github.com/ethismoney-xyz",
-      ],
-    },
-    {
-      "@type": "WebSite",
-      "@id": "https://www.ethismoney.xyz/#website",
-      url: "https://www.ethismoney.xyz",
-      name: "ethismoney",
-      description:
-        "At growthepie, our mission is to provide comprehensive and accurate analytics of layer 2 solutions for the Ethereum ecosystem, acting as a trusted data aggregator from reliable sources such as L2Beat and DefiLlama, while also developing our own metrics.",
-      publisher: {
-        "@type": "Organization",
-        name: "ethismoney",
-        logo: {
-          "@type": "ImageObject",
-          url: "https://www.ethismoney.xyz/eth-is-money-logo.png",
-        },
-      },
-    },
-  ],
-};
+import MobileNav from "@/components/layout/MobileNav";
 
 // const jsonLd = [jsonLdOrg, jsonLdWebSite];
 export const viewport = {
   width: "device-width",
   initialScale: "1.0",
-  themeColor: "light",
+  themeColor: "#b7dde8",
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL(`https://eth-is-money.vercel.app/`),
+  metadataBase: new URL(`https://www.ethismoney.xyz/`),
   title: "ETH is Money",
   description: "ETH is money is an tribe of believers who hold, stake, and propagate ETH as money.",
-  // openGraph: {
-  //   title: "",
-  //   description: "",
-  //   url: "",
+  openGraph: {
+    title: "ETH is Money",
+    description: "ETH is money is an tribe of believers who hold, stake, and propagate ETH as money.",
+    url: "https://www.ethismoney.xyz/",
 
-  //   images: [
-  //     {
-  //       url: "",
-  //       width: 1200,
-  //       height: 627,
-  //       alt: "",
-  //     },
-  //   ],
-  //   locale: "en_US",
-  //   type: "website",
-  // },
-  // twitter: {
-  //   card: "summary_large_image",
-  //   title: "",
-  //   description: "",
-  //   site: "",
-  //   siteId: "",
-  //   creator: "",
-  //   creatorId: "",
-  //   images: [""],
-  // },
+    images: [
+      {
+        url: "https://www.ethismoney.xyz/og-image.png",
+        width: 1200,
+        height: 627,
+        alt: "ETH is Money",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ETH is Money",
+    description: "ETH is money is an tribe of believers who hold, stake, and propagate ETH as money.",
+    site: "@ethismoneyHQ",
+    siteId: "1846672231507566592",
+    creator: "@ethismoneyHQ",
+    creatorId: "1846672231507566592",
+    images: ["https://www.ethismoney.xyz/og-image.png"],
+  },
   robots: {
     index: true,
     follow: true,
@@ -154,10 +121,6 @@ export default function RootLayout({
       lang="en"
       className={`${manrope.variable} ${inter.variable} ${robotoMono.variable} ${firaSans.variable}`}
       suppressHydrationWarning
-    // style={{
-    //   fontFeatureSettings: "'pnum' on, 'lnum' on",
-    //   scrollSnapType: "y mandatory",
-    // }}
     >
 
       <Head />
@@ -167,25 +130,17 @@ export default function RootLayout({
             __html: script,
           }}
         />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
         <Providers>
-          {/* <div className="flex items-center h-fit w-full justify-center"> */}
           <LayoutGrid />
           <Backgrounds />
-          {/* </div> */}
           <div className="flex max-w-[1380px] mx-auto">
             <SidebarContainer />
-            <div id="content-panel" className="w-full flex flex-col desktop:pl-[30px] relative min-h-full text-blue1 pb-[165px]"
-            // style={{ scrollSnapType: "y mandatory", }}
-            >
+            <MobileNav />
+            <div id="content-panel" className="w-full flex flex-col desktop:pl-[30px] relative text-blue1 pb-[265px]">
               <Header />
               {children}
             </div>
           </div>
-          {/* </div> */}
           <DeveloperTools />
         </Providers>
         <Analytics />

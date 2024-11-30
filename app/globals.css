@@ -73,3 +73,23 @@ div::-webkit-scrollbar-thumb {
   border: 2px solid #1b3555;
   border-radius: 100vw;
 }
+
+div::-webkit-scrollbar:horizontal {
+  width: 15px;
+  height: 15px;
+}
+
+div::-webkit-scrollbar-track:horizontal {
+  background: transparent;
+  margin: 15px;
+  /* padding: 15px; */
+  border-radius: 100vw;
+}
+
+div::-webkit-scrollbar-thumb:horizontal {
+  padding: 15px;
+
+  background: #2a6f9733;
+  border: 0px solid #1b355533;
+  border-radius: 100vw;
+}

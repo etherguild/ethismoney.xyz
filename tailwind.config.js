@@ -35,6 +35,9 @@ module.exports = {
         mono: [...defaultTheme.fontFamily.mono],
         num: ["var(--font-fira-sans)", "sans-serif"],
       },
+      spacing: {
+        "safe-bottom": "env(safe-area-inset-bottom)", // Add custom spacing
+      },
       /* From Figma */
       // --text--xxs: 10px;
       // --text--xs: 12px;
@@ -238,9 +241,9 @@ module.exports = {
 
       const fontWeights = {
         headline: {
-          xs: "600", // bold
-          sm: "600", // bold
-          md: "600", // bold
+          xs: "700", // bold
+          sm: "700", // bold
+          md: "700", // bold
           lg: "600", // semibold
           xxl: "800", // black
         },

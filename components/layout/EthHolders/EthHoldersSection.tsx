@@ -20,8 +20,8 @@ export const EthHoldersSection = () => {
       height={752}
       className="w-full desktop:w-auto"
     >
-      <div className="w-[calc(100%-30px)] mx-auto desktop:w-auto desktop:mx-0">
-        <div className="overflow-auto">
+      <div className="w-full mx-auto desktop:w-auto desktop:mx-0">
+        <div className="overflow-auto px-[15px] pb-[15px] desktop:pb-0 desktop:px-0">
           <div className='min-w-[800px]'>
             <>
               <GridTableHeader
@@ -92,8 +92,8 @@ export const EthHoldersSection = () => {
 
           </div>
         </div>
-        <div className="w-full flex gap-x-[15px] justify-end items-center mt-[30px]">
-          <div className="text-xs text-blue2 text-right w-[184px]">Help us have a more complete dataset for offchain data.</div>
+        <div className="px-[15px] desktop:px-0 w-full flex flex-col-reverse desktop:flex-row gap-[10px] desktop:gap-[30px] justify-end items-start desktop:items-center mt-[30px]">
+          <div className="text-xs text-blue2 text-right desktop:w-[200px] pl-[15px] desktop:pl-0">Help us create a more complete dataset for offchain data.</div>
 
           <Link href={"https://github.com/ethismoney-xyz/data"} target="_blank" rel="noopener" className="w-[280px] h-[44px] bg-blue5 rounded-full flex items-center justify-center headline-md"><div>Add your institution here</div><Icon icon={"feather:chevron-right"} className="w-[24px] h-[24px]" /></Link>
         </div>

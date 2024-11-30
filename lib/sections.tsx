@@ -6,6 +6,7 @@ type SectionDef = {
   contentId: string;
   linkId: string;
   labelId: string;
+  mobileNavId: string;
 }
 
 export const Sections: SectionDef[] = [
@@ -17,6 +18,7 @@ export const Sections: SectionDef[] = [
     contentId: "second-content",
     linkId: "second-link",
     labelId: "second-label",
+    mobileNavId: "second-mobile-nav",
   },
   {
     label: "ETH is held as a store of value",
@@ -26,6 +28,7 @@ export const Sections: SectionDef[] = [
     contentId: "third-content",
     linkId: "third-link",
     labelId: "third-label",
+    mobileNavId: "third-mobile-nav",
   },
   {
     label: "ETH issuance is algorithmic",
@@ -35,14 +38,16 @@ export const Sections: SectionDef[] = [
     contentId: "fourth-content",
     linkId: "fourth-link",
     labelId: "fourth-label",
+    mobileNavId: "fourth-mobile-nav",
   },
   {
-    label: "ETH is Money because it is...",
+    label: "ETH is Money because...",
     icon: "gtp:eim-community",
     sectionId: "fifth-section",
     contentId: "fifth-content",
     linkId: "fifth-link",
     labelId: "fifth-label",
+    mobileNavId: "fifth-mobile-nav",
   },
   {
     label: "Get notified to join the community",
@@ -51,7 +56,7 @@ export const Sections: SectionDef[] = [
     contentId: "sixth-content",
     linkId: "sixth-link",
     labelId: "sixth-label",
-
+    mobileNavId: "sixth-mobile-nav",
   },
   {
     label: "Questions and Glossary",
@@ -61,7 +66,7 @@ export const Sections: SectionDef[] = [
     contentId: "seventh-content",
     linkId: "seventh-link",
     labelId: "seventh-label",
-
+    mobileNavId: "seventh-mobile-nav",
   }
 
 ];

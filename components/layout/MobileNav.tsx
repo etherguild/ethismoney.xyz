@@ -22,7 +22,7 @@ import { Sections } from "@/lib/sections";
 
 
 
-export default function SidebarContainer() {
+export default function MobileNav() {
 
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [activeSectionIndex, setActiveSectionIndex] = useState<number | null>(null);
@@ -30,18 +30,31 @@ export default function SidebarContainer() {
   const [scrollY, setScrollY] = useState(0);
   const [isResizing, setIsResizing] = useState(false);
 
-  // const [sectionOffsets, setSectionOffsets] = useState<{ [key: string]: number } | null>(null);
+  const [sectionOffsets, setSectionOffsets] = useState<{
+    [key: string]: {
+      start: number;
+      end: number;
+    }
+  } | null>(null);
 
-  // const applySectionOffsets = () => {
-  //   const newSectionOffsets: { [key: string]: number } = {};
-  //   Sections.forEach((section) => {
-  //     const element = document.getElementById(section.sectionId);
-  //     if (element) {
-  //       newSectionOffsets[section.sectionId] = element.offsetTop;
-  //     }
-  //   });
-  //   setSectionOffsets(newSectionOffsets);
-  // }
+  const applySectionOffsets = () => {
+    const newSectionOffsets: {
+      [key: string]: {
+        start: number;
+        end: number;
+      }
+    } = {};
+    Sections.forEach((section) => {
+      const element = document.getElementById(section.sectionId);
+      if (element) {
+        newSectionOffsets[section.sectionId] = {
+          start: element.offsetTop,
+          end: element.offsetTop + element.clientHeight,
+        }
+      }
+    });
+    setSectionOffsets(newSectionOffsets);
+  }
 
   useEffect(() => {
     const handleResize = () => {
@@ -49,7 +62,7 @@ export default function SidebarContainer() {
 
       setTimeout(() => {
         setIsResizing(false);
-        // applySectionOffsets();
+        applySectionOffsets();
       }, 100);
     };
 
@@ -64,7 +77,7 @@ export default function SidebarContainer() {
     window.addEventListener("scroll", handleScroll);
 
     // Apply section offsets
-    // applySectionOffsets();
+    applySectionOffsets();
     // Call the event handler once to apply the initial section offsets
     handleScroll();
 
@@ -75,60 +88,59 @@ export default function SidebarContainer() {
     };
   }, []);
 
-  // useEffect(() => {
-  //   // reset the active section when the scroll position is at the top
-  //   setActiveSection(null);
-  //   setActiveSectionIndex(null);
-  // }, []);
+  useEffect(() => {
+    // reset the active section when the scroll position is at the top
+    setActiveSection(null);
+    setActiveSectionIndex(null);
+  }, []);
 
   useEffect(() => {
     // reset the active section when the scroll position is at the top
     if (scrollY < 100) {
       setActiveSection(null);
       setActiveSectionIndex(null);
+    } else {
+      if (sectionOffsets) {
+        const sectionKeys = Object.keys(sectionOffsets);
+        for (let i = 0; i < sectionKeys.length; i++) {
+          const section = sectionKeys[i];
+          if (window.scrollY > sectionOffsets[section].start - 100) {
+            setActiveSection(section);
+            setActiveSectionIndex(i);
+          }
+        }
+      }
     }
-    //  else {
-    //   if (sectionOffsets) {
-    //     const sectionKeys = Object.keys(sectionOffsets);
-    //     for (let i = 0; i < sectionKeys.length; i++) {
-    //       const section = sectionKeys[i];
-    //       if (window.scrollY > sectionOffsets[section]) {
-    //         setActiveSection(section);
-    //         setActiveSectionIndex(i);
-    //       }
-    //     }
-    //   }
-    // }
   }, [scrollY]);
 
-  useGSAP(() => {
-    // increase the size of the section link when it is in view
-    gsap.registerPlugin(ScrollTrigger);
+  // useGSAP(() => {
+  //   // increase the size of the section link when it is in view
+  //   gsap.registerPlugin(ScrollTrigger);
 
-    // Section animations
-    Sections.forEach((section) => {
-      ScrollTrigger.create({
-        trigger: `#${section.sectionId}`,
-        start: "top center",
-        end: "bottom center",
-        onEnter: () => {
-          setActiveSection(section.sectionId);
-          setActiveSectionIndex(Sections.findIndex(s => s.sectionId === section.sectionId));
+  //   // Section animations
+  //   Sections.forEach((section) => {
+  //     ScrollTrigger.create({
+  //       trigger: `#${section.sectionId}`,
+  //       start: "top 0%",
+  //       end: "bottom 100%",
+  //       onEnter: () => {
+  //         setActiveSection(section.sectionId);
+  //         setActiveSectionIndex(Sections.findIndex(s => s.sectionId === section.sectionId));
 
-        },
-        onEnterBack: () => {
-          setActiveSection(section.sectionId);
-          setActiveSectionIndex(Sections.findIndex(s => s.sectionId === section.sectionId));
-        }
-      });
-    });
+  //       },
+  //       onEnterBack: () => {
+  //         setActiveSection(section.sectionId);
+  //         setActiveSectionIndex(Sections.findIndex(s => s.sectionId === section.sectionId));
+  //       }
+  //     });
+  //   });
 
-    // Cleanup function
-    return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-    };
+  //   // Cleanup function
+  //   return () => {
+  //     ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+  //   };
 
-  }, []);
+  // }, []);
 
   // the active section's nav link should move with the section's topoffset
   useGSAP(() => {
@@ -217,217 +229,164 @@ export default function SidebarContainer() {
 
   const mobileNavRef = useRef<HTMLDivElement>(null);
 
-  // useEffect(() => {
-  //   if (mobileNavRef.current) {
-  //     if (activeSection === null) {
-  //       const firstMobileNavElement = document.getElementById("first-mobile-nav");
-  //       if (!firstMobileNavElement)
-  //         return;
-  //       mobileNavRef.current.scrollTo({
-  //         left: firstMobileNavElement.offsetLeft - (mobileNavRef.current.clientWidth / 2) + (firstMobileNavElement.clientWidth / 2),
-  //         behavior: "smooth",
-  //       });
-  //     } else {
-  //       const mobildNavId = Sections[activeSectionIndex || 0].mobileNavId;
-  //       const mobileNavElement = document.getElementById(mobildNavId);
-  //       if (mobileNavElement) {
-  //         // scroll so it is centered
-  //         mobileNavRef.current.scrollTo({
-  //           left: mobileNavElement.offsetLeft - (mobileNavRef.current.clientWidth / 2) + (mobileNavElement.clientWidth / 2),
-  //           behavior: "smooth",
-  //         });
-  //       } else {
-  //         const firstMobileNavElement = document.getElementById("first-mobile-nav");
-  //         if (!firstMobileNavElement)
-  //           return;
-  //         mobileNavRef.current.scrollTo({
-  //           left: firstMobileNavElement.offsetLeft - (mobileNavRef.current.clientWidth / 2) + (firstMobileNavElement.clientWidth / 2),
-  //           behavior: "smooth",
-  //         });
-  //       }
+  useEffect(() => {
+    if (mobileNavRef.current) {
+      if (activeSection === null) {
+        const firstMobileNavElement = document.getElementById("first-mobile-nav");
+        if (!firstMobileNavElement)
+          return;
+        mobileNavRef.current.scrollTo({
+          left: firstMobileNavElement.offsetLeft - (mobileNavRef.current.clientWidth / 2) + (firstMobileNavElement.clientWidth / 2),
+          behavior: "smooth",
+        });
+      } else {
+        const mobildNavId = Sections[activeSectionIndex || 0].mobileNavId;
+        const mobileNavElement = document.getElementById(mobildNavId);
+        if (mobileNavElement) {
+          // scroll so it is centered
+          mobileNavRef.current.scrollTo({
+            left: mobileNavElement.offsetLeft - (mobileNavRef.current.clientWidth / 2) + (mobileNavElement.clientWidth / 2),
+            behavior: "smooth",
+          });
+        } else {
+          const firstMobileNavElement = document.getElementById("first-mobile-nav");
+          if (!firstMobileNavElement)
+            return;
+          mobileNavRef.current.scrollTo({
+            left: firstMobileNavElement.offsetLeft - (mobileNavRef.current.clientWidth / 2) + (firstMobileNavElement.clientWidth / 2),
+            behavior: "smooth",
+          });
+        }
 
-  //     }
-  //   }
-  // }, [activeSection]);
+      }
+    }
+  }, [activeSection]);
 
   return (
     <>
-      <div className="hidden desktop:block w-[150px] pr-[3px] z-[100] overflow-visible bg-white/0 text-black">
-        <div className=" sticky top-0 left-0 pt-[50px] pl-[80px] min-h-screen max-h-screen hidden md:flex flex-col overflow-visible gap-y-[36px]">
-          <div className="select-none flex flex-col gap-y-[30px] w-full items-center">
-            {/* spacer for header row */}
-            <div className="h-[44px]"></div>
-            <div className="flex items-center justify-start gap-x-[30px]">
-              <div className={`group logo-container flex items-center relative ${scrollY > 100 && "-translate-y-[74px]"} transition-all duration-300 z-[1000]`}>
-                <div
-                  // href="#first-section"
-                  id="first-section-link"
-                  className={`relative flex logo ${scrollY > 100 && "scales-[25%]"} transition-all duration-300 cursor-default`}
-
-                >
-                  <div className={`overflow-visible flex items-center justify-center ${scrollY > 100 ? "size-[32px]" : "size-[128px]"} relative cursor-pointer`}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      // scroll into view top of page, smooth
-                      window.scrollTo({ top: 0, behavior: "smooth" });
-
-                    }}
-                  >
-                    <Image src="/eth-is-money-logo.svg"
-                      alt="ETH is Money logo"
-                      width={128}
-                      height={128}
-                      priority
-                      className={`object-contain block ${scrollY > 100 && "group-hover:hidden"}`}
-                    />
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" className={`hidden ${scrollY > 100 && "group-hover:block"}`}>
-                      <path d="M10.2281 11.6552H13.5485C14.8945 11.6552 15.6298 10.1722 14.7681 9.19546L10.2198 4.03961C9.58512 3.32013 8.41532 3.32013 7.78062 4.03961L3.23232 9.19546C2.37064 10.1722 3.10593 11.6552 4.45192 11.6552H7.77249L7.77249 18H10.2198L10.2281 11.6552Z" fill="#F1F9FC" />
-                      <path d="M0 0.5C0 0.223858 0.223858 0 0.5 0H17.5C17.7761 0 18 0.223858 18 0.5V1.5C18 1.77614 17.7761 2 17.5 2H0.5C0.223858 2 0 1.77614 0 1.5V0.5Z" fill="#F1F9FC" />
-                    </svg>
-                  </div>
-                  {/* on group hover, show the label when the section is not active and our scrollY is > 300 */}
-                  <div className={`absolute z-[-1] -left-[5px] -top-[5px] -bottom-[5px] opacity-0 pointer-events-none group-hover:pointer-events-auto ${scrollY > 100 && "group-hover:opacity-100"}`}>
-                    <div className="flex gap-x-[10px] items-center pl-[5px] pr-[5px] rounded-full w-full h-full bg-[#B7DDE8] whitespace-nowrap">
-                      <div
-                        className="bg-eth-logo flex items-center justify-center rounded-full transition-all duration-300 cursor-pointer"
-                        style={{
-                          width: `32px`,
-                          height: `32px`,
-                        }} >
-                        <div className={`overflow-visible w-[32px] h-[32px] relative`}>
-                        </div>
-                      </div>
-                      <div className="headline-md" style={{ paddingRight: activeSectionIndex === 0 ? 10 : 0 }}>
-                        Back to top
-                      </div>
-                      {Sections.slice(0, activeSectionIndex || 0).map((section, index) => (
-                        <div
-                          key={section.sectionId}
-                          className="rounded-full bg-eth-logo flex items-center justify-center w-[32px] h-[32px] group-hover:pointer-events-auto cursor-pointer"
-                          onClick={() => {
-                            const element = document.getElementById(section.sectionId);
-                            if (element) {
-                              element.scrollIntoView({ behavior: "smooth" });
-                            }
-                          }}
-                        >
-                          <Icon icon={`${section.icon}-monochrome`} className="text-ice" />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                <div className={`absolute -right-[30px] ${scrollY > 100 && "group-hover:opacity-0"} transition-opacity duration-100`}>
-                  <div className={`logo-title flex gap-x-[30px] items-center group-hover:pointer-events-none ${scrollY > 100 ? "translate-x-[20px] scale-[23.07%] text-[#B0B7C3]" : "scale-100 text-blue1"} transition-all duration-300`}>
-                    <ETHisMoneyTitle />
-                  </div>
-                </div>
+      <div className="fixed top-[100px] right-0">
+        {sectionOffsets && Object.keys(sectionOffsets).length > 0 && (
+          <div>
+            {Object.keys(sectionOffsets).map((section, index) => (
+              <div key={section} className="flex gap-1">
+                <div>{section}:</div>
+                <div>{sectionOffsets[section].start} - {sectionOffsets[section].end}</div>
               </div>
+            ))}
+          </div>
+        )}
+      </div>
+      <div
+        className="block desktop:hidden fixed bottom-0 left-0 right-0 z-[50] pb-safe-bottom"
+        style={{
+
+          // backgroundSize: "100% 6317px",
+          // backgroundPosition: "0px -100dvh",
+
+          background: `linear-gradient(
+            176.28deg,
+            #b7dde8 -4.56%,
+            #f1f9fc 11.24%,
+            #f1f9fc 27.05%
+          ) 0% -100vh / 100% 6317px`,
+          // backdrop blur
+          // backdropFilter: "blur(10px)",
+          transition: "background 0.3s",
+
+        }}
+      >
+        <div
+          ref={mobileNavRef}
+          className="overflow-x-auto"
+          style={{
+            scrollSnapType: "x mandatory",
+            scrollSnapDestination: "0% 0%",
+            scrollSnapPointsX: "repeat(100%)",
+            scrollSnapTypeX: "mandatory",
+            scrollBehavior: "smooth",
+            // hide scrollbar
+            scrollbarWidth: "none",
+          }}
+
+        >
+          <div
+            id="mobile-nav-container"
+            // padding bottom should be 15px unless the mobile browser's nav bar isn't visible
+            className="flex flex-row w-fit gap-x-[30px] py-[15px]"
+            style={{
+              paddingLeft: `calc(50dvw + 48px)`,
+              paddingRight: `calc(50dvw + 48px)`,
+              overscrollBehavior: "contain",
+            }}
+            // onMouseEnter={() => {
+            //   // prevent page scroll
+            //   document.body.style.overflow = "hidden";
+            // }}
+            // onMouseLeave={() => {
+            //   document.body.style.overflow = "auto";
+            // }}
+            onWheel={(e) => {
+              // scroll horizontally
+              e.preventDefault();
+              e.stopPropagation();
+
+              // prevent page scroll
+
+              const container = mobileNavRef.current;
+
+              if (container) {
+                container.scrollLeft += e.deltaY;
+              }
+
+            }}
+
+          >
+            <div
+              id="first-mobile-nav"
+              className={`flex items-center justify-center size-[48px] cursor-pointer rounded-full transition-all duration-300 ${activeSection === null ? "bg-eth-logo text-ice" : "bg-white text-eth-logo"}`}
+              onClick={() => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+            >
+              {activeSection === null ?
+                (<Image src="/eth-is-money-logo.svg"
+                  alt="ETH is Money logo"
+                  width={48}
+                  height={48}
+                  priority
+                  className={`object-contain block`}
+                />) : (
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10.2281 11.6552H13.5485C14.8945 11.6552 15.6298 10.1722 14.7681 9.19546L10.2198 4.03961C9.58512 3.32013 8.41532 3.32013 7.78062 4.03961L3.23232 9.19546C2.37064 10.1722 3.10593 11.6552 4.45192 11.6552H7.77249L7.77249 18H10.2198L10.2281 11.6552Z" fill="currentColor" />
+                    <path d="M0 0.5C0 0.223858 0.223858 0 0.5 0H17.5C17.7761 0 18 0.223858 18 0.5V1.5C18 1.77614 17.7761 2 17.5 2H0.5C0.223858 2 0 1.77614 0 1.5V0.5Z" fill="currentColor" />
+                  </svg>
+                )}
             </div>
-            <div className="h-[106px]" />
-            {/* Navigation Items */}
-            <div id="cycle-animated-nav-items" className={`relative flex flex-col transition-all duration-300`}>
-              {!isResizing && Sections.slice(activeSectionIndex || 0).filter((section, index) => scrollY < 300 && index > 2 ? false : true).map((section, index) => {
-                // if (scrollY < 300 && index > 2) {
-                //   return null;
-                // }
 
-                const buttonSize = activeSection === section.sectionId || (activeNavAnimationIndex == index && scrollY < 300) ? 64 : 32;
-                const iconSize = activeSection === section.sectionId || (activeNavAnimationIndex == index && scrollY < 300) ? 36 : 18;
-
-                const wasActiveNavItem = (activeNavAnimationIndex < index && scrollY < 300) || scrollY > 300 && index > 0;
-                const butonTop = wasActiveNavItem ? index * 64 + 30 : index * 64;
-                const left = -buttonSize / 2;
-
-                let translateY = 0;
-
-                if (scrollY > 100) {
-                  translateY -= 96;
-                  if (index == 0) {
-                    translateY -= 96;
+            {Sections.map((section, index) => (
+              <div
+                key={section.sectionId}
+                id={section.mobileNavId}
+                className={`flex items-center justify-center size-[48px] cursor-pointer rounded-full transition-all duration-300 ${activeSection === section.sectionId ? "bg-eth-logo" : "bg-white"}`}
+                onClick={() => {
+                  const element = document.getElementById(section.sectionId);
+                  if (element) {
+                    element.scrollIntoView({ behavior: "smooth", block: "start" });
                   }
-                }
-
-                return (
-                  <div key={section.sectionId}>
-                    <div
-                      className={`z-[2] group absolute bg-eth-logo flex items-center justify-center rounded-full transition-all duration-300 cursor-pointer`}
-                      style={{
-                        transform: `translateY(${translateY}px)`,
-                        top: `${butonTop}px`,
-                        left: `${left}px`,
-                        width: `${buttonSize}px`,
-                        height: `${buttonSize}px`,
-                      }}
-                      onMouseEnter={() => handleNavItemHover(index)}
-                      onMouseLeave={handleNavItemLeave}
-                      onClick={() => {
-                        const element = document.getElementById(section.sectionId);
-                        if (element) {
-                          element.scrollIntoView({ behavior: "smooth" });
-                        }
-                      }}
-                    >
-                      <Icon
-                        icon={`${section.icon}-monochrome`}
-                        className="text-ice transition-all duration-300"
-                        style={{
-                          width: `${iconSize}px`,
-                          height: `${iconSize}px`,
-                        }}
-                      />
-                      {/* on group hover, show the label when the section is not active and our scrollY is > 300 */}
-                      <div className={`absolute z-[-1] -left-[5px] -top-[5px] -bottom-[5px] opacity-0 pointer-events-none ${scrollY > 300 && index !== 0 && "group-hover:opacity-100"}`}>
-                        <div className="flex gap-x-[10px] items-center pl-[5px] pr-[15px] rounded-full w-full h-full bg-[#B7DDE8] whitespace-nowrap">
-                          <div
-                            className="bg-eth-logo flex items-center justify-center rounded-full transition-all duration-300 cursor-pointer"
-                            style={{
-                              width: `${buttonSize}px`,
-                              height: `${buttonSize}px`,
-                            }} >
-                            <Icon
-                              icon={`${section.icon}-monochrome`}
-                              className="text-ice transition-all duration-300"
-                              style={{
-                                width: `${iconSize}px`,
-                                height: `${iconSize}px`,
-                              }}
-                            />
-                          </div>
-                          <div className="headline-md">
-                            {section.label}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      key={section.sectionId}
-                      className={`absolute flex items-center justify-start transition-all duration-300 ${scrollY < 300 ? "opacity-100 cursor-pointer" : "opacity-0 pointer-events-none"} `}
-                      style={{
-                        top: `${butonTop}px`,
-                        left: `67px`,
-                        // width: `${buttonSize}px`,
-                        height: `${buttonSize}px`,
-                      }}
-                      onMouseEnter={() => handleNavItemHover(index)}
-                      onMouseLeave={handleNavItemLeave}
-                      onClick={() => {
-                        const element = document.getElementById(section.sectionId);
-                        if (element) {
-                          element.scrollIntoView({ behavior: "smooth" });
-                        }
-                      }}
-                    >
-                      <div className={`relative left-0 whitespace-nowrap flex gap-x-[30px] items-center text-blue1 ${(activeNavAnimationIndex == index && scrollY < 300) ? "highlight-text-xl" : "text-xl"} transition-all duration-300`}>
-                        {section.label}
-                      </div>
-                    </div >
-                  </div>
-                )
-              })}
-            </div>
-          </div >
-        </div >
+                }}
+              >
+                <Icon
+                  icon={`${section.icon}-monochrome`}
+                  className={`transition-all duration-300 ${activeSection === section.sectionId ? "text-ice" : "text-eth-logo"}`}
+                  style={{
+                    width: "24px",
+                    height: "24px",
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </>
   );

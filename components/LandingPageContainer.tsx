@@ -31,7 +31,7 @@ export default function Section({
             // className="max-w-[100vw]"
             style={{ scrollSnapAlign: "start" }}
         >
-            <div id={`${name}-content`} className={`w-full flex flex-col gap-y-[30px] pt-[126px] pb-[50px] desktop:pl-[0px] desktop:pr-[50px] ${className || ""}`} style={{ height: !isMobile && height ? height : undefined }}>
+            <div id={`${name}-content`} className={`w-full flex flex-col gap-y-[30px] pb-[30px] pt-[30px] desktop:pt-[126px] desktop:pb-[50px] desktop:pl-[0px] desktop:pr-[50px] ${className || ""}`} style={{ height: !isMobile && height ? height : undefined }}>
                 {(head || subhead || desc) && (
                     <div className="flex flex-col px-[15px] desktop:px-0">
                         {/* Head */}

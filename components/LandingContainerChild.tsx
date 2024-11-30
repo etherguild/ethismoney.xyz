@@ -1,3 +1,4 @@
+import { useUIContext } from "@/contexts/UIContext";
 import React from "react";
 import { CSS } from "react-spring";
 
@@ -15,9 +16,10 @@ export default function LandingPageContainer({
     height,
     className,
 }: LandingContainerChildProps): JSX.Element {
+    const { isMobile } = useUIContext();
     return (
         <div className={`w-full flex flex-col gap-y-[10px] ${className || ""}`} style={{
-            height: height ? `${height}px` : "auto",
+            height: height && !isMobile ? `${height}px` : "auto",
         }}>
 
             {/* Head */}

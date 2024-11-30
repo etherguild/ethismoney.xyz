@@ -12,6 +12,7 @@ import {
 import Highcharts from "highcharts/highstock";
 import { useLocalStorage } from 'usehooks-ts';
 import { useEffect, useState } from 'react';
+import { useUIContext } from '@/contexts/UIContext';
 const COLORS = {
   GRID: "rgb(161, 196, 209)",
   PLOT_LINE: "rgb(161, 196, 209)",
@@ -24,21 +25,26 @@ const COLORS = {
 
 
 export default function ExportChart() {
-
+  // const { isMobile } = useUIContext();
   const { data, selectedEntity, setSelectedEntity } = useEthExport();
 
   const [showUsd, setShowUsd] = useLocalStorage("showUsd", false);
 
   const dataKey = data ? data.data.chart[selectedEntity].daily.types.indexOf(showUsd ? "usd" : "eth") : 1;
 
+  const MobileMaxWidth = 1117;
   const [isResizing, setIsResizing] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+
     const handleResize = () => {
       setIsResizing(true);
 
       setTimeout(() => {
         setIsResizing(false);
+        const width = window.innerWidth;
+        setIsMobile(width <= MobileMaxWidth);
       }, 100);
     };
 
@@ -52,7 +58,8 @@ export default function ExportChart() {
   }, []);
 
 
-  if (isResizing) {
+  if (isResizing && !isMobile) {
+    // if (isResizing) {
     return (
       <div className="flex justify-center items-center h-screen w-screen">
         {/* <div className="text-2xl">Resizing...</div> */}
@@ -64,8 +71,8 @@ export default function ExportChart() {
   return (
     <div className="flex flex-col gap-y-[10px] w-full h-full">
       <div className="flex items-center gap-x-[10px]">
-        <h3 className="headline-xl !leading-[41px] flex text-blue2 gap-x-[5px]">
-          ETH exported{selectedEntity !== 'total' && <>  to <div className="text-blue1">{data?.data.entities[selectedEntity].name}</div></>}
+        <h3 className="headline-lg leading-[33px] desktop:headline-xl desktop:leading-[41px] flex text-blue2 gap-x-[5px]">
+          ETH exported{selectedEntity !== 'total' && <>  to <span className="text-blue1">{data?.data.entities[selectedEntity].name}</span></>}
         </h3>
         {selectedEntity !== 'total' && (
           <button

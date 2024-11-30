@@ -16,6 +16,7 @@ import { useEthSupply } from "../EthSupply/EthSupplyContext";
 import { useEffect, useMemo, useState } from "react";
 import LandingContainerChild from "@/components/LandingContainerChild";
 import { Event } from "@/types/api/EthSupplyResponse";
+import { useUIContext } from "@/contexts/UIContext";
 const COLORS = {
   GRID: "rgb(161, 196, 209)",
   PLOT_LINE: "rgb(161, 196, 209)",
@@ -27,6 +28,7 @@ const COLORS = {
 
 
 export default function IssuanceRateChart() {
+  // const { isMobile } = useUIContext();
   const { data, hoveredEventIndex, activeEventIndex, setChartTitle } = useEthSupply();
 
   const eventFlags = useMemo(() => {
@@ -49,7 +51,9 @@ export default function IssuanceRateChart() {
     }
   }, [data]);
 
+  const MobileMaxWidth = 1117;
   const [isResizing, setIsResizing] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -57,6 +61,8 @@ export default function IssuanceRateChart() {
 
       setTimeout(() => {
         setIsResizing(false);
+        const width = window.innerWidth;
+        setIsMobile(width <= MobileMaxWidth);
       }, 100);
     };
 
@@ -70,7 +76,8 @@ export default function IssuanceRateChart() {
   }, []);
 
 
-  if (isResizing) {
+  // if (isResizing && !isMobile) {
+  if (isResizing && !isMobile) {
     return (
       <div className="flex justify-center items-center h-screen w-screen">
         {/* <div className="text-2xl">Resizing...</div> */}

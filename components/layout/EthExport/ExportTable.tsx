@@ -58,7 +58,6 @@ export default function ExportTable() {
         <GridTableHeaderCell justify='center' className='gap-x-[5px]'>
           UoA<Tooltip allowInteract={true} placement="right"><TooltipTrigger><Icon icon={'feather:info'} /></TooltipTrigger><TooltipContent className="p-[11px] text-xs bg-ice  text-blue1 rounded-xl shadow-lg flex flex-col z-[51]">
             <div>Chain uses ETH for transaction fees and prices fees in ETH.</div>
-
           </TooltipContent></Tooltip></GridTableHeaderCell>
         <GridTableHeaderCell>Type</GridTableHeaderCell>
         <GridTableHeaderCell justify='end'>ETH exported</GridTableHeaderCell>
