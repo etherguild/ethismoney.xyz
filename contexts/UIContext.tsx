@@ -14,9 +14,9 @@ export type EmbedData = {
 
 type UIContextState = {
   isMobile: boolean;
-  // isMobileSidebarOpen: boolean;
-  // toggleMobileSidebar: () => void;
-  // isSafariBrowser: boolean;
+  isMobileSidebarOpen: boolean;
+  toggleMobileSidebar: () => void;
+  isSafariBrowser: boolean;
   isDragging: boolean;
   setIsDragging: (isDragging: boolean) => void;
   dragChartId: string;
@@ -26,9 +26,9 @@ type UIContextState = {
 
 const UIContext = createContext<UIContextState>({
   isMobile: false,
-  // isMobileSidebarOpen: false,
-  // toggleMobileSidebar: () => { },
-  // isSafariBrowser: false,
+  isMobileSidebarOpen: false,
+  toggleMobileSidebar: () => { },
+  isSafariBrowser: false,
   isDragging: false,
   setIsDragging: () => { },
   dragChartId: "",
@@ -41,9 +41,9 @@ export const useUIContext = () => useContext(UIContext);
 export const UIContextProvider = ({ children }) => {
   const [state, setState] = useState<UIContextState>({
     isMobile: false,
-    // isMobileSidebarOpen: false,
-    // toggleMobileSidebar: () => { },
-    // isSafariBrowser: false,
+    isMobileSidebarOpen: false,
+    toggleMobileSidebar: () => { },
+    isSafariBrowser: false,
     isDragging: false,
     setIsDragging: () => { },
     dragChartId: "",
@@ -68,15 +68,15 @@ export const UIContextProvider = ({ children }) => {
 
   useEffect(() => {
     // This effect will run only in the browser, where window is defined.
-    // const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
     const isMobileSize = window.innerWidth < 1118;
 
 
 
     setState(prevState => ({
       ...prevState,
-      // isSafariBrowser: isSafari,
-      // isSidebarOpen: window.innerWidth >= 1280,
+      isSafariBrowser: isSafari,
+      isSidebarOpen: window.innerWidth >= 1280,
       isMobile: isMobileSize,
       lastWindowWidth: window.innerWidth,
     }));
@@ -114,11 +114,11 @@ export const UIContextProvider = ({ children }) => {
   //   }
   // }, [state.isMobileSidebarOpen, state.isMobile]);
 
-  // const toggleMobileSidebar = () => setState(prevState => ({ ...prevState, isMobileSidebarOpen: !prevState.isMobileSidebarOpen }));
+  const toggleMobileSidebar = () => setState(prevState => ({ ...prevState, isMobileSidebarOpen: !prevState.isMobileSidebarOpen }));
 
   const contextValue = {
     ...state,
-    // toggleMobileSidebar,
+    toggleMobileSidebar,
     scrollPosition,
   };
 
@@ -128,7 +128,7 @@ export const UIContextProvider = ({ children }) => {
 
     setState(prevState => ({
       ...prevState,
-      // isSafariBrowser: isSafari,
+      isSafariBrowser: isSafari,
     }));
   }, []);
 
