@@ -175,7 +175,7 @@ export default function FirstSection() {
           </div>
         </div>
         <div id="cycle-animated-nav-items" className={`px-[15px] h-[175px] w-full relative flex flex-col gap-y-[15px] transition-all duration-300`}>
-          {!isResizing && Sections.slice(0, 3).map((section, index) => {
+          {Sections.slice(0, 3).map((section, index) => {
             // if (scrollY < 300 && index > 2) {
             //   return null;
             // }
