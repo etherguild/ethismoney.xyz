@@ -37,16 +37,22 @@ export default function ExportChart() {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    const CheckMobile = () => {
+      const width = window.innerWidth;
+      setIsMobile(width <= MobileMaxWidth);
+    };
 
     const handleResize = () => {
       setIsResizing(true);
 
       setTimeout(() => {
         setIsResizing(false);
-        const width = window.innerWidth;
-        setIsMobile(width <= MobileMaxWidth);
+        CheckMobile();
       }, 100);
     };
+
+    // Initial check
+    CheckMobile();
 
     // Add event listener
     window.addEventListener("resize", handleResize);
@@ -61,9 +67,7 @@ export default function ExportChart() {
   if (isResizing && !isMobile) {
     // if (isResizing) {
     return (
-      <div className="flex justify-center items-center h-screen w-screen">
-        {/* <div className="text-2xl">Resizing...</div> */}
-      </div>
+      <></>
     )
   }
 
@@ -71,17 +75,30 @@ export default function ExportChart() {
   return (
     <div className="flex flex-col gap-y-[10px] w-full h-full">
       <div className="flex items-center gap-x-[10px]">
-        <h3 className="headline-lg leading-[33px] desktop:headline-xl desktop:leading-[41px] flex text-blue2 gap-x-[5px]">
-          ETH exported{selectedEntity !== 'total' && <>  to <span className="text-blue1">{data?.data.entities[selectedEntity].name}</span></>}
-        </h3>
-        {selectedEntity !== 'total' && (
+        <div className="headline-lg leading-[33px] desktop:headline-xl desktop:leading-[41px] text-blue2 gap-x-[5px] flex">
+          <div className='whitespace-nowrap'>
+            ETH exported{selectedEntity !== 'total' && <>  to</>}
+          </div>
+          {selectedEntity !== 'total' &&
+            <div className="flex items-center gap-x-[5px] text-blue1 whitespace-nowrap">
+              <div className="text-blue1">{data?.data.entities[selectedEntity].name}</div>
+              <button
+                onClick={() => setSelectedEntity('total')}
+                className="flex items-center gap-x-[5px] text-blue1"
+              >
+                <CloseIcon />
+              </button>
+            </div>
+          }
+        </div>
+        {/* {selectedEntity !== 'total' && (
           <button
             onClick={() => setSelectedEntity('total')}
             className="flex items-center gap-x-[5px] text-blue1"
           >
             <CloseIcon />
           </button>
-        )}
+        )} */}
       </div>
       <div className="relative h-full w-full pt-[43px]">
         {data && (
@@ -141,7 +158,7 @@ export default function ExportChart() {
                 style={{ borderRadius: 15 }}
                 animation={{ duration: 50 }}
                 // margin={[0, 15, 0, 0]} // Use the array form for margin
-                margin={[10, 10, 34, 30]}
+                margin={[10, 0, 34, 30]}
 
                 height={337}
                 onRender={(chart) => {

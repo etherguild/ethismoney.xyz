@@ -264,7 +264,7 @@ export default function MobileNav() {
 
   return (
     <>
-      <div className="fixed top-[100px] right-0">
+      {/* <div className="fixed top-[100px] right-0">
         {sectionOffsets && Object.keys(sectionOffsets).length > 0 && (
           <div>
             {Object.keys(sectionOffsets).map((section, index) => (
@@ -275,9 +275,9 @@ export default function MobileNav() {
             ))}
           </div>
         )}
-      </div>
+      </div> */}
       <div
-        className="block desktop:hidden fixed bottom-0 left-0 right-0 z-[50] pb-safe-bottom"
+        className={`block desktop:hidden fixed bottom-0 left-0 right-0 z-[50] pb-safe-bottom transition-all duration-300 ${scrollY < 100 ? "opacity-0" : "opacity-100"}`}
         style={{
 
           // backgroundSize: "100% 6317px",
@@ -291,7 +291,6 @@ export default function MobileNav() {
           ) 0% -100vh / 100% 6317px`,
           // backdrop blur
           // backdropFilter: "blur(10px)",
-          transition: "background 0.3s",
 
         }}
       >
@@ -327,7 +326,6 @@ export default function MobileNav() {
             // }}
             onWheel={(e) => {
               // scroll horizontally
-              e.preventDefault();
               e.stopPropagation();
 
               // prevent page scroll
@@ -371,7 +369,9 @@ export default function MobileNav() {
                 onClick={() => {
                   const element = document.getElementById(section.sectionId);
                   if (element) {
-                    element.scrollIntoView({ behavior: "smooth", block: "start" });
+                    const offset = element.offsetTop;
+                    window.scrollTo({ top: offset - 50, behavior: "smooth" });
+                    // element.scrollIntoView({ behavior: "smooth", block: "start" });
                   }
                 }}
               >

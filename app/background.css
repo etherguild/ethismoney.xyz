@@ -17,6 +17,9 @@
   background-size: 2027px 565px;
   background-position: 50% 202px;
   background-repeat: no-repeat;
+  @media (max-width: 1117px) {
+    background-position: 24% 202px;
+  }
 }
 
 .background-gradient-group {

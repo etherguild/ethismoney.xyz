@@ -153,7 +153,7 @@ module.exports = {
         headline: {
           fontFamily: theme("fontFamily.manrope"),
           fontWeight: "800", // bold
-          lineHeight: "120%",
+          lineHeight: "1.375",
         },
 
         "highlight-text": {
@@ -224,7 +224,7 @@ module.exports = {
           xs: "120%",
           sm: "133%",
           md: "133%",
-          "xl-link": "30px",
+          "xl-link": "41px",
           xxl: "48px",
         },
         "highlight-text": {

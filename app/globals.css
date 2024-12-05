@@ -29,13 +29,13 @@
 }
 
 html {
-  scroll-behavior: smooth;
   font-feature-settings: "pnum" on, "lnum" on;
 }
 
 @media (min-width: 1180px) {
   html {
     scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
   }
 }
 

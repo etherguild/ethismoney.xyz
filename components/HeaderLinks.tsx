@@ -21,7 +21,7 @@ export default function HeaderLinks() {
           });
         }}
       >
-        <Icon icon="gtp:x-monochrome" className={`size-[24px] ${scrollPosition < 100 ? "desktop:size-[36px]" : "desktop:size-[32px]"} text-blue1 transition-all duration-300 ease-out `} />
+        <Icon icon="gtp:x-monochrome" className={`${scrollPosition < 100 ? "size-[39px] desktop:size-[42px]" : "size-[26px] desktop:size-[30px]"} text-blue1 transition-all duration-300 ease-out `} />
       </Link>
 
     </>

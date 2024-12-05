@@ -51,7 +51,7 @@ export default function ExportTable() {
 
     <>
       <GridTableHeader
-        gridDefinitionColumns="grid-cols-[145px_59px_minmax(94px,1000px)_92px]"
+        gridDefinitionColumns="grid-cols-[145px_59px_minmax(50px,1000px)_92px]"
         className="sticky top-0 text-[14px] !font-bold z-[2] !py-0 pl-[10px] !pr-[calc(20px+30px)] select-none h-[30px]"
       >
         <GridTableHeaderCell justify='start'>ETHconomies</GridTableHeaderCell>
@@ -74,7 +74,7 @@ export default function ExportTable() {
             return (
               <GridTableRow
                 key={index}
-                gridDefinitionColumns="grid-cols-[145px_59px_minmax(94px,1000px)_92px]"
+                gridDefinitionColumns="grid-cols-[145px_59px_minmax(50px,1000px)_92px]"
                 className={`w-full h-[34px] !pl-[10px] !pr-[20px] hover:bg-white/60 tansition-all duration-300 ${opacityClass}`}
                 onClick={() => {
                   if (selectedEntity === entity) {
@@ -115,7 +115,7 @@ export default function ExportTable() {
           return (
             <GridTableRow
               key={index}
-              gridDefinitionColumns="grid-cols-[145px_59px_minmax(94px,1000px)_92px]"
+              gridDefinitionColumns="grid-cols-[145px_59px_minmax(50px,1000px)_92px]"
               className={`w-full h-[34px] !pl-[10px] !pr-[20px] hover:bg-white/60 tansition-all duration-300 font-bold ${opacityClass}`}
               onClick={() => {
                 if (selectedEntity === entity) {

@@ -22,10 +22,10 @@ export const EthHoldersSection = () => {
     >
       <div className="w-full mx-auto desktop:w-auto desktop:mx-0">
         <div className="overflow-auto px-[15px] pb-[15px] desktop:pb-0 desktop:px-0">
-          <div className='min-w-[800px]'>
+          <div className='min-w-[700px]'>
             <>
               <GridTableHeader
-                gridDefinitionColumns="grid-cols-[250px_130px_130px_minmax(145px,1000px)]"
+                gridDefinitionColumns="grid-cols-[250px_110px_110px_minmax(145px,1000px)]"
                 className="text-[14px] !font-bold z-[2] !py-0 !pl-[10px] !pr-[calc(20px+30px)] select-none h-[30px]"
               >
                 <GridTableHeaderCell
@@ -60,7 +60,7 @@ export const EthHoldersSection = () => {
                     return (
                       <GridTableRow
                         key={index}
-                        gridDefinitionColumns="grid-cols-[250px_130px_130px_minmax(145px,1000px)]"
+                        gridDefinitionColumns="grid-cols-[250px_110px_110px_minmax(145px,1000px)]"
                         className={`w-full h-[34px] !pl-[10px] !pr-[20px] hover:bg-white/60 tansition-all duration-300`}
 
                       >
@@ -107,7 +107,7 @@ const HolderSelect = () => {
   const { holderFilter, setHolderFilter, holderTypeLabels, holderTypes } = useEthHolders();
 
   return (
-    <div className="flex flex-wrap gap-x-[10px] select-none text-eth-logo headline-xl-link">
+    <div className="flex flex-wrap gap-x-[10px] select-none text-eth-logo headline-lg desktop:headline-xl-link">
       {holderTypes.map((holderType, index) => (
         <div key={holderType} className="flex">
           <div

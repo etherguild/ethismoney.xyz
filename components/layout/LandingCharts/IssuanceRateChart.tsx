@@ -56,15 +56,22 @@ export default function IssuanceRateChart() {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    const CheckMobile = () => {
+      const width = window.innerWidth;
+      setIsMobile(width <= MobileMaxWidth);
+    };
+
     const handleResize = () => {
       setIsResizing(true);
 
       setTimeout(() => {
         setIsResizing(false);
-        const width = window.innerWidth;
-        setIsMobile(width <= MobileMaxWidth);
+        CheckMobile();
       }, 100);
     };
+
+    // Initial check
+    CheckMobile();
 
     // Add event listener
     window.addEventListener("resize", handleResize);
@@ -79,9 +86,7 @@ export default function IssuanceRateChart() {
   // if (isResizing && !isMobile) {
   if (isResizing && !isMobile) {
     return (
-      <div className="flex justify-center items-center h-screen w-screen">
-        {/* <div className="text-2xl">Resizing...</div> */}
-      </div>
+      <></>
     )
   }
 
@@ -175,7 +180,7 @@ export default function IssuanceRateChart() {
               zooming={{ type: undefined }}
               style={{ borderRadius: 15 }}
               animation={{ duration: 50 }}
-              margin={[10, 40, 34, 40]}
+              margin={[10, 0, 34, 40]}
               height={361}
             />
             <Tooltip

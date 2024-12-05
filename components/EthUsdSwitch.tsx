@@ -58,13 +58,13 @@ export default function EthUsdSwitch({ isMobile }: EthUsdSwitchProps) {
             }}
           >
             <div
-              className={`w-[80px] h-[22px] text-[13px] ${scrollPosition < 100 ? "desktop:w-[109px] desktop:h-[44px]" : "desktop:w-[93px] desktop:h-[32px]"}  flex justify-between items-center px-2 md:px-[10px] rounded-full transition-all duration-300 ease-in-out text-ice bg-blue1`}
+              className={` text-[13px] px-[10px] ${scrollPosition < 100 ? "w-[109px] h-[41px] desktop:w-[109px] desktop:h-[44px]" : "h-[28px] w-[93px] desktop:w-[93px] desktop:h-[32px]"} flex justify-between items-center rounded-full transition-all duration-300 ease-in-out text-ice bg-blue1`}
             >
               <div className={`${scrollPosition < 100 ? "headline-md" : "headline-xs"} transition-all duration-300`}>ETH</div>
               <div className={`${scrollPosition < 100 ? "headline-md" : "headline-xs"} transition-all duration-300`}>USD</div>
             </div>
             <div
-              className={`absolute left-[2px] top-[2px] md:left-0.5 md:top-0.5 w-[38px] h-[18px] ${scrollPosition < 100 ? "desktop:w-[51px] desktop:h-[40px] headline-md" : "desktop:w-[43px] desktop:h-[28px] headline-xs"} rounded-full transition-all duration-300 ease-in-out text-blue1 bg-ice flex items-center justify-center 
+              className={`absolute left-[2px] top-[2px] md:left-0.5 md:top-0.5 w-[38px] h-[18px] ${scrollPosition < 100 ? "h-[37px] w-[51px] desktop:w-[51px] desktop:h-[40px] headline-md" : "h-[24px] w-[43px] desktop:w-[43px] desktop:h-[28px] headline-xs"} rounded-full transition-all duration-300 ease-in-out text-blue1 bg-ice flex items-center justify-center 
               ${showUsd ? "transform translate-x-[calc(100%+3px)]" : "translate-x-0"}`}
             >
               {showUsd === true ? <>USD</> : <>ETH</>}
