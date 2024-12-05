@@ -9,13 +9,14 @@ import {
 } from "@/components/layout/GridTable";
 import VerticalScrollContainer from '@/components/VerticalScrollContainer';
 import { Icon } from '@iconify/react';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../Tooltip';
 import { useUIContext } from '@/contexts/UIContext';
 
 export default function ExportTable() {
-  const { data, selectedEntity, setSelectedEntity } = useEthExport();
+  const { scrollPosition } = useUIContext();
+  const { data, selectedEntity, setSelectedEntity, sortedFilteredTableData, sort, setSort } = useEthExport();
   {/* <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
 <circle cx="11" cy="11" r="11" fill="#7DBF7B"/>
 </svg> */}
@@ -45,6 +46,48 @@ export default function ExportTable() {
     return data.data.chart[entity].daily.data[data.data.chart[entity].daily.data.length - 1][dataKey];
   }, [data, dataKey])
 
+  const totalRowRef = useRef<HTMLDivElement>(null);
+  const [totalRowTop, setTotalRowTop] = useState(0);
+
+  useEffect(() => {
+    // track the top offset relative to the viewport on scroll
+    const handleScroll = () => {
+      if (totalRowRef.current) {
+        const top = totalRowRef.current.getBoundingClientRect().top;
+        setTotalRowTop(top);
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    }
+
+  }, [setSelectedEntity])
+
+  const yScrollRef = useRef<HTMLDivElement>(null);
+  const [yScrollPercent, setYScrollPercent] = useState(0);
+
+  useEffect(() => {
+    if (!yScrollRef.current)
+      return;
+
+    const handleScroll = () => {
+      if (!yScrollRef.current)
+        return;
+      const percent = (yScrollRef.current.scrollTop / (yScrollRef.current.scrollHeight - yScrollRef.current.clientHeight));
+      setYScrollPercent(percent);
+    }
+
+    yScrollRef.current.addEventListener('scroll', handleScroll);
+
+    return () => {
+      yScrollRef.current?.removeEventListener('scroll', handleScroll);
+    }
+  }, [yScrollRef.current])
+
+
   if (!data) return null;
 
   return (
@@ -54,205 +97,143 @@ export default function ExportTable() {
         gridDefinitionColumns="grid-cols-[145px_59px_minmax(50px,1000px)_92px]"
         className="sticky top-0 text-[14px] !font-bold z-[2] !py-0 pl-[10px] !pr-[calc(20px+30px)] select-none h-[30px]"
       >
-        <GridTableHeaderCell justify='start'>ETHconomies</GridTableHeaderCell>
-        <GridTableHeaderCell justify='center' className='gap-x-[5px]'>
+        <GridTableHeaderCell
+          justify='start'
+          metric="name"
+          sort={sort}
+          setSort={setSort}
+        >
+          ETHconomies
+        </GridTableHeaderCell>
+        <GridTableHeaderCell
+          justify='center'
+          metric="uoa"
+          sort={sort}
+          setSort={setSort}
+          className='gap-x-[5px]'
+        >
           UoA<Tooltip allowInteract={true} placement="right"><TooltipTrigger><Icon icon={'feather:info'} /></TooltipTrigger><TooltipContent className="p-[11px] text-xs bg-ice  text-blue1 rounded-xl shadow-lg flex flex-col z-[51]">
             <div>Chain uses ETH for transaction fees and prices fees in ETH.</div>
-          </TooltipContent></Tooltip></GridTableHeaderCell>
-        <GridTableHeaderCell>Type</GridTableHeaderCell>
-        <GridTableHeaderCell justify='end'>ETH exported</GridTableHeaderCell>
+          </TooltipContent></Tooltip>
+        </GridTableHeaderCell>
+        <GridTableHeaderCell
+          metric="type"
+          sort={sort}
+          setSort={setSort}
+        >
+          Type
+        </GridTableHeaderCell>
+        <GridTableHeaderCell
+          metric="value"
+          sort={sort}
+          setSort={setSort}
+          justify='end'
+        >
+          ETH exported
+        </GridTableHeaderCell>
       </GridTableHeader>
-      <div className='h-[346px] overflow-y-auto pr-[15px]'>
-        <div className='flex flex-col gap-y-[5px]'>
-          {Object.keys(data.data.entities).filter(entity => entity !== "total").map((entity, index) => {
+      <div className="relative">
+        <div
+          ref={yScrollRef}
+          className='h-[346px] overflow-y-auto pr-[15px]'
+          style={{
+            maskImage: `linear-gradient(to bottom, #00000000 0%, #000000ff ${yScrollPercent === 0 ? "0px" : "20px"}, #000000ff calc(100% - ${yScrollPercent > 0.98 ? "0px" : "20px"}), #00000000 100%)`,
+            transition: "mask-image 0.3s",
+          }}
+        >
+          <div className='flex flex-col gap-y-[5px] pb-[5px]'>
+            {sortedFilteredTableData.filter(row => row.entity !== "total").map((row, index) => {
+              let opacityClass = 'opacity-100';
+              if (selectedEntity !== 'total' && selectedEntity !== row.entity) {
+                opacityClass = 'opacity-30';
+              }
+
+              const icon = selectedEntity === row.entity ? <ZoomOutIcon /> : <ZoomInIcon />;
+              return (
+                <GridTableRow
+                  key={index}
+                  gridDefinitionColumns="grid-cols-[145px_59px_minmax(50px,1000px)_92px]"
+                  className={`w-full h-[34px] !pl-[10px] !pr-[20px] hover:bg-white/60 tansition-all duration-300 ${opacityClass}`}
+                  onClick={() => {
+                    if (selectedEntity === row.entity) {
+                      setSelectedEntity('total');
+                    } else {
+                      setSelectedEntity(row.entity);
+                    }
+                  }}
+                >
+                  <div className='flex gap-x-[5px] items-center text-sm select-none'>
+                    {icon}
+                    {row.name}
+                  </div>
+                  <div className='flex justify-center items-center select-none'>
+                    {UnitOfAccount(row.uoa)}
+                  </div>
+                  <div className='text-sm select-none capitalize'>
+                    {row.type}
+                  </div>
+                  <div className='flex justify-end numbers-sm'>
+                    {showUsd ? '$' : 'Ξ'}
+                    {row.value.toLocaleString('en-GB', { minimumFractionDigits: showUsd ? 0 : 2, maximumFractionDigits: showUsd ? 0 : 2 })}
+                  </div>
+                </GridTableRow>
+              );
+            })}
+
+          </div>
+        </div>
+        <div className=' overflow-y-scroll pr-[15px]' style={{
+          // hide the scrollbar
+          // scrollbarWidth: 'none',
+          scrollbarColor: 'transparent transparent',
+        }}>
+          {sortedFilteredTableData.filter(row => row.entity === "total").map((row, index) => {
             let opacityClass = 'opacity-100';
-            if (selectedEntity !== 'total' && selectedEntity !== entity) {
+            if (selectedEntity !== 'total' && selectedEntity !== row.entity) {
               opacityClass = 'opacity-30';
             }
 
-            const icon = selectedEntity === entity ? <ZoomOutIcon /> : <ZoomInIcon />;
+            const icon = selectedEntity === row.entity ? <ZoomOutIcon /> : <ZoomInIcon />;
             return (
               <GridTableRow
                 key={index}
                 gridDefinitionColumns="grid-cols-[145px_59px_minmax(50px,1000px)_92px]"
-                className={`w-full h-[34px] !pl-[10px] !pr-[20px] hover:bg-white/60 tansition-all duration-300 ${opacityClass}`}
+                className={` w-full h-[34px] !pl-[10px] !pr-[20px] hover:bg-white/60 tansition-all duration-300 font-bold`}
                 onClick={() => {
-                  if (selectedEntity === entity) {
+                  if (selectedEntity === row.entity) {
                     setSelectedEntity('total');
                   } else {
-                    setSelectedEntity(entity);
+                    setSelectedEntity(row.entity);
                   }
                 }}
+                style={{
+                  background: `linear-gradient(
+                  176.28deg,
+                  #b7dde8 -4.56%,
+                  #f1f9fc 11.24%,
+                  #f1f9fc 27.05%
+                ) 0% calc(${-totalRowTop}px) / 100% 6317px`,
+                }}
               >
-                <div className='flex gap-x-[5px] items-center text-sm select-none'>
-                  {icon}
-
-                  {data.data.entities[entity].name}
+                <div className='flex gap-x-[5px] items-center text-sm select-none' ref={totalRowRef}>
+                  <div className='size-[15px]' />
+                  {row.name}
                 </div>
                 <div className='flex justify-center items-center select-none'>
-                  {UnitOfAccount(data.data.entities[entity].uoa)}
                 </div>
                 <div className='text-sm select-none capitalize'>
-                  {data.data.entities[entity].type}
                 </div>
-                <div className='flex justify-end numbers-sm'>
+                <div className='flex justify-end highlight-text-lg'>
                   {showUsd ? '$' : 'Ξ'}
-                  {lastValue(entity)?.toLocaleString('en-GB', { minimumFractionDigits: showUsd ? 0 : 2, maximumFractionDigits: showUsd ? 0 : 2 })}
+                  {row.value.toLocaleString('en-GB', { minimumFractionDigits: showUsd ? 0 : 2, maximumFractionDigits: showUsd ? 0 : 2 })}
                 </div>
               </GridTableRow>
             );
           })}
         </div>
       </div>
-      <div className='pt-[5px] pr-[30px] pl-0'>
-        {Object.keys(data.data.entities).filter(entity => entity === "total").map((entity, index) => {
-          let opacityClass = 'opacity-100';
-          if (selectedEntity !== 'total' && selectedEntity !== entity) {
-            opacityClass = 'opacity-30';
-          }
-
-          const icon = selectedEntity === entity ? <ZoomOutIcon /> : <ZoomInIcon />;
-          return (
-            <GridTableRow
-              key={index}
-              gridDefinitionColumns="grid-cols-[145px_59px_minmax(50px,1000px)_92px]"
-              className={`w-full h-[34px] !pl-[10px] !pr-[20px] hover:bg-white/60 tansition-all duration-300 font-bold ${opacityClass}`}
-              onClick={() => {
-                if (selectedEntity === entity) {
-                  setSelectedEntity('total');
-                } else {
-                  setSelectedEntity(entity);
-                }
-              }}
-            >
-              <div className='flex gap-x-[5px] items-center text-sm select-none'>
-                {/* {icon} */}
-                <div className='size-[15px]' />
-
-                {data.data.entities[entity].name}
-              </div>
-              <div className='flex justify-center items-center select-none'>
-                {/* {UnitOfAccount(data.data.entities[entity].uoa)} */}
-              </div>
-              <div className='text-sm select-none capitalize'>
-                {/* {data.data.entities[entity].type} */}
-              </div>
-              <div className='flex justify-end highlight-text-lg'>
-                {showUsd ? '$' : 'Ξ'}
-                {lastValue(entity)?.toLocaleString('en-GB', { minimumFractionDigits: showUsd ? 0 : 2, maximumFractionDigits: showUsd ? 0 : 2 })}
-              </div>
-            </GridTableRow>
-          );
-        })}
-      </div>
     </>
-
   )
-
-  // return (
-  //   <HorizontalScrollContainer includeMargin={isMobile} forcedMinWidth={600}>
-  //     {data && (
-  //       <>
-  //         <GridTableHeader
-  //           gridDefinitionColumns="grid-cols-[145px_59px_minmax(94px,1000px)_92px]"
-  //           className="sticky top-0 text-[14px] !font-bold z-[2] !py-0 !pl-[10px] !pr-[55px] select-none h-[30px]"
-  //         >
-  //           <GridTableHeaderCell justify='start'>ETHconomies</GridTableHeaderCell>
-  //           <GridTableHeaderCell justify='center' className='gap-x-[5px]'>
-  //             UoA<Tooltip allowInteract={true} placement="right"><TooltipTrigger><Icon icon={'feather:info'} /></TooltipTrigger><TooltipContent className="p-[11px] text-xs bg-ice  text-blue1 rounded-xl shadow-lg flex flex-col z-[51]">
-  //               <div>Chain uses ETH for transaction fees and prices fees in ETH.</div>
-
-  //             </TooltipContent></Tooltip></GridTableHeaderCell>
-  //           <GridTableHeaderCell>Type</GridTableHeaderCell>
-  //           <GridTableHeaderCell justify='end'>ETH exported</GridTableHeaderCell>
-  //         </GridTableHeader>
-  //         <VerticalScrollContainer height={346 - 39}>
-  //           <div className='flex flex-col gap-y-[5px]'>
-  //             {Object.keys(data.data.entities).filter(entity => entity !== "total").map((entity, index) => {
-  //               let opacityClass = 'opacity-100';
-  //               if (selectedEntity !== 'total' && selectedEntity !== entity) {
-  //                 opacityClass = 'opacity-30';
-  //               }
-
-  //               const icon = selectedEntity === entity ? <ZoomOutIcon /> : <ZoomInIcon />;
-  //               return (
-  //                 <GridTableRow
-  //                   key={index}
-  //                   gridDefinitionColumns="grid-cols-[145px_59px_minmax(94px,1000px)_92px]"
-  //                   className={`w-full h-[34px] !pl-[10px] !pr-[20px] hover:bg-white/60 tansition-all duration-300 ${opacityClass}`}
-  //                   onClick={() => {
-  //                     if (selectedEntity === entity) {
-  //                       setSelectedEntity('total');
-  //                     } else {
-  //                       setSelectedEntity(entity);
-  //                     }
-  //                   }}
-  //                 >
-  //                   <div className='flex gap-x-[5px] items-center text-sm select-none'>
-  //                     {icon}
-
-  //                     {data.data.entities[entity].name}
-  //                   </div>
-  //                   <div className='flex justify-center items-center select-none'>
-  //                     {UnitOfAccount(data.data.entities[entity].uoa)}
-  //                   </div>
-  //                   <div className='text-sm select-none capitalize'>
-  //                     {data.data.entities[entity].type}
-  //                   </div>
-  //                   <div className='flex justify-end numbers-sm'>
-  //                     {showUsd ? '$' : 'Ξ'}
-  //                     {lastValue(entity)?.toLocaleString('en-GB', { minimumFractionDigits: showUsd ? 0 : 2, maximumFractionDigits: showUsd ? 0 : 2 })}
-  //                   </div>
-  //                 </GridTableRow>
-  //               );
-  //             })}
-  //           </div>
-  //         </VerticalScrollContainer>
-  //         <div className='pt-[5px] pr-[30px]'>
-  //           {Object.keys(data.data.entities).filter(entity => entity === "total").map((entity, index) => {
-  //             let opacityClass = 'opacity-100';
-  //             if (selectedEntity !== 'total' && selectedEntity !== entity) {
-  //               opacityClass = 'opacity-30';
-  //             }
-
-  //             const icon = selectedEntity === entity ? <ZoomOutIcon /> : <ZoomInIcon />;
-  //             return (
-  //               <GridTableRow
-  //                 key={index}
-  //                 gridDefinitionColumns="grid-cols-[145px_59px_minmax(94px,1000px)_92px]"
-  //                 className={`w-full h-[34px] !pl-[10px] !pr-[20px] hover:bg-white/60 tansition-all duration-300 font-bold ${opacityClass}`}
-  //                 onClick={() => {
-  //                   if (selectedEntity === entity) {
-  //                     setSelectedEntity('total');
-  //                   } else {
-  //                     setSelectedEntity(entity);
-  //                   }
-  //                 }}
-  //               >
-  //                 <div className='flex gap-x-[5px] items-center text-sm select-none'>
-  //                   {/* {icon} */}
-  //                   <div className='size-[15px]' />
-
-  //                   {data.data.entities[entity].name}
-  //                 </div>
-  //                 <div className='flex justify-center items-center select-none'>
-  //                   {/* {UnitOfAccount(data.data.entities[entity].uoa)} */}
-  //                 </div>
-  //                 <div className='text-sm select-none capitalize'>
-  //                   {/* {data.data.entities[entity].type} */}
-  //                 </div>
-  //                 <div className='flex justify-end highlight-text-lg'>
-  //                   {showUsd ? '$' : 'Ξ'}
-  //                   {lastValue(entity)?.toLocaleString('en-GB', { minimumFractionDigits: showUsd ? 0 : 2, maximumFractionDigits: showUsd ? 0 : 2 })}
-  //                 </div>
-  //               </GridTableRow>
-  //             );
-  //           })}
-  //         </div>
-  //       </>
-  //     )}
-  //   </HorizontalScrollContainer>
-  // )
 }
 
 const ZoomInIcon = () => (

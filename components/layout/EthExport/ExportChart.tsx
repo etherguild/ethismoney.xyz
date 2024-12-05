@@ -13,6 +13,8 @@ import Highcharts from "highcharts/highstock";
 import { useLocalStorage } from 'usehooks-ts';
 import { useEffect, useState } from 'react';
 import { useUIContext } from '@/contexts/UIContext';
+import "@/app/highcharts.axis.css";
+
 const COLORS = {
   GRID: "rgb(161, 196, 209)",
   PLOT_LINE: "rgb(161, 196, 209)",
@@ -187,16 +189,13 @@ export default function ExportChart() {
                 gridLineColor={"transparent"}
                 // minorTickInterval={1000 * 60 * 60 * 24 * 7}
                 alignTicks={true}
-
-
+                showFirstLabel={true}
+                showLastLabel={true}
                 labels={{
                   y: 30,
                   align: undefined,
                   rotation: 0,
                   allowOverlap: false,
-
-
-
                   useHTML: true,
                   style: {
                     textAlign: "bottom",
@@ -204,8 +203,13 @@ export default function ExportChart() {
                     fontSize: "12px",
                     marginTop: "10px",
                   },
-
-
+                  formatter: function () {
+                    const date = new Date(this.value);
+                    return `${date.toLocaleDateString("en-GB", {
+                      month: "short",
+                      year: "numeric",
+                    })}`;
+                  },
                 }}
 
                 min={data.data.chart[selectedEntity].daily.data[0][0]}

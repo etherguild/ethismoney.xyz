@@ -8,11 +8,34 @@ import { useLocalStorage } from "usehooks-ts";
 import { Sections } from "@/lib/sections";
 import Link from "next/link";
 import Icon from "@/components/Icon";
+import { useEffect, useRef, useState } from "react";
 
 
 export const EthHoldersSection = () => {
   const { sortedFilteredData, types, holderTypeLabels, holderTypes, sort, setSort } = useEthHolders();
   const [showUsd, setShowUsd] = useLocalStorage("showUsd", false);
+
+  const yScrollRef = useRef<HTMLDivElement>(null);
+  const [yScrollPercent, setYScrollPercent] = useState(0);
+
+  useEffect(() => {
+    if (!yScrollRef.current)
+      return;
+
+    const handleScroll = () => {
+      if (!yScrollRef.current)
+        return;
+      const percent = (yScrollRef.current.scrollTop / (yScrollRef.current.scrollHeight - yScrollRef.current.clientHeight));
+      setYScrollPercent(percent);
+    }
+
+    yScrollRef.current.addEventListener('scroll', handleScroll);
+
+    return () => {
+      yScrollRef.current?.removeEventListener('scroll', handleScroll);
+    }
+  }, [yScrollRef.current])
+
   return (
     <Section name="third" head={Sections[1].label} desc={Sections[1].description}
       subhead={<HolderSelect />}
@@ -40,7 +63,7 @@ export const EthHoldersSection = () => {
                   setSort={setSort}
                 >Type</GridTableHeaderCell>
                 <GridTableHeaderCell
-                  metric="type"
+                  metric="tracking_type"
                   sort={sort}
                   setSort={setSort}
                 >Tracking Type</GridTableHeaderCell>
@@ -53,39 +76,48 @@ export const EthHoldersSection = () => {
                   justify='end'
                 >ETH holdings</GridTableHeaderCell>
               </GridTableHeader>
-              <div className='h-[346px] overflow-auto pr-[15px]'>
-                <div className='flex flex-col gap-y-[5px]'>
-                  {sortedFilteredData.map((row, index) => {
+              <div className="relative">
+                <div
+                  ref={yScrollRef}
+                  className='h-[346px] overflow-auto pr-[15px]'
+                  style={{
+                    maskImage: `linear-gradient(to bottom, #00000000 0%, #000000ff ${yScrollPercent === 0 ? "0px" : "20px"}, #000000ff calc(100% - ${yScrollPercent > 0.98 ? "0px" : "20px"}), #00000000 100%)`,
+                    transition: "mask-image 0.3s",
+                  }}
+                >
+                  <div className='flex flex-col gap-y-[5px]'>
+                    {sortedFilteredData.map((row, index) => {
 
-                    return (
-                      <GridTableRow
-                        key={index}
-                        gridDefinitionColumns="grid-cols-[250px_110px_110px_minmax(145px,1000px)]"
-                        className={`w-full h-[34px] !pl-[10px] !pr-[20px] hover:bg-white/60 tansition-all duration-300`}
+                      return (
+                        <GridTableRow
+                          key={index}
+                          gridDefinitionColumns="grid-cols-[250px_110px_110px_minmax(145px,1000px)]"
+                          className={`w-full h-[34px] !pl-[10px] !pr-[20px] hover:bg-white/60 tansition-all duration-300`}
 
-                      >
-                        <div className='flex gap-x-[5px] items-center text-sm select-none'>
-                          {row.name}
-                        </div>
-                        <div className='flex items-center select-none'>
-                          {row.type}
-                        </div>
-                        <Link href={"https://github.com/ethismoney-xyz/data/blob/main/eth_holders.yml"} rel="noopener" target="_blank" className='flex items-center select-none underline'>
-                          {row.tracking_type.charAt(0).toUpperCase() + row.tracking_type.slice(1)}
-                        </Link>
-                        {/* <div className='text-sm select-none capitalize'>
+                        >
+                          <div className='flex gap-x-[5px] items-center text-sm select-none'>
+                            {row.name}
+                          </div>
+                          <div className='flex items-center select-none'>
+                            {row.type}
+                          </div>
+                          <Link href={"https://github.com/ethismoney-xyz/data/blob/main/eth_holders.yml"} rel="noopener" target="_blank" className='flex items-center select-none underline'>
+                            {row.tracking_type.charAt(0).toUpperCase() + row.tracking_type.slice(1)}
+                          </Link>
+                          {/* <div className='text-sm select-none capitalize'>
                       {row.code}
                     </div>
                     <div className='text-sm select-none capitalize'>
                       {row.source}
                     </div> */}
-                        <div className='flex justify-end numbers-sm'>
-                          {showUsd ? '$' : 'Ξ'}
-                          {showUsd ? row.usd.toLocaleString('en-GB', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : row.eth.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                        </div>
-                      </GridTableRow>
-                    );
-                  })}
+                          <div className='flex justify-end numbers-sm'>
+                            {showUsd ? '$' : 'Ξ'}
+                            {showUsd ? row.usd.toLocaleString('en-GB', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : row.eth.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                          </div>
+                        </GridTableRow>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             </>

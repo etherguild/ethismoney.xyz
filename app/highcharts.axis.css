@@ -19,17 +19,17 @@
 .highcharts-axis-labels span,
 .highcharts-axis-labels > span,
 .highcharts-axis-labels text {
-  @apply !font-raleway;
+  @apply !numbers-xs font-bold;
 }
 
 .highcharts-axis-labels.highcharts-yaxis-labels text {
-  font-size: 10px !important;
-  @apply !font-num;
+  /* font-size: 10px !important; */
+  @apply !numbers-xs font-bold;
 }
 
 .highcharts-axis-labels. .year-label {
-  font-size: 20px !important;
-  @apply !font-raleway;
+  /* font-size: 20px !important; */
+  @apply !numbers-xs font-bold;
 }
 
 .highcharts-column-series path {

@@ -79,6 +79,12 @@ div::-webkit-scrollbar:horizontal {
   height: 15px;
 }
 
+div::-webkit-scrollbar-track:vertical {
+  margin: 15px;
+  /* padding: 15px; */
+  border-radius: 100vw;
+}
+
 div::-webkit-scrollbar-track:horizontal {
   background: transparent;
   margin: 15px;

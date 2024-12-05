@@ -17,6 +17,8 @@ import { useEffect, useMemo, useState } from "react";
 import LandingContainerChild from "@/components/LandingContainerChild";
 import { Event } from "@/types/api/EthSupplyResponse";
 import { useUIContext } from "@/contexts/UIContext";
+import "@/app/highcharts.axis.css";
+
 const COLORS = {
   GRID: "rgb(161, 196, 209)",
   PLOT_LINE: "rgb(161, 196, 209)",
@@ -298,6 +300,8 @@ export default function IssuanceRateChart() {
               gridLineWidth={0}
               minorTicks={false}
               alignTicks={true}
+              showFirstLabel={true}
+              showLastLabel={true}
               labels={{
                 y: 30,
                 align: undefined,
@@ -309,6 +313,13 @@ export default function IssuanceRateChart() {
                   color: "#1b3555",
                   fontSize: "12px",
                   marginTop: "10px",
+                },
+                formatter: function () {
+                  const date = new Date(this.value);
+                  return `${date.toLocaleDateString("en-GB", {
+                    month: "short",
+                    year: "numeric",
+                  })}`;
                 },
               }}
               min={xAxisBounds.min}
