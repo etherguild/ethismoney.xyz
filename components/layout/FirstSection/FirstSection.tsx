@@ -199,7 +199,8 @@ export default function FirstSection() {
                 onClick={() => {
                   const element = document.getElementById(section.sectionId);
                   if (element) {
-                    element.scrollIntoView({ behavior: "smooth" });
+                    const offset = element.offsetTop;
+                    window.scrollTo({ top: offset - 50, behavior: "smooth" });
                   }
                 }}
               >
