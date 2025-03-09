@@ -1,8 +1,4 @@
-// import { getCookie } from "cookies-next";
-
 export default function Head() {
-  // const consent = getCookie("growthepieCookieConsent");
-
   return (
     <>
       <link

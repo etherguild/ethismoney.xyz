@@ -30,7 +30,6 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/(labels)/layout.tsx.old",
     "lib/figma.ts"
   ],
   "exclude": ["node_modules", "icons"]

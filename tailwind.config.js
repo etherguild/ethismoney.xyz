@@ -38,13 +38,6 @@ module.exports = {
       spacing: {
         "safe-bottom": "env(safe-area-inset-bottom)", // Add custom spacing
       },
-      /* From Figma */
-      // --text--xxs: 10px;
-      // --text--xs: 12px;
-      // --text--sm: 13px;
-      // --text--md: 18px;
-      // --text--lg: 20px;
-      // --text--xl: 24px;
       fontSize: {
         xxxs: "9px",
         xxs: "10px",
@@ -171,14 +164,6 @@ module.exports = {
       };
       // Define size variants for each category
       const sizeVariants = {
-        /* From Figma */
-        // --headline--xs: 14px;
-        // --headline--sm: 16px;
-        // --headline--md: 18px;
-        // --headline--lg: 24px;
-        // --headline--xl: 30px;
-        // --headline--xl-link: 30px;
-        // --headline--xxl: 48px;
         headline: {
           xs: "14px",
           sm: "16px",
@@ -188,22 +173,12 @@ module.exports = {
           "xl-link": "30px",
           xxl: "48px",
         },
-        /* From Figma */
-        // --highlight--text--sm: 13px;
-        // --highlight--text--md: 16px;
-        // --highlight--text--lg: 18px;
-        // --highlight--text--xl: 30px;
         "highlight-text": {
           sm: "13px",
           md: "16px",
           lg: "18px",
           xl: "30px",
         },
-        /* From Figma */
-        // --numbers--xxxs-bold: 9px;
-        // --numbers--xs: 11px;
-        // --numbers--sm: 13px;
-        // --numbers--sm-bold: 13px;
         numbers: {
           "xxxs-bold": "9px",
           xs: "11px",

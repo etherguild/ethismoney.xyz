@@ -96,24 +96,6 @@ export const UIContextProvider = ({ children }) => {
     return () => window.removeEventListener('resize', updateSize);
   }, []);
 
-  // useEffect(() => {
-  //   // find content-panel
-  //   const contentPanel = document.getElementById("content-panel");
-  //   if (state.isMobileSidebarOpen && state.isMobile) {
-  //     // Prevent scrolling when mobile sidebar is open
-  //     if (contentPanel)
-  //       contentPanel.style.touchAction = "none";
-  //     document.body.style.touchAction = "none";
-  //     document.body.style.overflow = "hidden";
-  //   } else {
-  //     //document.body.style.overflow = "auto";
-  //     if (contentPanel)
-  //       contentPanel.style.touchAction = "auto";
-  //     document.body.style.touchAction = "auto";
-  //     document.body.style.overflow = "auto";
-  //   }
-  // }, [state.isMobileSidebarOpen, state.isMobile]);
-
   const toggleMobileSidebar = () => setState(prevState => ({ ...prevState, isMobileSidebarOpen: !prevState.isMobileSidebarOpen }));
 
   const contextValue = {
