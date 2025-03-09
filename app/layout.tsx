@@ -1,14 +1,14 @@
-import "../globals.css";
+import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
-import { Providers } from "../providers";
+import { Providers } from "./providers";
 import { Inter, Roboto_Mono, Fira_Sans, Manrope } from "next/font/google";
 import Header from "@/components/Header";
 import { Metadata } from "next";
-import Head from "./head";
+import Head from "./(layout)/head";
 import DeveloperTools from "@/components/development/DeveloperTools";
 import SidebarContainer from "@/components/layout/SidebarContainer";
 import MobileNav from "@/components/layout/MobileNav";
-import "../background.css";
+import "./background.css";
 
 
 // const jsonLd = [jsonLdOrg, jsonLdWebSite];
@@ -111,22 +111,23 @@ export default function RootLayout({
 `;
 
   return (
+    <html
+      lang="en"
+      className={`${manrope.variable} ${inter.variable} ${robotoMono.variable} ${firaSans.variable}`}
+      suppressHydrationWarning
+    >
 
-    <Providers>
-      <LayoutGrid />
-      <Backgrounds />
-      <div className="flex max-w-[1380px] mx-auto">
-        <SidebarContainer />
-        <MobileNav />
-        <div id="content-panel" className="w-full flex flex-col desktop:pl-[30px] relative text-blue1 pb-[265px]">
-          <Header />
-          {children}
-        </div>
-      </div>
-      <DeveloperTools />
-    </Providers>
-
-
+      <Head />
+      <body className="overflow-x-hidden">
+        <script
+          dangerouslySetInnerHTML={{
+            __html: script,
+          }}
+        />
+        {children}
+        <Analytics />
+      </body>
+    </html>
   );
 }
 

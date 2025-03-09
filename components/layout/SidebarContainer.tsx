@@ -1,33 +1,17 @@
 "use client";
 import Image from "next/image";
-import Link from "next/link";
-import Sidebar from "./Sidebar";
 import { Icon } from "@iconify/react";
-import { useUIContext } from "@/contexts/UIContext";
-import { useMediaQuery } from "usehooks-ts";
 import { useEffect, useRef, useState } from "react";
-import { track } from "@vercel/analytics";
-import ContainerSidebar from "../ContainerSidebar";
-import SidebarHead from "../SidebarHead";
-import SidebarGroup from "../SidebarGroup";
-import SidebarGroupItem from "../SidebarGroupItem";
-import { GTPIcon } from "./GTPIcon";
 import { GTPIconName } from "@/icons/gtp-icon-names";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { TextPlugin } from 'gsap/TextPlugin';
 import { useGSAP } from "@gsap/react";
-import { time } from "console";
 import { Sections } from "@/lib/sections";
 import { ETHisMoneyTitle } from "../EthIsMoney/EthIsMoney";
 
-
-
 export default function SidebarContainer() {
-
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [activeSectionIndex, setActiveSectionIndex] = useState<number | null>(null);
-
   const [scrollY, setScrollY] = useState(0);
   const [isResizing, setIsResizing] = useState(false);
 

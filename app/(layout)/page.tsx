@@ -1,7 +1,7 @@
 "use client";
 import Section from "@/components/LandingPageContainer";
 import LandingContainerChild from "@/components/LandingContainerChild";
-import IssuanceRateChart from "@/components/layout/LandingCharts/IssuanceRateChart";
+import IssuanceRateChart from "@/components/layout/EthIssuance/IssuanceRateChart";
 import { EthExportProvider } from "@/components/layout/EthExport/ExportContext";
 import ExportChart from "@/components/layout/EthExport/ExportChart";
 import ExportTable from "@/components/layout/EthExport/ExportTable";
@@ -307,9 +307,9 @@ export default function Page() {
             {/* Custom hack didn't work :( */}
             {/* <NewsLetterSignup /> */}
             <div className="w-full desktop:w-1/2 flex flex-col items-center gap-[15px] !light">
-                {/* Paragraph iframe with minimal styling */}
-                {/* <iframe src="https://paragraph.xyz/@etherguild/embed?minimal=true&vertical=true" width="480" height="90" ></iframe> */}
-                <iframe src="https://paragraph.xyz/@etherguild/embed" width="480" height="380" style={{ border: "1px solid #EEE", background: "transparent" }} frameborder="0" scrolling="no"></iframe>
+              {/* Paragraph iframe with minimal styling */}
+              {/* <iframe src="https://paragraph.xyz/@etherguild/embed?minimal=true&vertical=true" width="480" height="90" ></iframe> */}
+              <iframe src="https://paragraph.xyz/@etherguild/embed" width="480" height="380" style={{ border: "1px solid #EEE", background: "transparent" }} scrolling="no"></iframe>
             </div>
             {/* <div className="px-[15px] desktop:px-0 mt-[40px] flex flex-col gap-y-[10px]">
               <div className="text-[#2A6F97] text-[24px] desktop:text-[30px] font-semibold font-manrope">Keep up-to-date with our newsletter</div>

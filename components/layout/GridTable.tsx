@@ -1,5 +1,4 @@
 "use client";
-import { useMaster } from "@/contexts/MasterContext";
 import { Icon } from "@iconify/react";
 import { useEffect, useMemo, useState } from "react";
 import { useElementSizeObserver } from "@/hooks/useElementSizeObserver";
@@ -59,19 +58,6 @@ export const GridTableRow = ({
   bar,
   onClick,
 }: GridTableRowProps) => {
-  const { AllChainsByKeys } = useMaster();
-
-  const getBarColor = () => {
-    if (bar && bar.origin_key) {
-      return AllChainsByKeys[bar.origin_key].colors["dark"][1];
-    }
-
-    if (bar && bar.color) {
-      return bar.color;
-    }
-
-    return "white";
-  }
 
 
   if (bar)
@@ -92,7 +78,6 @@ export const GridTableRow = ({
           <div
             className={`z-20 transition-all duration-300`}
             style={{
-              background: getBarColor(),
               width: bar.width * 100 + "%",
               height: "2px",
             }}
@@ -113,29 +98,6 @@ export const GridTableRow = ({
   );
 };
 
-export const GridTableChainIcon = ({ origin_key, className }: { origin_key: string, className?: string }) => {
-  const { AllChainsByKeys } = useMaster();
-
-  return (
-    <div className={`flex h-full items-center ${className || ""}`}>
-      {AllChainsByKeys[origin_key] && (
-        <Icon
-          icon={`gtp:${AllChainsByKeys[
-            origin_key
-          ].urlKey
-            }-logo-monochrome`}
-          className="w-[15px] h-[15px]"
-          style={{
-            color:
-              AllChainsByKeys[
-                origin_key
-              ].colors["dark"][0],
-          }}
-        />
-      )}
-    </div>
-  );
-};
 
 type GridTableHeaderCellProps = {
   children: React.ReactNode;

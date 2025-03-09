@@ -1,15 +1,8 @@
 "use client";
 import Image from "next/image";
-
-import Icon from "./Icon";
 import EthUsdSwitch from "./EthUsdSwitch";
-
-import Banner from "@/components/Banner";
-import Link from "next/link";
 import HeaderLinks from "./HeaderLinks";
-import { track } from "@vercel/analytics";
 import StylizedButton from "./StylizedButton";
-import { ST } from "next/dist/shared/lib/utils";
 import { useUIContext } from "@/contexts/UIContext";
 
 export default function Header() {
