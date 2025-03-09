@@ -32,6 +32,11 @@ html {
   font-feature-settings: "pnum" on, "lnum" on;
 }
 
+/* hack for newsletter */
+iframe {
+  color-scheme: light !important;
+}
+
 @media (min-width: 1180px) {
   html {
     scroll-snap-type: y mandatory;

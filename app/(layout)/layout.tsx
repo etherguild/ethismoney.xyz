@@ -109,9 +109,7 @@ export default function RootLayout({
 }) {
   const script = `
   (function() {
-    // Set dark theme
     document.documentElement.classList.add('light');
-    // Optionally, set dark theme in local storage
     localStorage.setItem('theme', 'light');
   })();
 `;
