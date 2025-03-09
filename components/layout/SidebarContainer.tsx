@@ -31,26 +31,12 @@ export default function SidebarContainer() {
   const [scrollY, setScrollY] = useState(0);
   const [isResizing, setIsResizing] = useState(false);
 
-  // const [sectionOffsets, setSectionOffsets] = useState<{ [key: string]: number } | null>(null);
-
-  // const applySectionOffsets = () => {
-  //   const newSectionOffsets: { [key: string]: number } = {};
-  //   Sections.forEach((section) => {
-  //     const element = document.getElementById(section.sectionId);
-  //     if (element) {
-  //       newSectionOffsets[section.sectionId] = element.offsetTop;
-  //     }
-  //   });
-  //   setSectionOffsets(newSectionOffsets);
-  // }
-
   useEffect(() => {
     const handleResize = () => {
       setIsResizing(true);
 
       setTimeout(() => {
         setIsResizing(false);
-        // applySectionOffsets();
       }, 100);
     };
 
@@ -64,8 +50,6 @@ export default function SidebarContainer() {
     // Add event listener
     window.addEventListener("scroll", handleScroll);
 
-    // Apply section offsets
-    // applySectionOffsets();
     // Call the event handler once to apply the initial section offsets
     handleScroll();
 
@@ -76,30 +60,12 @@ export default function SidebarContainer() {
     };
   }, []);
 
-  // useEffect(() => {
-  //   // reset the active section when the scroll position is at the top
-  //   setActiveSection(null);
-  //   setActiveSectionIndex(null);
-  // }, []);
-
   useEffect(() => {
     // reset the active section when the scroll position is at the top
     if (scrollY < 100) {
       setActiveSection(null);
       setActiveSectionIndex(null);
     }
-    //  else {
-    //   if (sectionOffsets) {
-    //     const sectionKeys = Object.keys(sectionOffsets);
-    //     for (let i = 0; i < sectionKeys.length; i++) {
-    //       const section = sectionKeys[i];
-    //       if (window.scrollY > sectionOffsets[section]) {
-    //         setActiveSection(section);
-    //         setActiveSectionIndex(i);
-    //       }
-    //     }
-    //   }
-    // }
   }, [scrollY]);
 
   useGSAP(() => {
@@ -215,41 +181,6 @@ export default function SidebarContainer() {
       });
     }, 5000);
   }
-
-  const mobileNavRef = useRef<HTMLDivElement>(null);
-
-  // useEffect(() => {
-  //   if (mobileNavRef.current) {
-  //     if (activeSection === null) {
-  //       const firstMobileNavElement = document.getElementById("first-mobile-nav");
-  //       if (!firstMobileNavElement)
-  //         return;
-  //       mobileNavRef.current.scrollTo({
-  //         left: firstMobileNavElement.offsetLeft - (mobileNavRef.current.clientWidth / 2) + (firstMobileNavElement.clientWidth / 2),
-  //         behavior: "smooth",
-  //       });
-  //     } else {
-  //       const mobildNavId = Sections[activeSectionIndex || 0].mobileNavId;
-  //       const mobileNavElement = document.getElementById(mobildNavId);
-  //       if (mobileNavElement) {
-  //         // scroll so it is centered
-  //         mobileNavRef.current.scrollTo({
-  //           left: mobileNavElement.offsetLeft - (mobileNavRef.current.clientWidth / 2) + (mobileNavElement.clientWidth / 2),
-  //           behavior: "smooth",
-  //         });
-  //       } else {
-  //         const firstMobileNavElement = document.getElementById("first-mobile-nav");
-  //         if (!firstMobileNavElement)
-  //           return;
-  //         mobileNavRef.current.scrollTo({
-  //           left: firstMobileNavElement.offsetLeft - (mobileNavRef.current.clientWidth / 2) + (firstMobileNavElement.clientWidth / 2),
-  //           behavior: "smooth",
-  //         });
-  //       }
-
-  //     }
-  //   }
-  // }, [activeSection]);
 
   return (
     <>
