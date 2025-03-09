@@ -1,157 +1,36 @@
 "use client";
 import Image from "next/image";
 import { Icon } from "@iconify/react";
-import { useEffect, useRef, useState } from "react";
-import { GTPIconName } from "@/icons/gtp-icon-names";
+import { useRef, useState, useEffect } from "react";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { TextPlugin } from 'gsap/TextPlugin';
 import { useGSAP } from "@gsap/react";
 import { Sections } from "@/lib/sections";
+import { useScrollPosition, useResponsive, useSectionObserver, useReducedMotion } from "@/lib/gsap-utils";
+import { GTPIconName } from "@/icons/gtp-icon-names";
 
 export default function MobileNav() {
+  const mobileNavRef = useRef<HTMLDivElement>(null);
+  const scrollY = useScrollPosition();
+  const { isMobile, isResizing } = useResponsive(1117);
+  const prefersReducedMotion = useReducedMotion();
+  const { activeSection, activeSectionIndex } = useSectionObserver(Sections.map(s => s.sectionId));
 
-  const [activeSection, setActiveSection] = useState<string | null>(null);
-  const [activeSectionIndex, setActiveSectionIndex] = useState<number | null>(null);
-
-  const [scrollY, setScrollY] = useState(0);
-  const [isResizing, setIsResizing] = useState(false);
-
-  const [sectionOffsets, setSectionOffsets] = useState<{
-    [key: string]: {
-      start: number;
-      end: number;
-    }
-  } | null>(null);
-
-  const applySectionOffsets = () => {
-    const newSectionOffsets: {
-      [key: string]: {
-        start: number;
-        end: number;
-      }
-    } = {};
-    Sections.forEach((section) => {
-      const element = document.getElementById(section.sectionId);
-      if (element) {
-        newSectionOffsets[section.sectionId] = {
-          start: element.offsetTop,
-          end: element.offsetTop + element.clientHeight,
-        }
-      }
-    });
-    setSectionOffsets(newSectionOffsets);
-  }
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsResizing(true);
-
-      setTimeout(() => {
-        setIsResizing(false);
-        applySectionOffsets();
-      }, 100);
-    };
-
-    // Add event listener
-    window.addEventListener("resize", handleResize);
-
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-
-    // Add event listener
-    window.addEventListener("scroll", handleScroll);
-
-    // Apply section offsets
-    applySectionOffsets();
-    // Call the event handler once to apply the initial section offsets
-    handleScroll();
-
-    // Remove event listener on cleanup
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
-  useEffect(() => {
-    // reset the active section when the scroll position is at the top
-    setActiveSection(null);
-    setActiveSectionIndex(null);
-  }, []);
-
-  useEffect(() => {
-    // reset the active section when the scroll position is at the top
-    if (scrollY < 100) {
-      setActiveSection(null);
-      setActiveSectionIndex(null);
-    } else {
-      if (sectionOffsets) {
-        const sectionKeys = Object.keys(sectionOffsets);
-        for (let i = 0; i < sectionKeys.length; i++) {
-          const section = sectionKeys[i];
-          if (window.scrollY > sectionOffsets[section].start - 100) {
-            setActiveSection(section);
-            setActiveSectionIndex(i);
-          }
-        }
-      }
-    }
-  }, [scrollY]);
-
-  // useGSAP(() => {
-  //   // increase the size of the section link when it is in view
-  //   gsap.registerPlugin(ScrollTrigger);
-
-  //   // Section animations
-  //   Sections.forEach((section) => {
-  //     ScrollTrigger.create({
-  //       trigger: `#${section.sectionId}`,
-  //       start: "top 0%",
-  //       end: "bottom 100%",
-  //       onEnter: () => {
-  //         setActiveSection(section.sectionId);
-  //         setActiveSectionIndex(Sections.findIndex(s => s.sectionId === section.sectionId));
-
-  //       },
-  //       onEnterBack: () => {
-  //         setActiveSection(section.sectionId);
-  //         setActiveSectionIndex(Sections.findIndex(s => s.sectionId === section.sectionId));
-  //       }
-  //     });
-  //   });
-
-  //   // Cleanup function
-  //   return () => {
-  //     ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-  //   };
-
-  // }, []);
-
-  // the active section's nav link should move with the section's topoffset
+  // GSAP animation for active section
   useGSAP(() => {
-    // Register the ScrollTrigger plugin
-    gsap.registerPlugin(ScrollTrigger);
+    if (!activeSection || prefersReducedMotion) return;
 
-    // find the section's header title .headline-xl
-    const activeSection = Sections[activeSectionIndex || 0].sectionId;
     const activeSectionElement = document.getElementById(`${activeSection}-content`);
     const activeSectionHeader = activeSectionElement?.querySelector("h2.headline-xl");
 
-    if (!activeSectionHeader) {
-      return;
-    }
+    if (!activeSectionHeader) return;
 
     const activeSectionHeaderH2 = activeSectionHeader as HTMLHeadingElement;
-
     const activeSectionHeaderTop = activeSectionHeaderH2.offsetTop;
 
-    // move the active section's nav link to the top of the sidebar
     gsap.to(`#${activeSection}-link`, {
       y: -activeSectionHeaderTop,
       ease: "power2.out",
-      duration: 0.3,
+      duration: prefersReducedMotion ? 0 : 0.3,
       scrollTrigger: {
         trigger: `#${activeSection}-section`,
         start: "top top",
@@ -160,222 +39,131 @@ export default function MobileNav() {
         invalidateOnRefresh: true,
       }
     });
+  }, [activeSection, prefersReducedMotion]);
 
-    // Cleanup function
-    return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-    };
-
-  }, [activeSection]);
-
-
-  const [activeNavAnimationIndex, setActiveNavAnimationIndex] = useState<number>(0);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-
-  useEffect(() => {
-    const NavItems = Sections.slice(0, 3);
-
-    timeoutRef.current = setInterval(() => {
-      setActiveNavAnimationIndex((prev) => {
-        if (prev === NavItems.length - 1) {
-          return 0;
-        }
-        return prev + 1;
-      });
-    }, 5000);
-
-    return () => {
-      if (timeoutRef.current) {
-        clearInterval(timeoutRef.current);
-      }
-    };
-
-  }, []);
-
-  const handleNavItemHover = (index: number) => {
-    // pause the animation and set the active nav item
-    if (timeoutRef.current) {
-      // pause timer so we can start it again after the hover
-      clearInterval(timeoutRef.current);
+  // Handle mobile nav scroll
+  const scrollToSection = (sectionId: string | null) => {
+    if (!sectionId) {
+      window.scrollTo({ top: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
+      return;
     }
-    setActiveNavAnimationIndex(index);
-  }
 
-  const handleNavItemLeave = () => {
-    // resume the animation
-    timeoutRef.current = setInterval(() => {
-      setActiveNavAnimationIndex((prev) => {
-        if (prev === Sections.length - 1) {
-          return 0;
-        }
-        return prev + 1;
+    const element = document.getElementById(sectionId);
+    if (element) {
+      const offset = element.offsetTop;
+      window.scrollTo({
+        top: offset - 50,
+        behavior: prefersReducedMotion ? "auto" : "smooth"
       });
-    }, 5000);
-  }
-
-  const mobileNavRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (mobileNavRef.current) {
-      if (activeSection === null) {
-        const firstMobileNavElement = document.getElementById("first-mobile-nav");
-        if (!firstMobileNavElement)
-          return;
-        mobileNavRef.current.scrollTo({
-          left: firstMobileNavElement.offsetLeft - (mobileNavRef.current.clientWidth / 2) + (firstMobileNavElement.clientWidth / 2),
-          behavior: "smooth",
-        });
-      } else {
-        const mobildNavId = Sections[activeSectionIndex || 0].mobileNavId;
-        const mobileNavElement = document.getElementById(mobildNavId);
-        if (mobileNavElement) {
-          // scroll so it is centered
-          mobileNavRef.current.scrollTo({
-            left: mobileNavElement.offsetLeft - (mobileNavRef.current.clientWidth / 2) + (mobileNavElement.clientWidth / 2),
-            behavior: "smooth",
-          });
-        } else {
-          const firstMobileNavElement = document.getElementById("first-mobile-nav");
-          if (!firstMobileNavElement)
-            return;
-          mobileNavRef.current.scrollTo({
-            left: firstMobileNavElement.offsetLeft - (mobileNavRef.current.clientWidth / 2) + (firstMobileNavElement.clientWidth / 2),
-            behavior: "smooth",
-          });
-        }
-
-      }
     }
-  }, [activeSection]);
+  };
+
+  // Center active section in mobile nav
+  const centerActiveSection = () => {
+    if (!mobileNavRef.current) return;
+
+    const targetId = activeSection === null ? "first-mobile-nav" :
+      Sections[activeSectionIndex || 0]?.mobileNavId;
+
+    const element = document.getElementById(targetId);
+    if (!element) return;
+
+    const container = mobileNavRef.current;
+    const scrollLeft = element.offsetLeft - (container.clientWidth / 2) + (element.clientWidth / 2);
+
+    container.scrollTo({
+      left: scrollLeft,
+      behavior: prefersReducedMotion ? "auto" : "smooth"
+    });
+  };
+
+  // Update mobile nav scroll position when active section changes
+  useGSAP(() => {
+    if (!isResizing) {
+      centerActiveSection();
+    }
+  }, [activeSection, isResizing]);
 
   return (
-    <>
-      {/* <div className="fixed top-[100px] right-0">
-        {sectionOffsets && Object.keys(sectionOffsets).length > 0 && (
-          <div>
-            {Object.keys(sectionOffsets).map((section, index) => (
-              <div key={section} className="flex gap-1">
-                <div>{section}:</div>
-                <div>{sectionOffsets[section].start} - {sectionOffsets[section].end}</div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div> */}
+    <div
+      className={`block desktop:hidden fixed bottom-0 left-0 right-0 z-[50] pb-safe-bottom transition-all duration-300 ${scrollY < 100 ? "opacity-0" : "opacity-100"}`}
+      style={{
+        background: `linear-gradient(
+          176.28deg,
+          #b7dde8 -4.56%,
+          #f1f9fc 11.24%,
+          #f1f9fc 27.05%
+        ) 0% -100vh / 100% 6317px`,
+      }}
+    >
       <div
-        className={`block desktop:hidden fixed bottom-0 left-0 right-0 z-[50] pb-safe-bottom transition-all duration-300 ${scrollY < 100 ? "opacity-0" : "opacity-100"}`}
+        ref={mobileNavRef}
+        className="overflow-x-auto"
         style={{
-
-          // backgroundSize: "100% 6317px",
-          // backgroundPosition: "0px -100dvh",
-
-          background: `linear-gradient(
-            176.28deg,
-            #b7dde8 -4.56%,
-            #f1f9fc 11.24%,
-            #f1f9fc 27.05%
-          ) 0% -100vh / 100% 6317px`,
-          // backdrop blur
-          // backdropFilter: "blur(10px)",
-
+          scrollSnapType: "x mandatory",
+          scrollSnapDestination: "0% 0%",
+          scrollSnapPointsX: "repeat(100%)",
+          scrollSnapTypeX: "mandatory",
+          scrollBehavior: "smooth",
+          scrollbarWidth: "none",
+        }}
+        onWheel={(e) => {
+          e.stopPropagation();
+          if (mobileNavRef.current) {
+            mobileNavRef.current.scrollLeft += e.deltaY;
+          }
         }}
       >
         <div
-          ref={mobileNavRef}
-          className="overflow-x-auto"
+          className="flex flex-row w-fit gap-x-[30px] py-[15px]"
           style={{
-            scrollSnapType: "x mandatory",
-            scrollSnapDestination: "0% 0%",
-            scrollSnapPointsX: "repeat(100%)",
-            scrollSnapTypeX: "mandatory",
-            scrollBehavior: "smooth",
-            // hide scrollbar
-            scrollbarWidth: "none",
+            paddingLeft: `calc(50dvw + 48px)`,
+            paddingRight: `calc(50dvw + 48px)`,
+            overscrollBehavior: "contain",
           }}
-
         >
           <div
-            id="mobile-nav-container"
-            // padding bottom should be 15px unless the mobile browser's nav bar isn't visible
-            className="flex flex-row w-fit gap-x-[30px] py-[15px]"
-            style={{
-              paddingLeft: `calc(50dvw + 48px)`,
-              paddingRight: `calc(50dvw + 48px)`,
-              overscrollBehavior: "contain",
-            }}
-            // onMouseEnter={() => {
-            //   // prevent page scroll
-            //   document.body.style.overflow = "hidden";
-            // }}
-            // onMouseLeave={() => {
-            //   document.body.style.overflow = "auto";
-            // }}
-            onWheel={(e) => {
-              // scroll horizontally
-              e.stopPropagation();
-
-              // prevent page scroll
-
-              const container = mobileNavRef.current;
-
-              if (container) {
-                container.scrollLeft += e.deltaY;
-              }
-
-            }}
-
+            id="first-mobile-nav"
+            className={`flex items-center justify-center size-[48px] cursor-pointer rounded-full transition-all duration-300 ${activeSection === null ? "bg-eth-logo text-ice" : "bg-white text-eth-logo"}`}
+            onClick={() => scrollToSection(null)}
           >
-            <div
-              id="first-mobile-nav"
-              className={`flex items-center justify-center size-[48px] cursor-pointer rounded-full transition-all duration-300 ${activeSection === null ? "bg-eth-logo text-ice" : "bg-white text-eth-logo"}`}
-              onClick={() => {
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }}
-            >
-              {activeSection === null ?
-                (<Image src="/eth-is-money-logo.svg"
-                  alt="ETH is Money logo"
-                  width={48}
-                  height={48}
-                  priority
-                  className={`object-contain block`}
-                />) : (
-                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M10.2281 11.6552H13.5485C14.8945 11.6552 15.6298 10.1722 14.7681 9.19546L10.2198 4.03961C9.58512 3.32013 8.41532 3.32013 7.78062 4.03961L3.23232 9.19546C2.37064 10.1722 3.10593 11.6552 4.45192 11.6552H7.77249L7.77249 18H10.2198L10.2281 11.6552Z" fill="currentColor" />
-                    <path d="M0 0.5C0 0.223858 0.223858 0 0.5 0H17.5C17.7761 0 18 0.223858 18 0.5V1.5C18 1.77614 17.7761 2 17.5 2H0.5C0.223858 2 0 1.77614 0 1.5V0.5Z" fill="currentColor" />
-                  </svg>
-                )}
-            </div>
-
-            {Sections.map((section, index) => (
-              <div
-                key={section.sectionId}
-                id={section.mobileNavId}
-                className={`flex items-center justify-center size-[48px] cursor-pointer rounded-full transition-all duration-300 ${activeSection === section.sectionId ? "bg-eth-logo" : "bg-white"}`}
-                onClick={() => {
-                  const element = document.getElementById(section.sectionId);
-                  if (element) {
-                    const offset = element.offsetTop;
-                    window.scrollTo({ top: offset - 50, behavior: "smooth" });
-                    // element.scrollIntoView({ behavior: "smooth", block: "start" });
-                  }
-                }}
-              >
-                <Icon
-                  icon={`${section.icon}-monochrome`}
-                  className={`transition-all duration-300 ${activeSection === section.sectionId ? "text-ice" : "text-eth-logo"}`}
-                  style={{
-                    width: "24px",
-                    height: "24px",
-                  }}
-                />
-              </div>
-            ))}
+            {activeSection === null ? (
+              <Image
+                src="/eth-is-money-logo.svg"
+                alt="ETH is Money logo"
+                width={48}
+                height={48}
+                priority
+                className="object-contain block"
+              />
+            ) : (
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10.2281 11.6552H13.5485C14.8945 11.6552 15.6298 10.1722 14.7681 9.19546L10.2198 4.03961C9.58512 3.32013 8.41532 3.32013 7.78062 4.03961L3.23232 9.19546C2.37064 10.1722 3.10593 11.6552 4.45192 11.6552H7.77249L7.77249 18H10.2198L10.2281 11.6552Z" fill="currentColor" />
+                <path d="M0 0.5C0 0.223858 0.223858 0 0.5 0H17.5C17.7761 0 18 0.223858 18 0.5V1.5C18 1.77614 17.7761 2 17.5 2H0.5C0.223858 2 0 1.77614 0 1.5V0.5Z" fill="currentColor" />
+              </svg>
+            )}
           </div>
+
+          {Sections.map((section) => (
+            <div
+              key={section.sectionId}
+              id={section.mobileNavId}
+              className={`flex items-center justify-center size-[48px] cursor-pointer rounded-full transition-all duration-300 ${activeSection === section.sectionId ? "bg-eth-logo" : "bg-white"}`}
+              onClick={() => scrollToSection(section.sectionId)}
+            >
+              <Icon
+                icon={`${section.icon}-monochrome`}
+                className={`transition-all duration-300 ${activeSection === section.sectionId ? "text-ice" : "text-eth-logo"}`}
+                style={{
+                  width: "24px",
+                  height: "24px",
+                }}
+              />
+            </div>
+          ))}
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
