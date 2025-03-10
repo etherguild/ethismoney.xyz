@@ -107,9 +107,9 @@ export default function IssuanceRateChart() {
             containerProps={{
               style: {
                 height: "100%",
-                width: "100%",
-                marginLeft: "auto",
-                marginRight: "auto",
+                width: "99%",
+                marginLeft: "0px",
+                marginRight: "0px",
                 overflow: "visible",
               },
             }}
@@ -177,12 +177,36 @@ export default function IssuanceRateChart() {
             <Chart
               backgroundColor={"transparent"}
               type="area"
-              panning={{ enabled: true }}
+              panning={{ enabled: false }}
               panKey="shift"
-              zooming={{ type: undefined }}
+              zooming={{
+                mouseWheel: { enabled: false }, resetButton: {
+                  theme: {
+                    zIndex: -10,
+                    fill: "transparent",
+                    stroke: "transparent",
+                    style: {
+                      color: "transparent",
+                      height: 0,
+                      width: 0,
+                    },
+                    states: {
+                      hover: {
+                        fill: "transparent",
+                        stroke: "transparent",
+                        style: {
+                          color: "transparent",
+                          height: 0,
+                          width: 0,
+                        },
+                      },
+                    },
+                  }
+                }
+              }}
               style={{ borderRadius: 15 }}
               animation={{ duration: 50 }}
-              margin={[10, 0, 34, 40]}
+              margin={[10, 40, 34, 40]}
               height={361}
             />
             <Tooltip
@@ -210,6 +234,31 @@ export default function IssuanceRateChart() {
                 fontSize: "12px",
                 lineHeight: "18px",
               }}
+
+              positioner={(function (labelWidth, labelHeight, point) {
+                const chart = this.chart;
+                const { plotLeft, plotTop, plotWidth, plotHeight } = chart;
+                const tooltipWidth = labelWidth;
+                const tooltipHeight = labelHeight;
+
+                const distance = 20;
+                const pointX = point.plotX + plotLeft;
+                const pointY = point.plotY + plotTop;
+                let tooltipX =
+                  pointX - distance - tooltipWidth < plotLeft
+                    ? pointX + distance
+                    : pointX - tooltipWidth - distance;
+
+                const tooltipY =
+                  pointY - tooltipHeight / 2 < plotTop
+                    ? pointY + distance
+                    : pointY - tooltipHeight / 2;
+
+                return {
+                  x: tooltipX,
+                  y: tooltipY,
+                };
+              }) as Highcharts.TooltipPositionerCallbackFunction}
               formatter={function (this: Highcharts.TooltipFormatterContextObject) {
                 const points = this.points || [];
                 const date = this.x ? new Date(this.x) : new Date();
@@ -423,12 +472,13 @@ export default function IssuanceRateChart() {
               labels={{
                 align: "right",
                 y: 3,
-                x: -5,
-                style: {
-                  color: "rgb(27 53 85)",
-                  fontSize: "10px",
-                  fontWeight: "700",
-                },
+                x: -9,
+                // style: {
+                //   color: "rgb(27 53 85)",
+                //   fontSize: "10px !important",
+                //   fontWeight: "500 !important",
+                //   fontFamily: "var(--font-num) !important",
+                // },
 
               }}
             // max={125e6}
@@ -467,14 +517,15 @@ export default function IssuanceRateChart() {
               zoomEnabled={false}
               tickAmount={3}
               labels={{
-                align: "right",
+                align: "left",
                 y: 3,
-                x: 25,
-                style: {
-                  color: "rgb(27 53 85)",
-                  fontSize: "10px",
-                  fontWeight: "700",
-                },
+                x: 9,
+                // style: {
+                //   color: "rgb(27 53 85)",
+                //   fontSize: "10px !important",
+                //   fontWeight: "500 !important",
+                //   fontFamily: "var(--font-num) !important",
+                // },
                 formatter: function (this: any) {
                   return `${Number(this.value) * 100}%`;
                 }

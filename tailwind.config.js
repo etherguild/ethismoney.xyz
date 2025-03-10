@@ -156,7 +156,7 @@ module.exports = {
         },
         numbers: {
           fontFamily: theme("fontFamily.num"),
-          fontWeight: "800", // bold
+          fontWeight: "700", // bold
           letterSpacing: "0.05em", // 5%
           lineHeight: "100%",
           textRendering: "optimizeLegibility",

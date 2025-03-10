@@ -112,9 +112,9 @@ export default function ExportChart() {
               containerProps={{
                 style: {
                   height: "100%",
-                  width: "100%",
-                  marginLeft: "auto",
-                  marginRight: "auto",
+                  width: "99%",
+                  marginLeft: "0px",
+                  marginRight: "0px",
                   overflow: "visible",
                 },
               }}
@@ -156,11 +156,35 @@ export default function ExportChart() {
                 type="area"
                 panning={{ enabled: true }}
                 panKey="shift"
-                zooming={{ type: undefined }}
+                zooming={{
+                  mouseWheel: { enabled: false }, resetButton: {
+                    theme: {
+                      zIndex: -10,
+                      fill: "transparent",
+                      stroke: "transparent",
+                      style: {
+                        color: "transparent",
+                        height: 0,
+                        width: 0,
+                      },
+                      states: {
+                        hover: {
+                          fill: "transparent",
+                          stroke: "transparent",
+                          style: {
+                            color: "transparent",
+                            height: 0,
+                            width: 0,
+                          },
+                        },
+                      },
+                    }
+                  }
+                }}
                 style={{ borderRadius: 15 }}
                 animation={{ duration: 50 }}
                 // margin={[0, 15, 0, 0]} // Use the array form for margin
-                margin={[10, 0, 34, 30]}
+                margin={[10, 0, 34, 40]}
 
                 height={337}
                 onRender={(chart) => {
@@ -242,6 +266,30 @@ export default function ExportChart() {
                   fontSize: "12px",
                   lineHeight: "18px",
                 }}
+                positioner={(function (labelWidth, labelHeight, point) {
+                  const chart = this.chart;
+                  const { plotLeft, plotTop, plotWidth, plotHeight } = chart;
+                  const tooltipWidth = labelWidth;
+                  const tooltipHeight = labelHeight;
+
+                  const distance = 20;
+                  const pointX = point.plotX + plotLeft;
+                  const pointY = point.plotY + plotTop;
+                  let tooltipX =
+                    pointX - distance - tooltipWidth < plotLeft
+                      ? pointX + distance
+                      : pointX - tooltipWidth - distance;
+
+                  const tooltipY =
+                    pointY - tooltipHeight / 2 < plotTop
+                      ? pointY + distance
+                      : pointY - tooltipHeight / 2;
+
+                  return {
+                    x: tooltipX,
+                    y: tooltipY,
+                  };
+                }) as Highcharts.TooltipPositionerCallbackFunction}
                 formatter={function (this: Highcharts.TooltipFormatterContextObject) {
                   const points = this.points || [];
                   const date = this.x ? new Date(this.x) : new Date();
@@ -306,14 +354,14 @@ export default function ExportChart() {
                 labels={{
                   align: "right",
                   y: 3,
-                  x: -4,
+                  x: -9,
 
-                  style: {
-                    color: "rgb(27 53 85)",
-                    fontSize: "10px",
-                    fontWeight: "700",
-                    whiteSpace: "nowrap",
-                  },
+                  // style: {
+                  //   color: "rgb(27 53 85)",
+                  //   fontSize: "10px",
+                  //   fontWeight: "700",
+                  //   whiteSpace: "nowrap",
+                  // },
                   formatter: function () {
                     const value = this.value as number | bigint;
                     return (

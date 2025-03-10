@@ -9,6 +9,7 @@ import DeveloperTools from "@/components/development/DeveloperTools";
 import SidebarContainer from "@/components/layout/SidebarContainer";
 import MobileNav from "@/components/layout/MobileNav";
 import "./background.css";
+import Footer from "@/components/Footer";
 
 
 // const jsonLd = [jsonLdOrg, jsonLdWebSite];
@@ -126,6 +127,7 @@ export default function RootLayout({
         />
         {children}
         <Analytics />
+        <Footer />
       </body>
     </html>
   );

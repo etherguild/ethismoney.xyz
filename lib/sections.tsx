@@ -50,7 +50,7 @@ export const Sections: SectionDef[] = [
     mobileNavId: "fifth-mobile-nav",
   },
   {
-    label: "Get notified to join the community",
+    label: "Join the community",
     icon: "gtp:eim-explainer",
     sectionId: "sixth-section",
     contentId: "sixth-content",

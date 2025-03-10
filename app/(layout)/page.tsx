@@ -18,51 +18,11 @@ import Link from "next/link";
 import FirstSection from "@/components/layout/FirstSection/FirstSection";
 import { MobileEthIsMoneyBecause } from "@/components/MobileEthIsMoneyBecause";
 import NFTTierDisplay from "@/components/NFTTierDisplay";
-import NewsLetterSignup from "@/components/NewsLetterSignup";
+import NewsLetterSignup from "@/components/ParagraphNewsletterSignup";
+import ParagraphNewsletterSignup from "@/components/ParagraphNewsletterSignup";
 
 export default function Page() {
-  const [isResizing, setIsResizing] = useState(false);
-  const [vw, setVw] = useState<number>(0);
-  const [vh, setVh] = useState<number>(0);
-
-  // useEffect(() => {
-  //   const handleResize = () => {
-  //     setIsResizing(true);
-
-  //     setVw(window.innerWidth);
-  //     setVh(window.innerHeight);
-
-  //     if (window.innerWidth < 1118) {
-  //       document.body.style.overflowY = "hidden";
-  //     } else {
-  //       document.body.style.overflowY = "auto";
-  //     }
-
-  //     setTimeout(() => {
-  //       setIsResizing(false);
-  //     }, 100);
-  //   };
-
-  //   // Run once on mount
-  //   setVw(window.innerWidth);
-  //   setVh(window.innerHeight);
-
-  //   // Add event listener
-  //   window.addEventListener("resize", handleResize);
-
-  //   // Remove event listener on cleanup
-  //   return () => {
-  //     window.removeEventListener("resize", handleResize);
-  //   };
-  // }, []);
-
-  // if (isResizing) {
-  //   return (
-  //     <div className="flex justify-center items-center h-screen w-screen">
-  //       {/* <div className="text-2xl">Resizing...</div> */}
-  //     </div>
-  //   )
-  // }
+  const [isNewsletterOpen, setIsNewsletterOpen] = useState(false);
 
   return (
     <>
@@ -156,65 +116,17 @@ export default function Page() {
           <div className="block desktop:hidden px-[15px]">
             <MobileEthIsMoneyBecause />
           </div>
-
-          {/* <div className="px-[15px] desktop:px-0 flex desktop:hidden flex-col w-full">
-            <div className="h-56 flex-col justify-start items-start inline-flex">
-              <div className="w-[281px] h-[124px] text-Lavender text-[100px] font-extrabold font-manrope"
-                style={{
-                  background: "linear-gradient(180deg, #CABED0 0%, #F1F9FC 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-              >SoV</div>
-              <div className="self-stretch h-[130px] pl-5 flex-col justify-start items-start gap-5 flex">
-                <div className="w-[262.70px] text-blue1 headline-lg">Store of Value</div>
-                <div className="self-stretch text-blue1 highlight-text-lg">Money preserves wealth over time. </div>
-                <div className="self-stretch text-blue2 text-xs">ETH retains value through its decentralized and deflationary nature, especially as adoption grows.</div>
-              </div>
-            </div>
-            <div className="h-[249px] flex-col justify-start items-start inline-flex">
-              <div className="w-[281px] h-[124px] text-Lavender text-[100px] font-extrabold font-manrope"
-                style={{
-                  background: "linear-gradient(180deg, #CABED0 0%, #F1F9FC 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-              >UoA</div>
-              <div className="self-stretch h-[155px] pl-5 flex-col justify-start items-start gap-5 flex">
-                <div className="self-stretch text-blue1 headline-lg">Unit of Account</div>
-                <div className="self-stretch text-blue1 highlight-text-lg">Money measures the value of goods and services.</div>
-                <div className="self-stretch text-blue2 text-xs">ETH serves as a unit to price transactions, applications and goods, for example within Ethereum mainnet and Layer 2s.</div>
-              </div>
-            </div>
-            <div className="h-[249px] flex-col justify-start items-start inline-flex">
-              <div className="w-[281px] h-[124px] text-Lavender text-[100px] font-extrabold font-manrope"
-                style={{
-                  background: "linear-gradient(180deg, #CABED0 0%, #F1F9FC 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-              >MoE</div>
-              <div className="self-stretch h-[155px] pl-5 flex-col justify-start items-start gap-5 flex">
-                <div className="self-stretch text-blue1 headline-lg">Medium of Exchange</div>
-                <div className="self-stretch text-blue1 highlight-text-lg">Money facilitates trade. </div>
-                <div className="self-stretch text-blue2 text-xs">ETH enables seamless transactions, smart contracts, and the exchange of assets on its blockchain.</div>
-              </div>
-            </div>
-          </div> */}
         </Section>
         <Section name="sixth" head={Sections[4].label} className="flex flex-col">
           <div className="w-full">
             <div className="flex flex-col desktop:flex-row gap-[30px] w-full">
               <div className="px-[15px] desktop:px-0 flex flex-col gap-y-[30px] -mt-[15px]">
-                <div className="headline-lg">
+                <div className="highlight-text-lg">
                   ETH is Money is an tribe of believers who hold, stake, and
                   propagate ETH as money.
                 </div>
                 <div>
-                  <div className="headline-md ">Why?</div>
+                  <div className="headline-md">Why?</div>
                   <div className="text-md ">
                     Because it’s time to be bullish again.
                   </div>
@@ -248,92 +160,80 @@ export default function Page() {
                 </div>
               </div>
               <div className="px-[15px] desktop:px-0 flex flex-col gap-y-[30px] -mt-[15px]">
-                <div className="headline-lg">
+                <div className="highlight-text-lg">
                   Join forces with core contributors like
                 </div>
-                <div className="text-md ">
+                <div className="text-md">
                   We launched this page with a long-term vision in mind. Come and
                   support us and be an early contributors
                 </div>
-                <Link
-                  href={"https://www.bankless.com/"}
-                  target="_blank"
-                  rel="noopener"
-                >
-                  <Icon icon="gtp:bankless" className="w-[229px] h-[51px]" />
-                </Link>
-                <Link
-                  href={"https://www.youtube.com/channel/UCvCp6vKY5jDr87htKH6hgDA"}
-                  target="_blank"
-                  rel="noopener"
-                >
-                  <Image
-                    src="/The-Daily-Gwei.svg"
-                    alt="Bankless"
-                    width={181}
-                    height={53}
-                  />
-                </Link>
-                <Link
-                  href={"https://www.growthepie.xyz/"}
-                  target="_blank"
-                  rel="noopener"
-                >
-                  <Image
-                    src="/logo_full_light.png"
-                    alt="Bankless"
-                    width={226}
-                    height={53}
-                  />
-                </Link>
+                <div className="flex flex-col gap-y-[20px] items-center desktop:items-start">
+                  <Link
+                    href={"https://www.bankless.com/"}
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    <Icon icon="gtp:bankless" className="w-[229px] h-[51px]" />
+                  </Link>
+                  <Link
+                    href={"https://www.youtube.com/channel/UCvCp6vKY5jDr87htKH6hgDA"}
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    <Image
+                      src="/The-Daily-Gwei.svg"
+                      alt="Bankless"
+                      width={181}
+                      height={53}
+                    />
+                  </Link>
+                  <Link
+                    href={"https://www.growthepie.xyz/"}
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    <Image
+                      src="/logo_full_light.png"
+                      alt="Bankless"
+                      width={226}
+                      height={53}
+                    />
+                  </Link>
+                </div>
               </div>
             </div>
             {/* Donate and mint your NFT section */}
             <div className="px-[15px] desktop:px-0 mt-[40px] flex flex-col gap-y-[20px]">
-              <div className="text-[#2A6F97] text-[24px] desktop:text-[30px] font-semibold font-manrope">Donate and mint your NFT for Discord access</div>
-              <div className="text-[#1B3555] text-[18px] font-bold font-manrope">
+              <div className="headline-lg desktop:headline-xl text-blue2">Donate and mint your NFT for Discord access</div>
+              <div className="highlight-text-lg">
                 By donating the stated amount you support and gain access to the exclusive Discord and can shape the ETH is Money movement with everyone.
               </div>
 
               {/* NFT Carousel/Slider for mobile */}
               <NFTTierDisplay />
-
-              <div className="text-[#1B3555] text-[12px] font-normal font-manrope mt-[10px]">
+              <div className="text-xs">
                 Eth is Money is an initiative of Ether Guild, a Wyoming Non-Profit Corporation. Ether Guild is applying for 501( c )( 3 ) status from the IRS, and pending IRS approval, your donations may be treated as tax deductible. While there is no assurance of the tax deductibility of your donation, if you would like a tax receipt, please email donate@etherguild.xyz
               </div>
             </div>
 
-            {/* News Letter section */}
-            {/* Custom hack didn't work :( */}
             {/* <NewsLetterSignup /> */}
-            <div className="w-full desktop:w-1/2 flex flex-col items-center gap-[15px] !light">
-              {/* Paragraph iframe with minimal styling */}
-              {/* <iframe src="https://paragraph.xyz/@etherguild/embed?minimal=true&vertical=true" width="480" height="90" ></iframe> */}
-              <iframe src="https://paragraph.xyz/@etherguild/embed" width="480" height="380" style={{ border: "1px solid #EEE", background: "transparent" }} scrolling="no"></iframe>
-            </div>
-            {/* <div className="px-[15px] desktop:px-0 mt-[40px] flex flex-col gap-y-[10px]">
-              <div className="text-[#2A6F97] text-[24px] desktop:text-[30px] font-semibold font-manrope">Keep up-to-date with our newsletter</div>
-
-              <div className="flex flex-col desktop:flex-row gap-[20px] items-start">
-                <div className="w-full desktop:w-1/2">
-                  <span className="text-[#1B3555] text-[18px] font-bold font-manrope">Every day, there is new data around the topic of ETH is Money. We want you to be up-to-date with the latest.</span>
-                  <br /><br />
-                  <span className="text-[#1B3555] text-[18px] font-normal font-manrope">We'll deliver it weekly to your inbox, alongside educational content what money actually is, how ETH is doing and how it's going. And of course what everyone can do themselves.</span>
-                </div>
-
-                <div className="w-full desktop:w-1/2 flex flex-col items-center gap-[10px]">
-                  <div className="w-full max-w-[450px] h-[74px] px-[50px] py-[25px] bg-[#FEFEFE] rounded-full border-[3px] border-[#1B3555] flex justify-center items-center">
-                    <div className="text-[#B0B7C3] text-[18px] font-semibold font-manrope">vitalik@ethismoney.xyz</div>
+            <div className="w-full flex flex-col items-center gap-[15px] !light">
+              <div className="w-full px-[15px] desktop:px-0 mt-[40px] flex flex-col gap-y-[10px]">
+                <div className="headline-lg desktop:headline-xl">Keep up-to-date with our newsletter</div>
+                <div className="flex flex-col desktop:flex-row gap-[20px] items-start">
+                  <div className="w-full desktop:w-1/2">
+                    <span className="highlight-text-md">Every day, there is new data around the topic of ETH is Money. We want you to be up-to-date with the latest.</span>
+                    <br /><br />
+                    <span className="text-md">We'll deliver it weekly to your inbox, alongside educational content what money actually is, how ETH is doing and how it's going. And of course what everyone can do themselves.</span>
                   </div>
 
-                  <div className="px-[25px] py-[10px] bg-[#B7DDE8] rounded-full flex justify-center items-center">
-                    <div className="text-[#1B3555] text-[18px] font-semibold font-manrope">Register your interest here</div>
+                  <div className="w-full desktop:w-1/2 flex flex-col items-center gap-[10px]">
+                    <ParagraphNewsletterSignup />
+                    <div className="text-center text-[#2A6F97] text-[12px] font-normal font-manrope">We will only send informative emails and the latest data snapshots.</div>
                   </div>
-
-                  <div className="text-center text-[#2A6F97] text-[12px] font-normal font-manrope">We will only send informative emails and the latest data snapshots.</div>
                 </div>
               </div>
-            </div> */}
+            </div>
           </div>
         </Section>
         <Section
@@ -351,3 +251,48 @@ export default function Page() {
     </>
   );
 }
+
+const NewsletterSection = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <>
+      <button
+        className="flex items-center gap-x-[10px] text-blue2"
+        onClick={() => {
+          setIsOpen(true);
+        }}
+      >
+        <div className="w-[24px] h-[24px] text-blue2">
+          <Icon icon="feather:mail" className="w-[24px] h-[24px] text-blue2" />
+        </div>
+        <div className="text-blue2">Newsletter</div>
+
+        <div className="w-[24px] h-[24px] text-blue2">
+          <Icon icon="feather:chevron-right" className="w-[24px] h-[24px] text-blue2" />
+        </div>
+      </button>
+      <NewsletterModal isOpen={isOpen} setIsOpen={setIsOpen} />
+    </>
+  );
+}
+
+// modal that includes the newsletter iframe
+const NewsletterModal = ({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen: (isOpen: boolean) => void }) => {
+  return (
+    <div
+      className={`z-[100] fixed inset-0 flex items-center justify-center bg-black/50 ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"} transition-opacity duration-300`}
+      onClick={() => {
+        setIsOpen(false);
+      }}
+    >
+      <div className="bg-white rounded-lg">
+        <iframe src="https://paragraph.xyz/@etherguild/embed" className="w-[320px] md:w-[420px] h-[480px]"></iframe>
+      </div>
+    </div>
+  );
+}
+
+
+
+//<iframe src="https://paragraph.xyz/@etherguild/embed" width="480" height="380" style="border:1px solid #EEE; background:white;" frameborder="0" scrolling="no"></iframe>

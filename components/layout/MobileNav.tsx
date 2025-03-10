@@ -73,7 +73,8 @@ export default function MobileNav() {
 
     container.scrollTo({
       left: scrollLeft,
-      behavior: prefersReducedMotion ? "auto" : "smooth"
+      behavior: prefersReducedMotion ? "auto" : "smooth",
+
     });
   };
 

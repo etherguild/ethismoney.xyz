@@ -87,7 +87,7 @@ export const ETHisMoneyTitle = ({ children }: { children?: React.ReactNode }) =>
 
   if (isMobile) {
     return (
-      <div className="flex items-center gap-x-[23px] h-[91px] relative fill-inherit scale-[35%] -mr-[20px]">
+      <div className="w-full flex justify-center">
         <MobileTitle isStartTitleAnimation={isStartTitleAnimation} />
       </div>
     );
@@ -101,16 +101,22 @@ export const ETHisMoneyTitle = ({ children }: { children?: React.ReactNode }) =>
 };
 
 const MobileTitle = ({ isStartTitleAnimation }: { isStartTitleAnimation: boolean }) => (
-  <>
-    <ETHLogo />
-    <TitleContent isStartTitleAnimation={isStartTitleAnimation} />
-    <MoneyLogo />
-  </>
+  <div className="flex items-center gap-x-[23px] h-[91px] relative fill-inherit scale-[35%] -mr-[20px]">
+    <div className="w-[140.43px] h-[58.98px] left-[5px] top-[11.83px]">
+      <ETHTextSvg />
+    </div>
+    <div className="left-[168.43px] flex items-center">
+      <TitleContent isStartTitleAnimation={isStartTitleAnimation} />
+      <MoneyLogo />
+    </div>
+  </div>
 );
 
 const DesktopTitle = ({ isStartTitleAnimation }: { isStartTitleAnimation: boolean }) => (
   <>
-    <ETHLogo />
+    <div className="w-[140.43px] h-[58.98px] left-[5px] top-[11.83px] absolute">
+      <ETHTextSvg />
+    </div>
     <div className="absolute left-[168.43px] flex items-center">
       <TitleContent isStartTitleAnimation={isStartTitleAnimation} />
       <MoneyLogo />
@@ -118,14 +124,13 @@ const DesktopTitle = ({ isStartTitleAnimation }: { isStartTitleAnimation: boolea
   </>
 );
 
-const ETHLogo = () => (
-  <div className="w-[140.43px] h-[58.98px] left-[5px] top-[11.83px] absolute">
-    <svg width="141" height="60" viewBox="0 0 141 60" xmlns="http://www.w3.org/2000/svg">
-      <path d="M91.7664 59.8128V0.830383H102.907V25.0787H129.286V0.830383H140.427V59.8128H129.286V35.4825H102.907V59.8128H91.7664Z" fill="currentColor" />
-      <path d="M58.7239 59.8128V11.2342H40.1281V0.830383H88.4609V11.2342H69.865V59.8128H58.7239Z" fill="currentColor" />
-      <path d="M0 59.8128V0.830383H38.5024V11.2342H11.1411V23.8499H33.5872V34.2537H11.1411V49.4089H38.5024V59.8128H0Z" fill="currentColor" />
-    </svg>
-  </div>
+
+const ETHTextSvg = () => (
+  <svg width="141" height="60" viewBox="0 0 141 60" xmlns="http://www.w3.org/2000/svg">
+    <path d="M91.7664 59.8128V0.830383H102.907V25.0787H129.286V0.830383H140.427V59.8128H129.286V35.4825H102.907V59.8128H91.7664Z" fill="currentColor" />
+    <path d="M58.7239 59.8128V11.2342H40.1281V0.830383H88.4609V11.2342H69.865V59.8128H58.7239Z" fill="currentColor" />
+    <path d="M0 59.8128V0.830383H38.5024V11.2342H11.1411V23.8499H33.5872V34.2537H11.1411V49.4089H38.5024V59.8128H0Z" fill="currentColor" />
+  </svg>
 );
 
 const TitleContent = ({ isStartTitleAnimation }: { isStartTitleAnimation: boolean }) => (
