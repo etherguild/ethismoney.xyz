@@ -22,6 +22,9 @@ export function useScrollPosition() {
   useEffect(() => {
     const handleScroll = debounce(() => setScrollY(window.scrollY), 10);
     window.addEventListener("scroll", handleScroll);
+
+    handleScroll();
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
