@@ -43,7 +43,7 @@ export default function Header() {
                   </Link>
                 </div>
               )}
-              <div
+              {/* <div
                 className={`cursor-pointer pointer-events-auto z-[999] relative ${scrollPosition < 100 ? "opacity-0 size-[41px]" : "opacity-100 size-[28px]"} transition-all duration-300`}
                 onClick={() => {
                   // scroll to top 0, smooth
@@ -55,7 +55,7 @@ export default function Header() {
                   fill={true}
                   priority
                 />
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="flex h-fit gap-x-[15px] desktop:gap-x-[30px] justify-end items-start">
