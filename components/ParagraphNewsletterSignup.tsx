@@ -19,7 +19,7 @@ const ParagraphNewsletterSignup = () => {
   };
 
   // Your publication slug - replace with your actual publication slug
-  const PUBLICATION_SLUG = 'test-publication-02837';
+  const PUBLICATION_SLUG = 'etherguild';
 
   // Animation function for smooth progress
   const animateProgress = (timestamp) => {
@@ -146,7 +146,7 @@ const ParagraphNewsletterSignup = () => {
             insert_id: Math.random().toString(36).substring(2, 15),
             event_type: 'subscribe_modal_email_submitted',
             event_properties: {
-              blogId: 'RYty4pJCB5T8SR2SSOQt', // This should be the numerical ID, not the slug
+              blogId: 'fylSAu3kn8RkuXyYR9Vj', // This should be the numerical ID, not the slug
               email: email
             },
             user_agent: navigator.userAgent
