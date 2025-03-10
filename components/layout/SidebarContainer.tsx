@@ -9,8 +9,16 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Sections } from "@/lib/sections";
 import { ETHisMoneyTitle } from "../EthIsMoney/EthIsMoney";
 import { useScrollPosition, useResponsive, useSectionObserver, useReducedMotion } from "@/lib/gsap-utils";
+import { usePathname } from "next/navigation";
 
 export default function SidebarContainer() {
+  const pathname = usePathname();
+
+  // Only show on root path - moved to top before other hooks
+  if (pathname !== '/') {
+    return null;
+  }
+
   const scrollY = useScrollPosition();
   const { isMobile, isResizing } = useResponsive(1117);
   const prefersReducedMotion = useReducedMotion();
@@ -58,7 +66,7 @@ export default function SidebarContainer() {
   useGSAP(() => {
     gsap.registerPlugin(ScrollTrigger);
 
-    // Section animations
+    // Section animations with improved performance
     Sections.forEach((section) => {
       ScrollTrigger.create({
         trigger: `#${section.sectionId}`,
@@ -67,6 +75,7 @@ export default function SidebarContainer() {
         onEnter: () => {
           setActiveSection(section.sectionId);
           setActiveSectionIndex(Sections.findIndex(s => s.sectionId === section.sectionId));
+
         },
         onEnterBack: () => {
           setActiveSection(section.sectionId);
@@ -81,9 +90,9 @@ export default function SidebarContainer() {
     };
   }, []);
 
-  // Nav link positioning
+  // Nav link positioning with improved smoothness
   useGSAP(() => {
-    if (!activeSection) return;
+    if (!activeSection || prefersReducedMotion) return;
 
     gsap.registerPlugin(ScrollTrigger);
 
@@ -95,24 +104,82 @@ export default function SidebarContainer() {
     const activeSectionHeaderH2 = activeSectionHeader as HTMLHeadingElement;
     const activeSectionHeaderTop = activeSectionHeaderH2.offsetTop;
 
+    // Add will-change to optimize performance
+    const activeLink = document.getElementById(`${activeSection}-link`);
+    if (activeLink) {
+      activeLink.style.willChange = 'transform';
+    }
+
     gsap.to(`#${activeSection}-link`, {
       y: -activeSectionHeaderTop,
-      ease: "power2.out",
-      duration: 0.3,
+      ease: "power1.inOut", // Changed to power1 for smoother motion
+      duration: 1.2, // Doubled duration
       scrollTrigger: {
         trigger: `#${activeSection}-section`,
         start: "top top",
         end: "bottom top",
-        scrub: true,
+        scrub: 2, // Increased scrub time even more for ultra smoothness
         invalidateOnRefresh: true,
+        fastScrollEnd: false, // Disable for smoother ending
+        preventOverlaps: true,
+        onUpdate: (self) => {
+          if (self.animation) {
+            // Custom easing function for extra smoothness
+            const progress = self.progress;
+            // Custom smooth easing curve
+            let smoothProgress = gsap.parseEase("power1.inOut")(progress);
+            // Apply additional smoothing
+            smoothProgress = gsap.parseEase("power1.inOut")(smoothProgress);
+            self.animation.progress(smoothProgress);
+          }
+        }
+      },
+      onComplete: () => {
+        // Remove will-change after animation
+        if (activeLink) {
+          activeLink.style.willChange = 'auto';
+        }
       }
     });
 
     // Cleanup function
     return () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      if (activeLink) {
+        activeLink.style.willChange = 'auto';
+      }
     };
-  }, [activeSection]);
+  }, [activeSection, prefersReducedMotion]);
+
+  // Handle smooth scrolling for nav item clicks with slower, smoother scrolling
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      const offset = element.offsetTop;
+
+      if (prefersReducedMotion) {
+        window.scrollTo({ top: offset });
+      } else {
+        // Use native smooth scrolling with longer duration
+        window.scrollTo({
+          top: offset,
+          behavior: 'smooth'
+        });
+
+        // Add additional smoothness with GSAP animation on the body
+        gsap.to('body', {
+          duration: 1.5,
+          ease: "power1.inOut",
+          onStart: () => {
+            document.body.style.scrollBehavior = 'smooth';
+          },
+          onComplete: () => {
+            document.body.style.scrollBehavior = 'auto';
+          }
+        });
+      }
+    }
+  };
 
   return (
     <div className="hidden desktop:block w-[150px] pr-[3px] z-[100] overflow-visible bg-white/0 text-black">
@@ -205,14 +272,7 @@ export default function SidebarContainer() {
                       width: `${buttonSize}px`,
                       height: `${buttonSize}px`,
                     }}
-                    onClick={() => {
-                      const element = document.getElementById(section.sectionId);
-                      if (element) {
-                        element.scrollIntoView({
-                          behavior: prefersReducedMotion ? "auto" : "smooth"
-                        });
-                      }
-                    }}
+                    onClick={() => scrollToSection(section.sectionId)}
                   >
                     <Icon
                       icon={`${section.icon}-monochrome`}
@@ -255,14 +315,7 @@ export default function SidebarContainer() {
                     }}
                     onMouseEnter={() => handleNavItemHover(originalIndex)}
                     onMouseLeave={handleNavItemLeave}
-                    onClick={() => {
-                      const element = document.getElementById(section.sectionId);
-                      if (element) {
-                        element.scrollIntoView({
-                          behavior: prefersReducedMotion ? "auto" : "smooth"
-                        });
-                      }
-                    }}
+                    onClick={() => scrollToSection(section.sectionId)}
                   >
                     <div className={`relative left-0 whitespace-nowrap flex gap-x-[30px] items-center text-blue1 ${(activeNavAnimationIndex == originalIndex && scrollY < 300) ? "highlight-text-xl" : "text-xl"} transition-all duration-300`}>
                       {section.label}

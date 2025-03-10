@@ -7,8 +7,16 @@ import { useGSAP } from "@gsap/react";
 import { Sections } from "@/lib/sections";
 import { useScrollPosition, useResponsive, useSectionObserver, useReducedMotion } from "@/lib/gsap-utils";
 import { GTPIconName } from "@/icons/gtp-icon-names";
+import { usePathname } from "next/navigation";
 
 export default function MobileNav() {
+  const pathname = usePathname();
+
+  // Only show on root path
+  if (pathname !== '/') {
+    return null;
+  }
+
   const mobileNavRef = useRef<HTMLDivElement>(null);
   const scrollY = useScrollPosition();
   const { isMobile, isResizing } = useResponsive(1117);

@@ -111,21 +111,19 @@ export default function RootLayout({
 `;
 
   return (
-
-    <Providers>
+    <>
       <LayoutGrid />
-      <Backgrounds />
+
       <div className="flex max-w-[1380px] mx-auto">
         <SidebarContainer />
         <MobileNav />
-        <div id="content-panel" className="w-full flex flex-col desktop:pl-[30px] relative text-blue1 pb-[265px]">
+        <div id="content-panel" className="w-full flex flex-col desktop:pl-[30px] relative text-blue1 desktop:pb-[265px]">
           <Header />
           {children}
         </div>
       </div>
       <DeveloperTools />
-    </Providers>
-
+    </>
 
   );
 }

@@ -5,6 +5,7 @@ import NFTGradient from './NFTGradient';
 import NFTParticles from './NFTParticles';
 import { NFT_TIERS } from '../constants/nft';
 import type { NFTTier } from '../types/nft';
+import DonationModal from './DonationModal';
 
 const NFTTierDisplay = () => {
   const [activeTier, setActiveTier] = useState<number>(0);
@@ -220,24 +221,29 @@ interface TierInfoProps {
   isActive: boolean;
 }
 
-const TierInfo: React.FC<TierInfoProps> = ({ tier, isActive }) => (
-  <>
-    <div className="text-md">
-      {tier.title}
-    </div>
+const TierInfo: React.FC<TierInfoProps> = ({ tier, isActive }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-    {/* {isActive ? ( */}
-    <div className={`py-[10px] px-[25px] ${isActive ? 'bg-[#B7DDE8]' : 'bg-transparent'} rounded-full flex justify-center items-center w-full max-w-[325px] duration-300`}>
-      <div className={`${isActive ? 'headline-md' : 'text-xs'} duration-500`}>
-        Donate {tier.price} ETH
+  return (
+    <>
+      <div className="text-md">
+        {tier.title}
       </div>
-    </div>
-    {/* ) : (
-      <div className="text-[#2A6F97] text-[12px] font-normal font-manrope">
-        Donate {tier.price} ETH
+      <div
+        className={`py-[10px] px-[25px] ${isActive ? 'bg-[#B7DDE8]' : 'bg-transparent'} rounded-full flex justify-center items-center w-full max-w-[325px] duration-300 cursor-pointer hover:opacity-90`}
+        onClick={() => setIsModalOpen(true)}
+      >
+        <div className={`${isActive ? 'headline-md' : 'text-xs'} duration-500`}>
+          Donate {tier.price} ETH
+        </div>
       </div>
-    )} */}
-  </>
-);
+      <DonationModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        tier={tier}
+      />
+    </>
+  );
+};
 
 export default NFTTierDisplay;

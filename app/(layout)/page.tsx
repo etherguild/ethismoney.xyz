@@ -20,6 +20,7 @@ import { MobileEthIsMoneyBecause } from "@/components/MobileEthIsMoneyBecause";
 import NFTTierDisplay from "@/components/NFTTierDisplay";
 import NewsLetterSignup from "@/components/ParagraphNewsletterSignup";
 import ParagraphNewsletterSignup from "@/components/ParagraphNewsletterSignup";
+import Footer from "@/components/Footer";
 
 export default function Page() {
   const [isNewsletterOpen, setIsNewsletterOpen] = useState(false);
@@ -143,7 +144,7 @@ export default function Page() {
                     </li>
                   </ul>
                 </div>
-                <div className="w-full flex flex-col desktop:flex-row gap-[15px] items-center">
+                {/* <div className="w-full flex flex-col desktop:flex-row gap-[15px] items-center">
                   <Link
                     href={
                       " https://docs.google.com/forms/d/e/1FAIpQLSeIMsPjx_mDLK_ubgXw0_SIh991mfNJ3cuOgWZgXhu9VPPWwA/viewform"
@@ -157,7 +158,7 @@ export default function Page() {
                   <div className="text-xs text-blue2">
                     You will be redirected to a Google Form.{" "}
                   </div>
-                </div>
+                </div> */}
               </div>
               <div className="px-[15px] desktop:px-0 flex flex-col gap-y-[30px] -mt-[15px]">
                 <div className="highlight-text-lg">
@@ -219,7 +220,7 @@ export default function Page() {
             {/* <NewsLetterSignup /> */}
             <div className="w-full flex flex-col items-center gap-[15px] !light">
               <div className="w-full px-[15px] desktop:px-0 mt-[40px] flex flex-col gap-y-[10px]">
-                <div className="headline-lg desktop:headline-xl">Keep up-to-date with our newsletter</div>
+                <div className="headline-lg desktop:headline-xl text-blue2">Keep up-to-date with our newsletter</div>
                 <div className="flex flex-col desktop:flex-row gap-[20px] items-start">
                   <div className="w-full desktop:w-1/2">
                     <span className="highlight-text-md">Every day, there is new data around the topic of ETH is Money. We want you to be up-to-date with the latest.</span>
@@ -241,10 +242,13 @@ export default function Page() {
           head={Sections[5].label}
           desc={Sections[5].description}
         >
-          <div className="px-[15px] desktop:px-0 flex flex-col desktop:flex-row gap-[30px]">
-            <div className="flex flex-col gap-y-[5px]">
-              <Faq />
+          <div className="flex flex-col gap-y-[30px]">
+            <div className="px-[15px] desktop:px-0 flex flex-col desktop:flex-row gap-[30px]">
+              <div className="flex flex-col gap-y-[5px]">
+                <Faq />
+              </div>
             </div>
+            <Footer />
           </div>
         </Section>
       </div>

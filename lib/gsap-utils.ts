@@ -65,54 +65,68 @@ export function useSectionObserver(sections: string[]) {
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener("scroll", handleScroll);
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrollY(window.scrollY);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
-    // Reset active section when at top of page
-    if (scrollY < 100) {
+    // Reset active section when at top of page with a smoother threshold
+    if (scrollY < 50) {
       setActiveSection(null);
       setActiveSectionIndex(null);
       return;
     }
 
     const observer = new IntersectionObserver(
-      (entries) => {
-        let mostVisibleSection: IntersectionObserverEntry | null = entries[0];
+      (entries: IntersectionObserverEntry[]) => {
+        let mostVisibleSection: IntersectionObserverEntry | null = null;
+        let maxVisibility = 0;
 
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            if (
-              !mostVisibleSection ||
-              entry.intersectionRatio > mostVisibleSection.intersectionRatio
-            ) {
-              mostVisibleSection = entry;
-            }
+          const visibility = entry.intersectionRatio;
+          if (visibility > maxVisibility) {
+            maxVisibility = visibility;
+            mostVisibleSection = entry;
           }
         });
 
-        if (mostVisibleSection !== null) {
-          const sectionId = mostVisibleSection.target.id;
-          setActiveSection(sectionId);
-          setActiveSectionIndex(sections.findIndex((s) => s === sectionId));
+        // More gradual threshold for section changes
+        if (mostVisibleSection && maxVisibility > 0.1) {
+          const sectionId = (mostVisibleSection as IntersectionObserverEntry)
+            .target.id;
+          // Only update if section actually changed and visibility is significant
+          if (sectionId !== activeSection && maxVisibility > 0.2) {
+            setActiveSection(sectionId);
+            setActiveSectionIndex(sections.findIndex((s) => s === sectionId));
+          }
         }
       },
       {
-        threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1],
+        // More granular thresholds for smoother detection
+        threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+        // Smaller margin for more precise transitions
+        rootMargin: "-2% 0px -2% 0px",
         root: null,
       }
     );
 
-    // Observe all sections
     sections.forEach((sectionId) => {
       const element = document.getElementById(sectionId);
       if (element) observer.observe(element);
     });
 
     return () => observer.disconnect();
-  }, [sections, scrollY]);
+  }, [sections, scrollY, activeSection]);
 
   return {
     activeSection,

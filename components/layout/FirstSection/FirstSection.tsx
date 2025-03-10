@@ -189,16 +189,6 @@ export default function FirstSection() {
               <div
                 key={section.sectionId}
                 className="w-fit flex items-center gap-x-[10px] cursor-pointer"
-                // onClick={() => {
-                //   const element = document.getElementById(section.sectionId);
-                //   if (element) {
-                //     const offset = element.offsetTop;
-                //     window.scrollTo({
-                //       top: offset - 50,
-                //       behavior: prefersReducedMotion ? "auto" : "smooth"
-                //     });
-                //   }
-                // }}
                 onTouchStart={() => handleNavItemHover(index)}
                 onTouchEnd={handleNavItemLeave}
                 onMouseEnter={() => handleNavItemHover(index)}

@@ -2,14 +2,9 @@ import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import { Providers } from "./providers";
 import { Inter, Roboto_Mono, Fira_Sans, Manrope } from "next/font/google";
-import Header from "@/components/Header";
 import { Metadata } from "next";
 import Head from "./(layout)/head";
-import DeveloperTools from "@/components/development/DeveloperTools";
-import SidebarContainer from "@/components/layout/SidebarContainer";
-import MobileNav from "@/components/layout/MobileNav";
 import "./background.css";
-import Footer from "@/components/Footer";
 
 
 // const jsonLd = [jsonLdOrg, jsonLdWebSite];
@@ -119,15 +114,17 @@ export default function RootLayout({
     >
 
       <Head />
-      <body className="overflow-x-hidden">
-        <script
-          dangerouslySetInnerHTML={{
-            __html: script,
-          }}
-        />
-        {children}
-        <Analytics />
-        <Footer />
+      <body className="overflow-x-hidden" suppressHydrationWarning>
+        <Providers>
+          <Backgrounds />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: script,
+            }}
+          />
+          {children}
+          <Analytics />
+        </Providers>
       </body>
     </html>
   );

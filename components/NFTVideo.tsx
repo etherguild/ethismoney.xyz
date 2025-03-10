@@ -49,16 +49,18 @@ const NFTVideo: React.FC<NFTVideoProps> = ({
   }, [isActive, isHovered, isDesktop]);
 
   // Handle time syncing for consistent playback
-  useEffect(() => {
-    if (!videoRef.current || syncTime === undefined) return;
+  // useEffect(() => {
+  //   if (!videoRef.current || syncTime === undefined) return;
 
-    const video = videoRef.current;
+  //   const video = videoRef.current;
 
-    // Only sync if difference is significant
-    if (Math.abs(video.currentTime - syncTime) > 0.5) {
-      video.currentTime = syncTime;
-    }
-  }, [syncTime]);
+  //   const syncDiff = video.currentTime - syncTime;
+  //   // Only sync if difference is significant
+  //   if (Math.abs(syncDiff) > 0.5) {
+
+  //     video.currentTime = syncTime;
+  //   }
+  // }, [syncTime]);
 
   return (
     <video
