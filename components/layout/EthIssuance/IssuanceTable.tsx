@@ -1,5 +1,4 @@
 "use client";
-import VerticalScrollContainer from "@/components/VerticalScrollContainer";
 import InfoAccordion from "../InfoAccordion";
 import { useEthSupply } from "../EthSupply/EthSupplyContext";
 
