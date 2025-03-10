@@ -33,13 +33,10 @@ const DonationModal: React.FC<DonationModalProps> = ({ isOpen, onClose, tier }) 
   const isHighValueTier = parseFloat(tier.price) >= 10;
 
   return (
-    <div
-      className={`z-[100] fixed inset-0 flex items-center justify-center ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-        } transition-opacity duration-300`}
-      onClick={onClose}
-    >
+    <>
+
       <div
-        className="z-[151] bg-blue5 rounded-[20px] p-8 max-w-[500px] w-full mx-4 relative shadow-lg"
+        className={`fixed z-[101] bg-blue5 rounded-[20px] p-8 max-w-[500px] w-full mx-4 shadow-lg ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"} transition-opacity duration-300`}
         onClick={e => e.stopPropagation()}
       >
         {/* Close button */}
@@ -108,7 +105,7 @@ const DonationModal: React.FC<DonationModalProps> = ({ isOpen, onClose, tier }) 
           )}
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

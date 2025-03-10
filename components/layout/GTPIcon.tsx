@@ -1,7 +1,6 @@
 "use client";
 import { Icon } from "@iconify/react";
 import { GTPIconName } from "@/icons/gtp-icon-names"; // array of strings that are the names of the icons
-import { GetRankingColor } from "@/lib/chains";
 
 type GTPIconProps = {
   // should be one of the strings in GTPIconNames
@@ -85,43 +84,3 @@ export const GTPMetricIcon = ({ icon, ...props }: GTPMetricIconProps) => {
     />
   );
 };
-
-
-type RankIconProps = {
-  colorScale: number;
-  size?: sizes;
-  children?: React.ReactNode;
-}
-export const RankIcon = ({ colorScale, size = "md", children }: RankIconProps) => {
-  const color = colorScale == -1 ? "#CDD8D322" : GetRankingColor(colorScale * 100);
-  const borderColor = colorScale == -1 ? "#CDD8D333" : color + "22";
-  // const borderColor = "#CDD8D322";
-
-  const borderSizeClassMap = {
-    sm: "size-[15px]",
-    md: "size-[24px]",
-    lg: "size-[36px]",
-  };
-
-  const bgSizeClassMap = {
-    sm: "size-[11px]",
-    md: "size-[20px]",
-    lg: "size-[32px]",
-  };
-
-  return (
-    <div className={`rounded-full flex items-center justify-center border-2 transition-colors text-forest-500 ${borderSizeClassMap[size]}`}
-      style={{
-        borderColor: borderColor,
-      }}>
-      <div className={`relative rounded-full flex items-center justify-center transition-colors ${bgSizeClassMap[size]}`}
-        style={{
-          background: color,
-        }}>
-        <div className="absolute inset-0 flex items-center justify-center">
-          {children}
-        </div>
-      </div>
-    </div>
-  );
-}

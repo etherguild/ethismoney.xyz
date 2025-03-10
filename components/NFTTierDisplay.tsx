@@ -224,6 +224,14 @@ interface TierInfoProps {
 const TierInfo: React.FC<TierInfoProps> = ({ tier, isActive }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+
+  // close modal if not active
+  useEffect(() => {
+    if (!isActive) {
+      setIsModalOpen(false);
+    }
+  }, [isActive]);
+
   return (
     <>
       <div className="text-md">
@@ -231,7 +239,7 @@ const TierInfo: React.FC<TierInfoProps> = ({ tier, isActive }) => {
       </div>
       <div
         className={`py-[10px] px-[25px] ${isActive ? 'bg-[#B7DDE8]' : 'bg-transparent'} rounded-full flex justify-center items-center w-full max-w-[325px] duration-300 cursor-pointer hover:opacity-90`}
-        onClick={() => setIsModalOpen(true)}
+        onClick={() => isActive && setIsModalOpen(true)}
       >
         <div className={`${isActive ? 'headline-md' : 'text-xs'} duration-500`}>
           Donate {tier.price} ETH
