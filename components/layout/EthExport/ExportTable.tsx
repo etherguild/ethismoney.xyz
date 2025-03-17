@@ -7,7 +7,6 @@ import {
   GridTableHeaderCell,
   GridTableRow,
 } from "@/components/layout/GridTable";
-import VerticalScrollContainer from '@/components/VerticalScrollContainer';
 import { Icon } from '@iconify/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocalStorage } from 'usehooks-ts';

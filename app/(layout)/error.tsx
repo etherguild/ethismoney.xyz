@@ -1,14 +1,5 @@
 "use client"; // Error components must be Client Components
-
-import { useEffect, useState } from "react";
-import { Icon } from "@iconify/react";
-import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { navigationItems } from "@/lib/navigation";
-import { useMediaQuery } from "usehooks-ts";
-import { track } from "@vercel/analytics";
-import ErrorGen from "@/components/ErrorGen";
 
 const Error = ({
   error,
@@ -21,12 +12,17 @@ const Error = ({
 }) => {
   return (
     <>
-      <ErrorGen
+      <div className="flex flex-col items-center justify-center h-screen">
+        <h1 className="text-[48px] mb-[30px] leading-snug">Something went wrong ...</h1>
+        <p className="text-center text-lg">The page you requested currently has some issues and our devs have been notified. We can recommend checking out one of these pages:</p>
+        <Link href="/" className="text-blue-500">Home</Link>
+      </div>
+      {/* <ErrorGen
         header={"Something went wrong ..."}
         subheader={
           " The page you requested currently has some issues and our devs have been notified. We can recommend checking out one of these pages:"
         }
-      />
+      /> */}
     </>
   );
 };

@@ -27,11 +27,27 @@ export default function Section({
         <div
             ref={sectionRef}
             id={`${name}-section`}
-            // className="min-h-[800px] max-w-[100vw]"
-            // className="max-w-[100vw]"
-            style={{ scrollSnapAlign: "start" }}
+            style={{
+                scrollSnapAlign: "start",
+                willChange: "transform",
+                transform: "translateZ(0)",
+                backfaceVisibility: "hidden",
+                perspective: "1000px",
+                transformStyle: "preserve-3d"
+            }}
         >
-            <div id={`${name}-content`} className={`w-full flex flex-col gap-y-[30px] pb-[30px] pt-[30px] desktop:pt-[126px] desktop:pb-[50px] desktop:pl-[0px] desktop:pr-[50px] ${className || ""}`} style={{ height: !isMobile && height ? height : undefined }}>
+            <div
+                id={`${name}-content`}
+                className={`w-full flex flex-col gap-y-[30px] pb-[30px] pt-[30px] desktop:pt-[126px] desktop:pb-[50px] desktop:pl-[0px] desktop:pr-[50px] ${className || ""}`}
+                style={{
+                    height: !isMobile && height ? height : undefined,
+                    transform: "translateZ(0)",
+                    backfaceVisibility: "hidden",
+                    perspective: "1000px",
+                    transformStyle: "preserve-3d",
+                    transition: "transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)"
+                }}
+            >
                 {(head || subhead || desc) && (
                     <div className="flex flex-col px-[15px] desktop:px-0">
                         {/* Head */}

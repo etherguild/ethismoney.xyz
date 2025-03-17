@@ -2,7 +2,6 @@ import HorizontalScrollContainer from "@/components/HorizontalScrollContainer";
 
 import { useEthHolders } from "./EthHoldersContext";
 import { GridTableHeader, GridTableHeaderCell, GridTableRow } from "../GridTable";
-import VerticalScrollContainer from "@/components/VerticalScrollContainer";
 import Section from "@/components/LandingPageContainer";
 import { useLocalStorage } from "usehooks-ts";
 import { Sections } from "@/lib/sections";

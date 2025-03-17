@@ -3,17 +3,13 @@ import { Analytics } from "@vercel/analytics/react";
 import { Providers } from "../providers";
 import { Inter, Roboto_Mono, Fira_Sans, Manrope } from "next/font/google";
 import Header from "@/components/Header";
-
 import { Metadata } from "next";
 import Head from "./head";
-import { Graph } from "schema-dts";
-
-import "../background.css";
 import DeveloperTools from "@/components/development/DeveloperTools";
 import SidebarContainer from "@/components/layout/SidebarContainer";
-import { BackgroundImage } from "./BackgroundImage";
-import Image from "next/image";
 import MobileNav from "@/components/layout/MobileNav";
+import "../background.css";
+
 
 // const jsonLd = [jsonLdOrg, jsonLdWebSite];
 export const viewport = {
@@ -109,43 +105,26 @@ export default function RootLayout({
 }) {
   const script = `
   (function() {
-    // Set dark theme
     document.documentElement.classList.add('light');
-    // Optionally, set dark theme in local storage
     localStorage.setItem('theme', 'light');
   })();
 `;
 
   return (
-    <html
-      lang="en"
-      className={`${manrope.variable} ${inter.variable} ${robotoMono.variable} ${firaSans.variable}`}
-      suppressHydrationWarning
-    >
+    <>
+      <LayoutGrid />
 
-      <Head />
-      <body className="overflow-x-hidden">
-        <script
-          dangerouslySetInnerHTML={{
-            __html: script,
-          }}
-        />
-        <Providers>
-          <LayoutGrid />
-          <Backgrounds />
-          <div className="flex max-w-[1380px] mx-auto">
-            <SidebarContainer />
-            <MobileNav />
-            <div id="content-panel" className="w-full flex flex-col desktop:pl-[30px] relative text-blue1 pb-[265px]">
-              <Header />
-              {children}
-            </div>
-          </div>
-          <DeveloperTools />
-        </Providers>
-        <Analytics />
-      </body>
-    </html>
+      <div className="flex max-w-[1380px] mx-auto">
+        <SidebarContainer />
+        <MobileNav />
+        <div id="content-panel" className="w-full flex flex-col desktop:pl-[30px] relative text-blue1 desktop:pb-[265px]">
+          <Header />
+          {children}
+        </div>
+      </div>
+      <DeveloperTools />
+    </>
+
   );
 }
 
