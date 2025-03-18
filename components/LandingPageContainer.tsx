@@ -46,6 +46,7 @@ export default function Section({
                                 className="headline-xl !leading-[41px] desktop:headline-xxl desktop:!leading-[68px]"
                                 style={{
                                     paddingBottom: subhead ? "0px" : "15px",
+
                                 }}
                             >
                                 {head}
