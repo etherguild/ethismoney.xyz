@@ -118,7 +118,7 @@ export default function Page() {
             <MobileEthIsMoneyBecause />
           </div>
         </Section>
-        <Section name="sixth" head={Sections[4].label} className="flex flex-col">
+        <Section name="sixth" head={Sections[4].label} className="flex flex-col desktop:pb-[200px]">
           <div className="w-full">
             <div className="flex flex-col desktop:flex-row gap-[30px] w-full">
               <div className="px-[15px] desktop:px-0 flex flex-col gap-y-[30px] -mt-[15px]">

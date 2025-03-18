@@ -29,11 +29,6 @@ export default function Section({
             id={`${name}-section`}
             style={{
                 scrollSnapAlign: "start",
-                willChange: "transform",
-                transform: "translateZ(0)",
-                backfaceVisibility: "hidden",
-                perspective: "1000px",
-                transformStyle: "preserve-3d"
             }}
         >
             <div
@@ -41,11 +36,6 @@ export default function Section({
                 className={`w-full flex flex-col gap-y-[30px] pb-[30px] pt-[30px] desktop:pt-[126px] desktop:pb-[50px] desktop:pl-[0px] desktop:pr-[50px] ${className || ""}`}
                 style={{
                     height: !isMobile && height ? height : undefined,
-                    transform: "translateZ(0)",
-                    backfaceVisibility: "hidden",
-                    perspective: "1000px",
-                    transformStyle: "preserve-3d",
-                    transition: "transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)"
                 }}
             >
                 {(head || subhead || desc) && (

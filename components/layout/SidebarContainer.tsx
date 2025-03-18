@@ -165,18 +165,6 @@ export default function SidebarContainer() {
           top: offset,
           behavior: 'smooth'
         });
-
-        // Add additional smoothness with GSAP animation on the body
-        gsap.to('body', {
-          duration: 1.5,
-          ease: "power1.inOut",
-          onStart: () => {
-            document.body.style.scrollBehavior = 'smooth';
-          },
-          onComplete: () => {
-            document.body.style.scrollBehavior = 'auto';
-          }
-        });
       }
     }
   };
