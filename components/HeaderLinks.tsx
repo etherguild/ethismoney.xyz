@@ -28,7 +28,7 @@ export default function HeaderLinks() {
         target="_blank"
         rel="noopener"
       >
-        <Icon icon="mdi:web" className={`${scrollPosition < 100 ? "size-[39px] desktop:size-[42px]" : "size-[26px] desktop:size-[30px]"} text-blue1 transition-all duration-300 ease-out `} />
+        <Icon icon="gtp:farcaster-monochrome" className={`${scrollPosition < 100 ? "size-[39px] desktop:size-[42px]" : "size-[26px] desktop:size-[30px]"} text-blue1 transition-all duration-300 ease-out `} />
       </Link>
       <Link
         href={EmailURL}
