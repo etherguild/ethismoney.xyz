@@ -6,3 +6,5 @@ export const EthHomepageURLs = {
 
 export const DiscordURL = "https://discord.gg/yyH8NjJkkM";
 export const TwitterURL = "https://x.com/TheEtherGuild";
+export const FarcasterURL = "https://warpcast.com/etherguild";
+export const EmailURL = "mailto:info@etherguild.xyz";
