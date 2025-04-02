@@ -1,6 +1,6 @@
 # Welcome to the ethismoney.xyz Frontend!
 
-[ethismoney.xyz](https://ethismoney.xyz/) aims to enhance transparency and understanding of the Ethereum Layer 2 ecosystem.
+[ethismoney.xyz](https://ethismoney.xyz/) is a public, open-source dashboard that visualizes ETH’s role as money in the Ethereum economy through clear, educational data.
 
 ## License
 
