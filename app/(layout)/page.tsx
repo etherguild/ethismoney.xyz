@@ -129,18 +129,18 @@ export default function Page() {
                 <div>
                   <div className="headline-md">Why?</div>
                   <div className="text-md ">
-                    Because it's time to be bullish again.
+                    Because it’s time to be bullish again.
                   </div>
                 </div>
                 <div>
                   <div className="headline-lg">Mission</div>
                   <ul className="list-disc pl-5 pt-[10px] gap-y-[5px]">
                     <li className="text-blue1">
-                      Build dashboards at ethismoney.xyz
+                      Build dashboards at ethismoney.xyz
                     </li>
-                    <li className="text-blue1">Collect believers in our Discord</li>
+                    <li className="text-blue1">Collect believers in our Discord</li>
                     <li className="text-blue1">
-                      Propagate ETH is money to the world
+                      Propagate ETH is money to the world
                     </li>
                   </ul>
                 </div>
@@ -164,6 +164,10 @@ export default function Page() {
                 <div className="highlight-text-lg">
                   Join forces with core contributors like
                 </div>
+                <div className="text-md">
+                  We launched this page with a long-term vision in mind. Come and
+                  support us and be an early contributors
+                </div>
                 <div className="flex flex-col gap-y-[20px] items-center desktop:items-start">
                   <Link
                     href={"https://www.bankless.com/"}
@@ -179,7 +183,7 @@ export default function Page() {
                   >
                     <Image
                       src="/The-Daily-Gwei.svg"
-                      alt="The Daily Gwei"
+                      alt="Bankless"
                       width={181}
                       height={53}
                     />
@@ -191,41 +195,11 @@ export default function Page() {
                   >
                     <Image
                       src="/logo_full_light.png"
-                      alt="Grow the Pie"
+                      alt="Bankless"
                       width={226}
                       height={53}
                     />
                   </Link>
-                  <div className="flex gap-x-[20px] mt-[10px]">
-                    <Link
-                      href={DiscordURL}
-                      target="_blank"
-                      rel="noopener"
-                      className="text-blue2 hover:text-blue1 transition-colors"
-                    >
-                      <Icon icon="mdi:discord" className="w-[24px] h-[24px]" />
-                    </Link>
-                    <Link
-                      href={TwitterURL}
-                      target="_blank"
-                      rel="noopener"
-                      className="text-blue2 hover:text-blue1 transition-colors"
-                    >
-                      <Icon icon="mdi:twitter" className="w-[24px] h-[24px]" />
-                    </Link>
-                    <Link
-                      href={FarcasterURL}
-                      target="_blank"
-                      rel="noopener"
-                      className="text-blue2 hover:text-blue1 transition-colors"
-                    >
-                      <Icon icon="mdi:web" className="w-[24px] h-[24px]" />
-                    </Link>
-                  </div>
-                </div>
-                <div className="text-md">
-                  We launched this page with a long-term vision in mind. Join us and
-                  become an early contributor.
                 </div>
               </div>
             </div>
