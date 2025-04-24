@@ -118,7 +118,11 @@ export default function Page() {
             <MobileEthIsMoneyBecause />
           </div>
         </Section>
-        <Section name="sixth" head={Sections[4].label} className="flex flex-col desktop:pb-[320px]">
+        <Section
+          name="sixth"
+          head={Sections[4].label}
+          className="flex flex-col desktop:pb-[320px]"
+        >
           <div className="w-full">
             <div className="flex flex-col desktop:flex-row gap-[30px] w-full">
               <div className="px-[15px] desktop:px-0 flex flex-col gap-y-[30px] -mt-[15px]">
@@ -138,7 +142,9 @@ export default function Page() {
                     <li className="text-blue1">
                       Build dashboards at ethismoney.xyz
                     </li>
-                    <li className="text-blue1">Collect believers in our Discord</li>
+                    <li className="text-blue1">
+                      Collect believers in our Discord
+                    </li>
                     <li className="text-blue1">
                       Propagate ETH is money to the world
                     </li>
@@ -173,7 +179,9 @@ export default function Page() {
                     <Icon icon="gtp:bankless" className="w-[229px] h-[51px]" />
                   </Link>
                   <Link
-                    href={"https://www.youtube.com/channel/UCvCp6vKY5jDr87htKH6hgDA"}
+                    href={
+                      "https://www.youtube.com/channel/UCvCp6vKY5jDr87htKH6hgDA"
+                    }
                     target="_blank"
                     rel="noopener"
                   >
@@ -198,7 +206,7 @@ export default function Page() {
                   </Link>
                   <div className="flex gap-x-[20px] mt-[10px]">
                     <Link
-                      href={DiscordURL}
+                      href={"https://etherguild.xyz/discord"}
                       target="_blank"
                       rel="noopener"
                       className="text-blue2 hover:text-blue1 transition-colors"
@@ -206,7 +214,7 @@ export default function Page() {
                       <Icon icon="mdi:discord" className="w-[24px] h-[24px]" />
                     </Link>
                     <Link
-                      href={TwitterURL}
+                      href={"https://x.com/ethismoneyHQ"}
                       target="_blank"
                       rel="noopener"
                       className="text-blue2 hover:text-blue1 transition-colors"
@@ -214,7 +222,7 @@ export default function Page() {
                       <Icon icon="mdi:twitter" className="w-[24px] h-[24px]" />
                     </Link>
                     <Link
-                      href={FarcasterURL}
+                      href={"https://warpcast.com/etherguild"}
                       target="_blank"
                       rel="noopener"
                       className="text-blue2 hover:text-blue1 transition-colors"
@@ -224,39 +232,65 @@ export default function Page() {
                   </div>
                 </div>
                 <div className="text-md">
-                  We launched this page with a long-term vision in mind. Join us and
-                  become an early contributor.
+                  We launched this page with a long-term vision in mind. Join us
+                  and become an early contributor.
                 </div>
               </div>
             </div>
             {/* Donate and mint your NFT section */}
             <div className="px-[15px] desktop:px-0 mt-[40px] flex flex-col gap-y-[20px]">
-              <div className="headline-lg desktop:headline-xl text-blue2" style={{ scrollSnapAlign: "start", scrollSnapStop: "always" }}>Donate and mint your NFT for Discord access</div>
+              <div
+                className="headline-lg desktop:headline-xl text-blue2"
+                style={{ scrollSnapAlign: "start", scrollSnapStop: "always" }}
+              >
+                Donate and mint your NFT for Discord access
+              </div>
               <div className="highlight-text-lg">
-                By donating the stated amount you support and gain access to the exclusive Discord and can shape the ETH is Money movement with everyone.
+                By donating the stated amount you support and gain access to the
+                exclusive Discord and can shape the ETH is Money movement with
+                everyone.
               </div>
 
               {/* NFT Carousel/Slider for mobile */}
               <NFTTierDisplay />
               <div className="text-xs">
-                Eth is Money is an initiative of Ether Guild, a Wyoming Non-Profit Corporation. Ether Guild is applying for 501( c )( 3 ) status from the IRS, and pending IRS approval, your donations may be treated as tax deductible. While there is no assurance of the tax deductibility of your donation, if you would like a tax receipt, please email donate@etherguild.xyz
+                Eth is Money is an initiative of Ether Guild, a Wyoming
+                Non-Profit Corporation. Ether Guild is applying for 501( c )( 3
+                ) status from the IRS, and pending IRS approval, your donations
+                may be treated as tax deductible. While there is no assurance of
+                the tax deductibility of your donation, if you would like a tax
+                receipt, please email donate@etherguild.xyz
               </div>
             </div>
 
             {/* <NewsLetterSignup /> */}
             <div className="w-full flex flex-col items-center gap-[15px] !light">
               <div className="w-full px-[15px] desktop:px-0 mt-[40px] flex flex-col gap-y-[10px]">
-                <div className="headline-lg desktop:headline-xl text-blue2">Keep up-to-date with our newsletter</div>
+                <div className="headline-lg desktop:headline-xl text-blue2">
+                  Keep up-to-date with our newsletter
+                </div>
                 <div className="flex flex-col desktop:flex-row gap-[20px] items-start">
                   <div className="w-full desktop:w-1/2">
-                    <span className="highlight-text-md">Every day, there is new data around the topic of ETH is Money. We want you to be up-to-date with the latest.</span>
-                    <br /><br />
-                    <span className="text-md">We'll deliver it weekly to your inbox, alongside educational content what money actually is, how ETH is doing and how it's going. And of course what everyone can do themselves.</span>
+                    <span className="highlight-text-md">
+                      Every day, there is new data around the topic of ETH is
+                      Money. We want you to be up-to-date with the latest.
+                    </span>
+                    <br />
+                    <br />
+                    <span className="text-md">
+                      We'll deliver it weekly to your inbox, alongside
+                      educational content what money actually is, how ETH is
+                      doing and how it's going. And of course what everyone can
+                      do themselves.
+                    </span>
                   </div>
 
                   <div className="w-full desktop:w-1/2 flex flex-col items-center gap-[10px]">
                     <ParagraphNewsletterSignup />
-                    <div className="text-center text-[#2A6F97] text-[12px] font-normal font-manrope">We will only send informative emails and the latest data snapshots.</div>
+                    <div className="text-center text-[#2A6F97] text-[12px] font-normal font-manrope">
+                      We will only send informative emails and the latest data
+                      snapshots.
+                    </div>
                   </div>
                 </div>
               </div>
@@ -299,30 +333,42 @@ const NewsletterSection = () => {
         <div className="text-blue2">Newsletter</div>
 
         <div className="w-[24px] h-[24px] text-blue2">
-          <Icon icon="feather:chevron-right" className="w-[24px] h-[24px] text-blue2" />
+          <Icon
+            icon="feather:chevron-right"
+            className="w-[24px] h-[24px] text-blue2"
+          />
         </div>
       </button>
       <NewsletterModal isOpen={isOpen} setIsOpen={setIsOpen} />
     </>
   );
-}
+};
 
 // modal that includes the newsletter iframe
-const NewsletterModal = ({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen: (isOpen: boolean) => void }) => {
+const NewsletterModal = ({
+  isOpen,
+  setIsOpen,
+}: {
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+}) => {
   return (
     <div
-      className={`z-[100] fixed inset-0 flex items-center justify-center bg-black/50 ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"} transition-opacity duration-300`}
+      className={`z-[100] fixed inset-0 flex items-center justify-center bg-black/50 ${
+        isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+      } transition-opacity duration-300`}
       onClick={() => {
         setIsOpen(false);
       }}
     >
       <div className="bg-white rounded-lg">
-        <iframe src="https://paragraph.xyz/@etherguild/embed" className="w-[320px] md:w-[420px] h-[480px]"></iframe>
+        <iframe
+          src="https://paragraph.xyz/@etherguild/embed"
+          className="w-[320px] md:w-[420px] h-[480px]"
+        ></iframe>
       </div>
     </div>
   );
-}
-
-
+};
 
 //<iframe src="https://paragraph.xyz/@etherguild/embed" width="480" height="380" style="border:1px solid #EEE; background:white;" frameborder="0" scrolling="no"></iframe>
