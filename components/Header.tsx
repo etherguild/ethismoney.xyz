@@ -1,13 +1,10 @@
 "use client";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { Icon } from "@iconify/react";
 import Image from "next/image";
 import EthUsdSwitch from "./EthUsdSwitch";
 import HeaderLinks from "./HeaderLinks";
-import StylizedButton from "./StylizedButton";
 import { useUIContext } from "@/contexts/UIContext";
-import { ETHisMoneyTitle } from "./EthIsMoney/EthIsMoney";
 
 export default function Header() {
   const { scrollPosition } = useUIContext();
@@ -63,14 +60,6 @@ export default function Header() {
               <HeaderLinks />
             </div>
             <div className="flex h-fit items-center gap-x-[10px] desktop:gap-x-[30px] pointer-events-auto">
-              <StylizedButton className={`hidden desktop:flex ${scrollPosition < 100 ? "h-[41px] w-[105px] desktop:h-[44px] desktop:w-[112px] headline-md" : "h-[28px] w-[85px] desktop:h-[32px] desktop:w-[98px] headline-xs desktop:headline-xs"} transition-all duration-300`} onClick={
-                () => {
-                  const element = document.getElementById("sixth-section");
-                  if (element) {
-                    element.scrollIntoView({ behavior: "smooth" });
-                  }
-                }
-              }>Join us</StylizedButton>
               <div className={`block h-full ${scrollPosition < 100 ? "opacity-0 desktop:opacity-100" : "opacity-100 desktop:opacity-100"} transition-all duration-300`}>
                 <EthUsdSwitch />
               </div>

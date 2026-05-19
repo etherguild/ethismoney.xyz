@@ -50,15 +50,6 @@ export const Sections: SectionDef[] = [
     mobileNavId: "fifth-mobile-nav",
   },
   {
-    label: "Join the community",
-    icon: "gtp:eim-explainer",
-    sectionId: "sixth-section",
-    contentId: "sixth-content",
-    linkId: "sixth-link",
-    labelId: "sixth-label",
-    mobileNavId: "sixth-mobile-nav",
-  },
-  {
     label: "Questions and Glossary",
     description: "Find answers and explanations to terms you might not have heard before.",
     icon: "gtp:eim-faq",

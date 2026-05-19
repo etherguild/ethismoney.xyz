@@ -232,24 +232,6 @@ export default function FirstSection() {
           <div
             className="h-[36px] px-[15px] rounded-full border border-blue2 justify-center items-center flex cursor-pointer select-none"
             onClick={() => {
-              const element = document.getElementById("sixth-section");
-              if (element) {
-                const offset = element.offsetTop;
-                window.scrollTo({
-                  top: offset - 50,
-                  behavior: prefersReducedMotion ? "auto" : "smooth"
-                });
-              }
-            }}
-          >
-            <div className="flex items-center gap-x-[10px]">
-              <div className="text-center text-blue2 text-xs">Join the community</div>
-            </div>
-            <Icon icon="feather:chevron-right" className="w-[24px] h-[24px] text-blue2" />
-          </div>
-          <div
-            className="h-[36px] px-[15px] rounded-full border border-blue2 justify-center items-center flex cursor-pointer select-none"
-            onClick={() => {
               const element = document.getElementById("seventh-section");
               if (element) {
                 const offset = element.offsetTop;
@@ -275,23 +257,6 @@ export default function FirstSection() {
       <LandingContainerChild className="px-[15px] desktop:px-0 justify-center h-full flex-1">
         <div className="h-[405px] pb-2.5 flex-col justify-end items-start gap-[30px] inline-flex">
           <div className="self-stretch rounded-[999px] justify-start items-center gap-2.5 inline-flex">
-            <div className="h-[36px] px-[15px] rounded-full border border-blue2 justify-center items-center flex cursor-pointer select-none"
-              onClick={() => {
-                const element = document.getElementById("sixth-section");
-                if (element) {
-                  element.scrollIntoView({ behavior: "smooth" });
-                }
-              }}
-            >
-              <div className="flex items-center gap-x-[10px]">
-                <svg width="15" height="16" viewBox="0 0 15 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path fillRule="evenodd" clipRule="evenodd" d="M7.65 1.47129C7.76935 1.47129 7.88381 1.5187 7.9682 1.60309C8.05259 1.68748 8.1 1.80194 8.1 1.92129V8.03488L7.0682 7.00308C6.98381 6.91869 6.86935 6.87128 6.75 6.87128H1.35C1.23065 6.87128 1.11619 6.82387 1.0318 6.73948C0.947411 6.65509 0.900001 6.54063 0.900001 6.42128V1.92129C0.900001 1.80194 0.947411 1.68748 1.0318 1.60309C1.11619 1.5187 1.23065 1.47129 1.35 1.47129H7.65ZM8.60459 0.966694C8.35142 0.71352 8.00804 0.571289 7.65 0.571289H1.35C0.991958 0.571289 0.648581 0.713521 0.395406 0.966694C0.142232 1.21987 0 1.56325 0 1.92129V6.42128C0 6.77932 0.142232 7.1227 0.395406 7.37587C0.64858 7.62905 0.991958 7.77128 1.35 7.77128H6.5636L8.2318 9.43948C8.3605 9.56817 8.55405 9.60667 8.72221 9.53702C8.89036 9.46737 9 9.30328 9 9.12128V1.92129C9 1.56325 8.85777 1.21987 8.60459 0.966694Z" fill="#1B3555" />
-                  <path d="M4 8.57129V15.0213C4 15.2437 4.134 15.4443 4.33952 15.5294C4.54505 15.6145 4.78161 15.5675 4.93891 15.4102L6.97782 13.3713H13.35C13.7876 13.3713 14.2073 13.1974 14.5167 12.888C14.8262 12.5786 15 12.1589 15 11.7213V6.22129C15 5.78368 14.8262 5.364 14.5167 5.05456C14.2073 4.74513 13.7876 4.57129 13.35 4.57129H10V5.67129H13.35C13.4959 5.67129 13.6358 5.72923 13.7389 5.83238C13.8421 5.93552 13.9 6.07542 13.9 6.22129V11.7213C13.9 11.8671 13.8421 12.007 13.7389 12.1102C13.6358 12.2133 13.4959 12.2713 13.35 12.2713H6.75C6.60413 12.2713 6.46424 12.3292 6.36109 12.4324L5.1 13.6935V8.57129H4Z" fill="#1B3555" />
-                </svg>
-                <div className="text-center text-blue2 text-xs">Join the community</div>
-              </div>
-              <Icon icon="feather:chevron-right" className="w-[24px] h-[24px] text-blue2" />
-            </div>
             <div className="h-[36px] px-[15px] rounded-full border border-blue2 justify-center items-center flex cursor-pointer select-none"
               onClick={() => {
                 const element = document.getElementById("seventh-section");
