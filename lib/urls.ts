@@ -4,7 +4,7 @@ export const EthHomepageURLs = {
   eth_holders: "https://api.growthepie.xyz/v1/eim/eth_holders.json",
 };
 
-export const DiscordURL = "https://discord.com/invite/sdCzcnMHVb";
+export const DiscordURL = "https://discord.gg/9xTd9KfDsC";
 export const TwitterURL = "https://x.com/TheEtherGuild";
 export const FarcasterURL = "https://warpcast.com/etherguild";
 export const EmailURL = "mailto:info@etherguild.xyz";
